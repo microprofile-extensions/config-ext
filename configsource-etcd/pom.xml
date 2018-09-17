@@ -8,10 +8,17 @@
     </parent>
     
     <groupId>org.microprofile-ext.config-ext</groupId>
-    <artifactId>configsource-memory</artifactId>
+    <artifactId>configsource-etcd</artifactId>
     <packaging>jar</packaging>
     
-    <name>Microprofile Config Extensions :: Memory config source</name>
-    <description>A config that get the values from memory</description>
+    <name>Microprofile Config Extensions :: Etcd config source</name>
+    <description>A config that get the values from an Etcd server</description>
     
+    <dependencies>
+        <dependency>
+            <groupId>com.coreos</groupId>
+            <artifactId>jetcd-core</artifactId>
+            <version>0.0.2</version>
+        </dependency>
+    </dependencies>
 </project>

@@ -99,6 +99,7 @@
     
     <modules>
         <module>configsource-memory</module>
+        <module>configsource-etcd</module>
     </modules>
     
     <profiles>
