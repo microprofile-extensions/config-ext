@@ -73,7 +73,7 @@ public class EtcdConfigSource implements ConfigSource {
 
     @Override
     public String getValue(String key) {
-        if (client == null && key.startsWith(KEY_PREFIX)) {
+        if (key.startsWith(KEY_PREFIX)) {
             // in case we are about to configure ourselves we simply ignore that key
             return null;
         }

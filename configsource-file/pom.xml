@@ -8,11 +8,11 @@
     </parent>
     
     <groupId>org.microprofile-ext.config-ext</groupId>
-    <artifactId>configsource-memory</artifactId>
+    <artifactId>configsource-file</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
     
-    <name>Microprofile Config Extensions :: Memory config source</name>
-    <description>A config that get the values from memory</description>
+    <name>Microprofile Config Extensions :: File config source</name>
+    <description>A config that get the values from a properties file</description>
     
 </project>
