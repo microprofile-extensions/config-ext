@@ -8,18 +8,11 @@
     </parent>
     
     <groupId>org.microprofile-ext.config-ext</groupId>
-    <artifactId>configsource-etcd</artifactId>
+    <artifactId>configconverter-list</artifactId>
     <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     
-    <name>Microprofile Config Extensions :: Etcd config source</name>
-    <description>A config that get the values from an Etcd server</description>
+    <name>Microprofile Config Extensions :: List converter</name>
+    <description>A List and Array converter</description>
     
-    <dependencies>
-        <dependency>
-            <groupId>com.coreos</groupId>
-            <artifactId>jetcd-core</artifactId>
-            <version>0.0.2</version>
-        </dependency>
-    </dependencies>
 </project>

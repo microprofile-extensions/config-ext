@@ -24,3 +24,5 @@ hs_err_pid*
 /configsource-etcd/target/
 /configsource-memory/target/
 /configsource-file/target/
+/configconverter-list/target/
+/configconverter-json/target/

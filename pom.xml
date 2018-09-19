@@ -6,7 +6,7 @@
     
     <groupId>org.microprofile-ext</groupId>
     <artifactId>config-ext</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     
     <name>Microprofile Config Extensions</name>
@@ -101,6 +101,8 @@
         <module>configsource-memory</module>
         <module>configsource-file</module>
         <module>configsource-etcd</module>
+        <module>configconverter-list</module>
+        <module>configconverter-json</module>
     </modules>
     
     <profiles>

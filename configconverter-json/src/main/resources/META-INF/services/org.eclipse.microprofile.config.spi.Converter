@@ -1,0 +1,2 @@
+org.microprofileext.config.converter.json.JsonObjectConverter
+org.microprofileext.config.converter.json.JsonArrayConverter

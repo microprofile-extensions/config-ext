@@ -1,0 +1,2 @@
+org.microprofileext.config.converter.list.ListConverter
+org.microprofileext.config.converter.list.ArrayConverter
