@@ -49,7 +49,7 @@ public class MemoryConfigApi {
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Getting all config keys and values")
-    @APIResponse(responseCode = "200", description = "Successfull, returning the key-value in JSON format")
+    @APIResponse(responseCode = "200", description = "Successful, returning the key-value in JSON format")
     public Response getAll(){
         if(!enabled)return Response.status(Response.Status.FORBIDDEN).header(REASON, NOT_ENABLED).build();
         JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
@@ -64,7 +64,7 @@ public class MemoryConfigApi {
     @Path("/sources")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Getting all the current config sources")
-    @APIResponse(responseCode = "200", description = "Successfull, returning the config sources in JSON format")
+    @APIResponse(responseCode = "200", description = "Successful, returning the config sources in JSON format")
     public Response getConfigSources(){
         if(!enabled)return Response.status(Response.Status.FORBIDDEN).header(REASON, NOT_ENABLED).build();
         JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
@@ -77,7 +77,7 @@ public class MemoryConfigApi {
     @GET
     @Path("/key/{key}")
     @Operation(description = "Getting the value for a certain config key")
-    @APIResponse(responseCode = "200", description = "Successfull, returning the value")
+    @APIResponse(responseCode = "200", description = "Successful, returning the value")
     @Produces(MediaType.TEXT_PLAIN)
     public Response getValue(@Parameter(name = "key", description = "The key for this config", required = true, allowEmptyValue = false, example = "some.key")
                              @PathParam("key") String key) {

@@ -4,12 +4,12 @@
     <parent>
         <groupId>org.microprofile-ext</groupId>
         <artifactId>config-ext</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.1</version>
     </parent>
     
     <groupId>org.microprofile-ext.config-ext</groupId>
     <artifactId>configsource-etcd</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
     
     <name>Microprofile Config Extensions :: Etcd config source</name>
