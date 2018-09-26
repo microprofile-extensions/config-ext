@@ -1,16 +1,15 @@
 # Config Extensions
 
 [![build_status](https://travis-ci.com/microprofile-extensions/config-ext.svg?branch=master)](https://travis-ci.com/microprofile-extensions/config-ext)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext/config-ext/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext/config-ext)
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://github.com/microprofile-extensions/config-ext/blob/master/LICENSE)
-[![Javadocs](https://www.javadoc.io/badge/org.microprofile-ext/config-ext.svg)](https://www.javadoc.io/doc/org.microprofile-ext/config-ext)
 
 Here you will find some extra Config sources and Config converters for MicroProfile Config API.
 
-## Config Sources
+### Config Sources
+* [Memory Config source](https://github.com/microprofile-extensions/config-ext/tree/master/configsource-memory)
+* [File Config source](https://github.com/microprofile-extensions/config-ext/tree/master/configsource-file)
+* [Etcd Config source](https://github.com/microprofile-extensions/config-ext/tree/master/configsource-etcd)
 
-
-
-## Config Converters
-
-@TODO
+### Config Converters
+* [List Config converter](https://github.com/microprofile-extensions/config-ext/tree/master/configconverter-list)
+* [Json Config converter](https://github.com/microprofile-extensions/config-ext/tree/master/configconverter-json)
