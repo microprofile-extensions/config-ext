@@ -1,59 +1,44 @@
-# Config API extension
+# Config API extension | List Converter
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configsource-memory/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configsource-memory)
-[![Javadocs](https://www.javadoc.io/badge/org.microprofile-ext.config-ext/configsource-memory.svg)](https://www.javadoc.io/doc/org.microprofile-ext.config-ext/configsource-memory)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configconverter-list/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configconverter-list)
+[![Javadocs](https://www.javadoc.io/badge/org.microprofile-ext.config-ext/configconverter-list.svg)](https://www.javadoc.io/doc/org.microprofile-ext.config-ext/configconverter-list)
 
-This extension gives you some extra configuration sources and some extra converters.
+This extension allows you to inject a List or Array as a ConfigProperty
 
 ## Usage
 
+```xml
+
     <dependency>
         <groupId>org.microprofile-ext.config-ext</groupId>
-        <artifactId>configsource-memory</artifactId>
-        <version>1.0.9</version>
+        <artifactId>configconverter-list</artifactId>
+        <version>XXXX</version>
         <scope>runtime</scope>
     </dependency>
 
-## Info
+```
 
-This source gets and sets values in memory. Useful when you want to change config during runtime.
-
-You can do this by using the REST API to change the config values:
-
-    GET /config/sources - list all config sources
-    GET /config/all - get all configurations
-    GET /config/key/{key} - get the configured value for {key}
-    PUT /config/key/{key} - set the value for {key}
-    DELETE /config/key/{key} - delete the configured value for {key}
-
-![REST API](https://raw.githubusercontent.com/phillip-kruger/microprofile-extensions/master/config-ext/memory_config_api.png)
-
-### Etcd config
-
-Use [etcd](https://coreos.com/etcd/) to get config values. You can define the server details of the etcd server using MicroProfile Config:
-
-    configsource.etcd.scheme=http
-    configsource.etcd.host=localhost
-    configsource.etcd.port2379
-
-## Config converters 
-
-Extra MicroProfile converters (JsonArray, JsonObject, List, Array)
-
-Example:
+## Example
 
 In the java code:
 
-    @Inject
-    @ConfigProperty(name = "someJsonKey")
-    private JsonArray someValue;
+```java
 
     @Inject
-    @ConfigProperty(name = "someListKey")
+    @ConfigProperty(name = "someList")
     private List<String> someValue;
+
+    @Inject
+    @ConfigProperty(name = "someArray")
+    private String[] someValue;
+
+```
 
 When using the property:
 
-    someJsonKey=["value1","value2","value3"]
-    someListKey=value1,value2,value3
-    
+```
+
+    someList=value1,value2,value3
+    someArray=value1,value2,value3
+
+```    
