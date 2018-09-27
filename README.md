@@ -2,7 +2,7 @@
 
 [![build_status](https://travis-ci.com/microprofile-extensions/config-ext.svg?branch=master)](https://travis-ci.com/microprofile-extensions/config-ext)
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://github.com/microprofile-extensions/config-ext/blob/master/LICENSE)
-
+___________
 Here you will find some extra Config sources and Config converters for MicroProfile Config API.
 
 ### Config Sources
