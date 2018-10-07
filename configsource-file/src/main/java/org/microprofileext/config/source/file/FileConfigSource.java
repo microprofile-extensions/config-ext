@@ -15,6 +15,7 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
 /**
  * File config source
  * @author Phillip Kruger (phillip.kruger@phillip-kruger.com)
+ * @author <a href="mailto:dpmoore@acm.org">Derek P. Moore</a>
  */
 @Log
 @NoArgsConstructor
@@ -30,7 +31,7 @@ public class FileConfigSource implements ConfigSource {
     private static final String KEY_FILE_URI = KEY_PREFIX + "fileuri";
     private static final String DEFAULT_FILE_URI = "application.properties";
 
-    private final Map<String,String> map = new HashMap<>();
+    private Map<String,String> map;
 
     @Override
     public int getOrdinal() {
@@ -67,6 +68,7 @@ public class FileConfigSource implements ConfigSource {
     
     private Map<String,String> getMap(){
         if(this.map == null ){
+            this.map = new HashMap<>();
             Config cfg = ConfigProvider.getConfig();
             String fileuri = cfg.getOptionalValue(KEY_FILE_URI, String.class).orElse(DEFAULT_FILE_URI);
             try {
