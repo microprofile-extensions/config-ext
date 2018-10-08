@@ -29,10 +29,9 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  *
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
+ * @author <a href="mailto:dpmoore@acm.org">Derek P. Moore</a>
  */
 public abstract class BaseConfigSource implements ConfigSource {
-
-    public final static String CONFIG_ORDINAL = "config_ordinal";
 
     protected Logger log = Logger.getLogger(getClass().getName());
 
@@ -61,8 +60,8 @@ public abstract class BaseConfigSource implements ConfigSource {
             }
         }
         catch (NumberFormatException e) {
-            log.log(Level.WARNING,
-                    "The configured config-ordinal isn't a valid integer. Invalid value: " + configuredOrdinalString);
+            log.log(Level.WARNING, e,
+                    () -> "The configured config-ordinal isn't a valid integer. Invalid value: " + configuredOrdinalString);
         }
     }
 

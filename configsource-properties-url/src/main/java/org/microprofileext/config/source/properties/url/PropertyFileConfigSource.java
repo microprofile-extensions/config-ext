@@ -29,6 +29,7 @@ import org.microprofileext.config.source.base.EnabledConfigSource;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
+ * @author <a href="mailto:dpmoore@acm.org">Derek P. Moore</a>
  */
 public class PropertyFileConfigSource extends EnabledConfigSource {
     private static final Logger LOG = Logger.getLogger(PropertyFileConfigSource.class.getName());
@@ -75,7 +76,7 @@ public class PropertyFileConfigSource extends EnabledConfigSource {
         }
         catch (IOException e) {
             // don't return null on IOException
-            LOG.log(Level.WARNING, "Unable to read URL "+url, e);
+            LOG.log(Level.WARNING, e, () -> "Unable to read URL "+url);
         }
         finally {
             try {
