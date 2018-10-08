@@ -50,7 +50,7 @@ public class DisabledWhenEnabledKeyIsFalseTest {
     }
 
     @Test(expected = NoSuchElementException.class)
-    public void testPropertyLoadsWhenExplicitlyDisabled() {
+    public void testPropertyFailsWhenExplicitlyDisabled() {
         config.getValue("test.property", String.class);
     }
 
