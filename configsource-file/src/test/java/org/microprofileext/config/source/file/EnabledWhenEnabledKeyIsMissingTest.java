@@ -20,6 +20,7 @@ import javax.enterprise.inject.spi.Extension;
 import javax.inject.Inject;
 import org.apache.geronimo.config.ConfigImpl;
 import org.apache.geronimo.config.cdi.ConfigExtension;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -33,7 +34,7 @@ import org.junit.runner.RunWith;
  * @author <a href="mailto:dpmoore@acm.org">Derek P. Moore</a>
  */
 @RunWith(Arquillian.class)
-public class DisabledWhenEnabledKeyIsMissingTest {
+public class EnabledWhenEnabledKeyIsMissingTest {
 
     @Inject
     Config config;
@@ -45,13 +46,15 @@ public class DisabledWhenEnabledKeyIsMissingTest {
                 .addPackages(true, Config.class.getPackage())
                 .addAsServiceProviderAndClasses(Extension.class, ConfigExtension.class)
                 .addAsServiceProviderAndClasses(ConfigSource.class, FileConfigSource.class)
-                .addAsResource(DisabledWhenEnabledKeyIsMissingTest.class.getClassLoader().getResource("empty-mp-config.properties"), "META-INF/microprofile-config.properties")
+                .addAsResource(EnabledWhenEnabledKeyIsMissingTest.class.getClassLoader().getResource("empty-mp-config.properties"), "META-INF/microprofile-config.properties")
                 .addAsManifestResource("META-INF/beans.xml");
     }
 
-    @Test(expected = NoSuchElementException.class)
-    public void testPropertyFailsWhenNotExplicitlyEnabled() {
-        config.getValue("test.property", String.class);
+    @Test
+    public void testPropertyLoadsWhenNotExplicitlyEnabled() {
+        assertThat(config.getOptionalValue("test.property", String.class)).get()
+                .isEqualTo("a-string-value")
+                .as("test.property in application.properties is set to a-string-value");
     }
 
 }
