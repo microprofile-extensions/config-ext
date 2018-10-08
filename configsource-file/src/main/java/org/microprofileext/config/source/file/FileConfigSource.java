@@ -6,20 +6,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
-import lombok.NoArgsConstructor;
-import lombok.extern.java.Log;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
-import org.eclipse.microprofile.config.spi.ConfigSource;
+import org.microprofileext.config.source.base.BaseConfigSource;
 
 /**
  * File config source
  * @author Phillip Kruger (phillip.kruger@phillip-kruger.com)
  * @author <a href="mailto:dpmoore@acm.org">Derek P. Moore</a>
  */
-@Log
-@NoArgsConstructor
-public class FileConfigSource implements ConfigSource {
+public class FileConfigSource extends BaseConfigSource {
     
     public static final String NAME = "FileConfigSource";
 
@@ -33,11 +29,10 @@ public class FileConfigSource implements ConfigSource {
 
     private Map<String,String> map;
 
-    @Override
-    public int getOrdinal() {
-        return 350;
+    public FileConfigSource() {
+        initOrdinal(350);
     }
-    
+
     @Override
     public Map<String, String> getProperties() {
         if(isEnabled())return this.getMap();
@@ -46,7 +41,7 @@ public class FileConfigSource implements ConfigSource {
 
     @Override
     public String getValue(String key) {
-        if (key.startsWith(KEY_PREFIX)) {
+        if (key.startsWith(KEY_PREFIX) || key.equals("config_ordinal")) {
             // in case we are about to configure ourselves we simply ignore that key
             return null;
         }
