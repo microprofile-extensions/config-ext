@@ -15,14 +15,13 @@
  */
 package org.microprofileext.config.source.file;
 
-import java.util.NoSuchElementException;
 import javax.enterprise.inject.spi.Extension;
 import javax.inject.Inject;
 import org.apache.geronimo.config.ConfigImpl;
 import org.apache.geronimo.config.cdi.ConfigExtension;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.spi.ConfigSource;
+import org.eclipse.microprofile.config.spi.ConfigSourceProvider;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -45,7 +44,7 @@ public class EnabledWhenEnabledKeyIsMissingTest {
                 .addPackages(true, ConfigImpl.class.getPackage())
                 .addPackages(true, Config.class.getPackage())
                 .addAsServiceProviderAndClasses(Extension.class, ConfigExtension.class)
-                .addAsServiceProviderAndClasses(ConfigSource.class, FileConfigSource.class)
+                .addAsServiceProviderAndClasses(ConfigSourceProvider.class, FileConfigSourceProvider.class)
                 .addAsResource(EnabledWhenEnabledKeyIsMissingTest.class.getClassLoader().getResource("empty-mp-config.properties"), "META-INF/microprofile-config.properties")
                 .addAsManifestResource("META-INF/beans.xml");
     }
