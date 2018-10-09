@@ -25,12 +25,12 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.microprofileext.config.source.base.BaseConfigSource;
+import org.microprofileext.config.source.base.EnabledConfigSource;
 
 /**
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  */
-public class PropertyFileConfigSource extends BaseConfigSource {
+public class PropertyFileConfigSource extends EnabledConfigSource {
     private static final Logger LOG = Logger.getLogger(PropertyFileConfigSource.class.getName());
     private Map<String, String> properties;
     private String fileName;
@@ -49,17 +49,16 @@ public class PropertyFileConfigSource extends BaseConfigSource {
      */
     @Override
     public String getValue(String key) {
-        return properties.get(key);
+        return getProperties().get(key);
     }
 
     @Override
     public String getName() {
-        return fileName;
+        return CLASS_KEY_PREFIX + "." + fileName;
     }
 
-
     @Override
-    public Map<String, String> getProperties() {
+    public Map<String, String> getPropertiesIfEnabled() {
         return properties;
     }
 
