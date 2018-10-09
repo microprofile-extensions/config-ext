@@ -9,8 +9,6 @@
     
     <groupId>org.microprofile-ext.config-ext</groupId>
     <artifactId>configsource-etcd</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
-    <packaging>jar</packaging>
     
     <name>Microprofile Config Extensions :: Etcd config source</name>
     <description>A config that get the values from an Etcd server</description>

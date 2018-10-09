@@ -6,11 +6,18 @@
         <artifactId>config-ext</artifactId>
         <version>1.0.2-SNAPSHOT</version>
     </parent>
-    
+
     <groupId>org.microprofile-ext.config-ext</groupId>
-    <artifactId>configconverter-list</artifactId>
-    
-    <name>Microprofile Config Extensions :: List converter</name>
-    <description>A List and Array converter</description>
-    
+    <artifactId>configsource-properties-url</artifactId>
+
+    <name>Microprofile Config Extensions :: Properties URL config source</name>
+    <description>A config that gets its values from a properties file at a URL</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.microprofile-ext.config-ext</groupId>
+            <artifactId>configsource-base</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 </project>

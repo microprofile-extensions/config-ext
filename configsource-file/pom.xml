@@ -9,8 +9,6 @@
     
     <groupId>org.microprofile-ext.config-ext</groupId>
     <artifactId>configsource-file</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
-    <packaging>jar</packaging>
     
     <name>Microprofile Config Extensions :: File config source</name>
     <description>A config that get the values from a properties file</description>
@@ -27,6 +25,11 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
+        <dependency>
+            <groupId>org.microprofile-ext.config-ext</groupId>
+            <artifactId>configsource-properties-url</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
