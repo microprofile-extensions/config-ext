@@ -22,4 +22,8 @@ Use [etcd](https://coreos.com/etcd/) to get config values. You can define the se
 
     configsource.etcd.scheme=http (default)
     configsource.etcd.host=localhost (default)
-    configsource.etcd.port2379 (default)    
+    configsource.etcd.port2379 (default)  
+
+You can disable the config source by setting this config:
+    
+    EtcdConfigSource.enabled=false  

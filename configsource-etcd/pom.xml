@@ -19,5 +19,11 @@
             <artifactId>jetcd-core</artifactId>
             <version>0.0.2</version>
         </dependency>
+    
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>configsource-base</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

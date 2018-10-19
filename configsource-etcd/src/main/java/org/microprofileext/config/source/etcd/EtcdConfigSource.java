@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.java.Log;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
-import org.eclipse.microprofile.config.spi.ConfigSource;
+import org.microprofileext.config.source.base.EnabledConfigSource;
 
 /**
  * Etcd config source
@@ -22,14 +22,11 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  */
 @Log
 @NoArgsConstructor
-public class EtcdConfigSource implements ConfigSource {
+public class EtcdConfigSource extends EnabledConfigSource {
     
-    public static final String NAME = "EtcdConfigSource";
+    private static final String NAME = "EtcdConfigSource";
 
     private static final String KEY_PREFIX = "configsource.etcd.";
-
-    private static final String KEY_ENABLED = KEY_PREFIX + "enabled";
-    private static final boolean DEFAULT_ENABLED = false;
     
     private static final String KEY_SCHEME = KEY_PREFIX + "scheme";
     private static final String DEFAULT_SCHEME = "http";
@@ -48,24 +45,23 @@ public class EtcdConfigSource implements ConfigSource {
     }
     
     @Override
-    public Map<String, String> getProperties() {
+    public Map<String, String> getPropertiesIfEnabled() {
         Map<String,String> m = new HashMap<>();
-        if(isEnabled()){
-            ByteSequence bsKey = ByteSequence.fromString("");
+        
+        ByteSequence bsKey = ByteSequence.fromString("");
 
-            CompletableFuture<GetResponse> getFuture = getClient().getKVClient().get(bsKey);
-            try {
-                GetResponse response = getFuture.get();
-                List<KeyValue> kvs = response.getKvs();
+        CompletableFuture<GetResponse> getFuture = getClient().getKVClient().get(bsKey);
+        try {
+            GetResponse response = getFuture.get();
+            List<KeyValue> kvs = response.getKvs();
 
-                for(KeyValue kv:kvs){
-                    String key = kv.getKey().toStringUtf8();
-                    String value = kv.getValue().toStringUtf8();
-                    m.put(key, value);
-                }
-            } catch (InterruptedException | ExecutionException ex) {
-                log.log(Level.FINEST, "Can not get all config keys and values from etcd Config source: {1}", new Object[]{ex.getMessage()});
+            for(KeyValue kv:kvs){
+                String key = kv.getKey().toStringUtf8();
+                String value = kv.getValue().toStringUtf8();
+                m.put(key, value);
             }
+        } catch (InterruptedException | ExecutionException ex) {
+            log.log(Level.FINEST, "Can not get all config keys and values from etcd Config source: {1}", new Object[]{ex.getMessage()});
         }
         
         return m;
@@ -77,7 +73,7 @@ public class EtcdConfigSource implements ConfigSource {
             // in case we are about to configure ourselves we simply ignore that key
             return null;
         }
-        if(isEnabled()){
+        if(super.isEnabled()){
             ByteSequence bsKey = ByteSequence.fromString(key);
             CompletableFuture<GetResponse> getFuture = getClient().getKVClient().get(bsKey);
             try {
@@ -101,11 +97,6 @@ public class EtcdConfigSource implements ConfigSource {
             return response.getKvs().get(0).getValue().toStringUtf8();
         }
         return null;
-    }
-    
-    private boolean isEnabled(){
-        Config cfg = ConfigProvider.getConfig();
-        return cfg.getOptionalValue(KEY_ENABLED, Boolean.class).orElse(DEFAULT_ENABLED);
     }
     
     private Client getClient(){
