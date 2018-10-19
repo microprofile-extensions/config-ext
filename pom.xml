@@ -49,6 +49,10 @@
             <email>phillip.kruger@phillip-kruger.com</email>
             <organizationUrl>http://www.phillip-kruger.com</organizationUrl>
         </developer>
+        <developer>
+            <name>Derek P. Moore</name>
+            <email>dpmoore@acm.org</email>
+        </developer>
     </developers>
     
     <properties>

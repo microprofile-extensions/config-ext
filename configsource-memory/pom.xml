@@ -13,4 +13,12 @@
     <name>Microprofile Config Extensions :: Memory config source</name>
     <description>A config that get the values from memory</description>
     
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>configsource-base</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+    
 </project>

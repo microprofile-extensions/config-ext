@@ -15,7 +15,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.microprofile-ext.config-ext</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>configsource-base</artifactId>
             <version>${project.version}</version>
         </dependency>

@@ -31,5 +31,10 @@ You can do this by using the REST API to change the config values:
     DELETE /microprofile-ext/memoryconfigsource/key/{key} - delete the configured value for {key}
 
 ```
+## Configure options
+
+You can disable the config source by setting this config:
+    
+    MemoryConfigSource.enabled=false
 
 ![REST API](https://github.com/microprofile-extensions/config-ext/raw/master/configsource-memory/screenshot.png)
