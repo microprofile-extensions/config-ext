@@ -7,6 +7,7 @@ Here you will find some extra Config sources and Config converters for MicroProf
 
 ### Config Sources
 * [Memory Config source](https://github.com/microprofile-extensions/config-ext/tree/master/configsource-memory)
+* [Yaml Config source](https://github.com/microprofile-extensions/config-ext/tree/master/configsource-yaml)
 * [File Config source](https://github.com/microprofile-extensions/config-ext/tree/master/configsource-file)
 * [Etcd Config source](https://github.com/microprofile-extensions/config-ext/tree/master/configsource-etcd)
 
