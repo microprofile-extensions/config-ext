@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.microprofile-ext</groupId>
+        <artifactId>config-ext</artifactId>
+        <version>1.0.2-SNAPSHOT</version>
+    </parent>
+    
+    <groupId>org.microprofile-ext.config-ext</groupId>
+    <artifactId>config-example</artifactId>
+    <version>1.0.2-SNAPSHOT</version>
+    <packaging>war</packaging>
+    
+    <name>Microprofile Config Extensions :: Example</name>
+    <description>A basic Example of these extensions</description>
+    
+    <properties>
+        <failOnMissingWebXml>false</failOnMissingWebXml>
+        
+        <thorntail.version>2.2.0.Final</thorntail.version>
+        <thorntail.configDir>${basedir}${file.separator}src${file.separator}main${file.separator}resources</thorntail.configDir>
+    </properties>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.microprofile-ext.config-ext</groupId>
+            <artifactId>configsource-yaml</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.microprofile-ext.openapi-ext</groupId>
+            <artifactId>swagger-ui</artifactId>
+            <version>1.0.1</version>
+            <scope>runtime</scope>
+        </dependency>
+        
+    </dependencies>
+    
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+
+            <!--To configure thorntail--> 
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>add-resource</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>add-resource</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                 <!--thorntail config--> 
+                                <resource>
+                                    <directory>${thorntail.configDir}</directory>
+                                    <targetPath>${project.build.directory}</targetPath>
+                                    <filtering>true</filtering>
+                                    <includes>
+                                        <include>project*.yml</include>
+                                        <include>*.properties</include>
+                                    </includes>
+                                </resource>
+
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+                    
+    </build>
+    
+    <profiles>
+        
+        <!-- Run Thorntail -->
+        <profile>
+            <id>run</id>
+            <activation>
+                <property>
+                    <name>run</name>
+                </property>
+            </activation>
+            
+            <build>
+                
+                <plugins>
+                    <plugin>
+                        <groupId>io.thorntail</groupId>
+                        <artifactId>thorntail-maven-plugin</artifactId>
+                        <version>${thorntail.version}</version>
+                        <executions>
+                            <execution>
+                                <id>2</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <properties>
+                                <swarm.context.path>/${project.build.finalName}</swarm.context.path>
+                            </properties>
+                        </configuration>
+                    </plugin>
+                    
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.6.0</version>
+                        <executions>
+                            <execution>
+                                <id>1</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>java</executable>
+                                    <arguments>
+                                        <argument>-jar</argument>
+                                        <argument>${project.build.directory}${file.separator}${project.build.finalName}-thorntail.jar</argument>
+                                        <argument>-s</argument>
+                                        <argument>${project.build.directory}${file.separator}project-defaults.yml</argument>
+                                        <argument>-Sdev</argument>
+                                        <argument>-Dconfigsource.yaml.url=file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.yml,http://localhost/config.yml</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                        
+                    </plugin>
+
+                </plugins>
+            </build>
+            
+        </profile>
+    </profiles>
+    
+</project>

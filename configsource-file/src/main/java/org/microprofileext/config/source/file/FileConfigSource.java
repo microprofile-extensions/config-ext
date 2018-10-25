@@ -20,7 +20,7 @@ public class FileConfigSource extends PropertyFileConfigSource {
      */
     public FileConfigSource(URL propertyFileUrl) {
         super(propertyFileUrl);
-        initOrdinal(350);
+        super.initOrdinal(350);
     }
 
     /**

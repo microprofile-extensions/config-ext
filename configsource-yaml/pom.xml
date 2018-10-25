@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.microprofile-ext</groupId>
+        <artifactId>config-ext</artifactId>
+        <version>1.0.2-SNAPSHOT</version>
+    </parent>
+    
+    <groupId>org.microprofile-ext.config-ext</groupId>
+    <artifactId>configsource-yaml</artifactId>
+    <version>1.0.2-SNAPSHOT</version>
+    
+    <name>Microprofile Config Extensions :: Yaml config source</name>
+    <description>A config that get the values from a yaml file</description>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.23</version>            
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>configsource-base</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+    
+</project>

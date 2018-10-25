@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
-import lombok.NoArgsConstructor;
 import lombok.extern.java.Log;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
@@ -21,7 +20,6 @@ import org.microprofileext.config.source.base.EnabledConfigSource;
  * @author Phillip Kruger (phillip.kruger@phillip-kruger.com)
  */
 @Log
-@NoArgsConstructor
 public class EtcdConfigSource extends EnabledConfigSource {
     
     private static final String NAME = "EtcdConfigSource";
@@ -39,9 +37,8 @@ public class EtcdConfigSource extends EnabledConfigSource {
 
     private Client client = null;
 
-    @Override
-    public int getOrdinal() {
-        return 320;
+    public EtcdConfigSource(){
+        super.initOrdinal(320);
     }
     
     @Override

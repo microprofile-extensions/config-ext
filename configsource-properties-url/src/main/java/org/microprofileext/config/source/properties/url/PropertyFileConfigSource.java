@@ -23,7 +23,7 @@ import java.net.URL;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import lombok.extern.java.Log;
 
 import org.microprofileext.config.source.base.EnabledConfigSource;
 
@@ -31,15 +31,16 @@ import org.microprofileext.config.source.base.EnabledConfigSource;
  * @author <a href="mailto:struberg@apache.org">Mark Struberg</a>
  * @author <a href="mailto:dpmoore@acm.org">Derek P. Moore</a>
  */
+@Log
 public class PropertyFileConfigSource extends EnabledConfigSource {
-    private static final Logger LOG = Logger.getLogger(PropertyFileConfigSource.class.getName());
+    
     private Map<String, String> properties;
     private String fileName;
 
     public PropertyFileConfigSource(URL propertyFileUrl) {
         fileName = propertyFileUrl.toExternalForm();
         properties = loadProperties(propertyFileUrl);
-        initOrdinal(100);
+        super.initOrdinal(100);
     }
 
     /**
@@ -50,7 +51,8 @@ public class PropertyFileConfigSource extends EnabledConfigSource {
      */
     @Override
     public String getValue(String key) {
-        return getProperties().get(key);
+        if(super.isEnabled())return this.properties.get(key);
+        return null;
     }
 
     @Override
@@ -60,7 +62,7 @@ public class PropertyFileConfigSource extends EnabledConfigSource {
 
     @Override
     public Map<String, String> getPropertiesIfEnabled() {
-        return properties;
+        return this.properties;
     }
 
     private Map<String, String> loadProperties(URL url) {
@@ -73,20 +75,16 @@ public class PropertyFileConfigSource extends EnabledConfigSource {
             if (inputStream != null) {
                 props.load(inputStream);
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             // don't return null on IOException
-            LOG.log(Level.WARNING, e, () -> "Unable to read URL "+url);
-        }
-        finally {
+            log.log(Level.WARNING, e, () -> "Unable to read URL " + url);
+        } finally {
             try {
                 if (inputStream != null) {
                     inputStream.close();
                 }
-            }
-            catch (IOException e) {
-                // no worries, means that the file is already closed
-            }
+            // no worries, means that the file is already closed
+            } catch (IOException e) {}
         }
 
         return (Map) props;

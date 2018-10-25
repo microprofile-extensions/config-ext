@@ -17,7 +17,7 @@ public class MemoryConfigSource extends EnabledConfigSource {
     
     public MemoryConfigSource(){
         log.info("Loading [memory] MicroProfile ConfigSource");
-        initOrdinal(900);
+        super.initOrdinal(900);
     }
     
     

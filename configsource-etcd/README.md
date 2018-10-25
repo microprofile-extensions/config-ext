@@ -1,4 +1,4 @@
-# Config API extension
+# Etcd Config Source
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configsource-etcd/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configsource-etcd)
 [![Javadocs](https://www.javadoc.io/badge/org.microprofile-ext.config-ext/configsource-etcd.svg)](https://www.javadoc.io/doc/org.microprofile-ext.config-ext/configsource-etcd)

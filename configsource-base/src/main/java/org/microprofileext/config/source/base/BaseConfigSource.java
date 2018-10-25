@@ -20,7 +20,7 @@
 package org.microprofileext.config.source.base;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import lombok.extern.java.Log;
 
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
@@ -31,9 +31,8 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
  * @author <a href="mailto:dpmoore@acm.org">Derek P. Moore</a>
  */
+@Log
 public abstract class BaseConfigSource implements ConfigSource {
-
-    protected Logger log = Logger.getLogger(getClass().getName());
 
     private int ordinal = 1000; // default
 
@@ -58,8 +57,7 @@ public abstract class BaseConfigSource implements ConfigSource {
             if (configuredOrdinalString != null) {
                 ordinal = Integer.parseInt(configuredOrdinalString.trim());
             }
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             log.log(Level.WARNING, e,
                     () -> "The configured config-ordinal isn't a valid integer. Invalid value: " + configuredOrdinalString);
         }

@@ -105,10 +105,12 @@
         <module>configsource-base</module>
         <module>configsource-memory</module>
         <module>configsource-properties-url</module>
+        <module>configsource-yaml</module>
         <module>configsource-file</module>
         <module>configsource-etcd</module>
         <module>configconverter-list</module>
         <module>configconverter-json</module>
+        <module>config-example</module>
     </modules>
     
     <profiles>
