@@ -18,17 +18,23 @@ public class YamlConverter {
     
     public YamlConverter(InputStream in){
         Yaml yaml = new Yaml();
-        TreeMap<String, Map<String, Object>> yamlInput = yaml.loadAs(in, TreeMap.class);
+        TreeMap<String, Object> yamlInput = yaml.loadAs(in, TreeMap.class);
+        
         for (String key : yamlInput.keySet()) {
             populateMap(key, yamlInput.get(key));
         }
     }
 
-    private void populateMap(String key, Map<String, Object> map) {
-        for (String mapKey : map.keySet()) {
-            populateEntry(key,mapKey,map);
+    private void populateMap(String key, Object o) {
+        
+        if (o instanceof Map) {
+            Map map = (Map)o;
+            for (Object mapKey : map.keySet()) {
+                populateEntry(key,mapKey.toString(),map);
+            }
+        }else{
+            if(o!=null)properties.put(key,o.toString());
         }
-
     }
     
     private void populateEntry(String key, String mapKey, Map<String, Object> map){

@@ -23,6 +23,8 @@
     </properties>
     
     <dependencies>
+        
+        <!-- Yaml file -->
         <dependency>
             <groupId>org.microprofile-ext.config-ext</groupId>
             <artifactId>configsource-yaml</artifactId>
@@ -30,6 +32,15 @@
             <scope>runtime</scope>
         </dependency>
         
+        <!-- Json file -->
+        <dependency>
+            <groupId>org.microprofile-ext.config-ext</groupId>
+            <artifactId>configsource-json</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        
+        <!-- OpenApi UI, for demo purpose -->
         <dependency>
             <groupId>org.microprofile-ext.openapi-ext</groupId>
             <artifactId>swagger-ui</artifactId>
@@ -132,6 +143,7 @@
                                         <argument>${project.build.directory}${file.separator}project-defaults.yml</argument>
                                         <argument>-Sdev</argument>
                                         <argument>-Dconfigsource.yaml.url=file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.yml,http://localhost/config.yml</argument>
+                                        <argument>-Dconfigsource.json.url=file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.json,http://localhost/config.json</argument>
                                     </arguments>
                                 </configuration>
                             </execution>

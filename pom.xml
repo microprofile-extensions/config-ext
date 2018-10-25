@@ -102,15 +102,20 @@
     </dependencies>
     
     <modules>
+        <!-- sources -->
         <module>configsource-base</module>
         <module>configsource-memory</module>
         <module>configsource-properties-url</module>
         <module>configsource-yaml</module>
-        <module>configsource-file</module>
+        <module>configsource-json</module>
+        <module>configsource-file</module><!-- deprecated -->
         <module>configsource-etcd</module>
+        <!-- converters -->
         <module>configconverter-list</module>
         <module>configconverter-json</module>
+        <!-- example -->
         <module>config-example</module>
+        
     </modules>
     
     <profiles>
