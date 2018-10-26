@@ -31,3 +31,4 @@ hs_err_pid*
 /configsource-yaml/target/
 /config-example/target/
 /configsource-json/target/
+/configsource-xml/target/
