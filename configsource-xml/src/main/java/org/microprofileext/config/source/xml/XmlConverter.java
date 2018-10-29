@@ -13,6 +13,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 import lombok.Getter;
 import lombok.extern.java.Log;
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -26,24 +28,22 @@ import org.xml.sax.helpers.DefaultHandler;
 @Log
 public class XmlConverter {
     
+    
+    
     @Getter
     private Map<String,String> properties = new TreeMap<>();
     
     public XmlConverter(InputStream in){
-        this(in,true);
-    }
-
-    public XmlConverter(InputStream in, boolean ignoreRoot){
         try {
             InputSource inputSource = new InputSource(in);
-            this.properties = parse(inputSource,ignoreRoot);
+            this.properties = parse(inputSource);
         } catch (SAXException | IOException | ParserConfigurationException ex) {
             log.log(Level.WARNING, "Could not create properties from XML [{0}]", ex.getMessage());
         }
     }
     
-    private Map<String, String> parse(InputSource inputSource,boolean ignoreRoot) throws SAXException, IOException, ParserConfigurationException {
-        final Handler handler = new Handler(ignoreRoot);
+    private Map<String, String> parse(InputSource inputSource) throws SAXException, IOException, ParserConfigurationException {
+        final Handler handler = new Handler();
         SAXParserFactory.newInstance().newSAXParser().parse(inputSource, handler);
         return handler.result;
     }
@@ -56,8 +56,9 @@ public class XmlConverter {
         private boolean ignoreRoot = true;
         private int depth = -1;
         
-        public Handler(boolean ignoreRoot){
-            this.ignoreRoot = ignoreRoot;
+        public Handler(){
+            Config cfg = ConfigProvider.getConfig();
+            this.ignoreRoot = cfg.getOptionalValue("configsource.xml.ignoreRoot", Boolean.class).orElse(true);
         }
         
         @Override
@@ -101,6 +102,8 @@ public class XmlConverter {
         List<String> l = Arrays.asList(existing.split(COMMA));
         return l.toString();
     }
+    
+    
     
     private static final String SEPARATOR = "."; // TODO: Allow this to be configured ?
     

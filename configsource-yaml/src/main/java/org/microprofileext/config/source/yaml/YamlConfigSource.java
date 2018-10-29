@@ -2,72 +2,27 @@ package org.microprofileext.config.source.yaml;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import lombok.extern.java.Log;
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
-import org.microprofileext.config.source.base.EnabledConfigSource;
+import org.microprofileext.config.source.base.AbstractUrlBasedSource;
 
 /**
  * Yaml config source
  * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
 @Log
-public class YamlConfigSource extends EnabledConfigSource {
+public class YamlConfigSource extends AbstractUrlBasedSource {
 
-    private static final String KEY_PREFIX = "configsource.yaml.";
-    
-    private static final String KEY_URL = KEY_PREFIX + "url";
-    private static final String DEFAULT_URL = "application.yaml";
-
-    private final Map<String, String> properties;
-    private final String yamlUrl;
-    
-    public YamlConfigSource(){
-        log.info("Loading [yaml] MicroProfile ConfigSource");
-        this.yamlUrl = loadYamlFileUrlPath();
-        this.properties = loadYamls(yamlUrl);
-        super.initOrdinal(500);
-    }
-    
     @Override
-    public Map<String, String> getPropertiesIfEnabled() {
-        return this.properties;
+    protected String getFileExtension() {
+        return "yaml";
     }
 
     @Override
-    public String getValue(String key) {
-        // in case we are about to configure ourselves we simply ignore that key
-        if(super.isEnabled() && !key.startsWith(KEY_PREFIX)){
-            return this.properties.get(key);
-        }
-        return null;
-    }
-
-    @Override
-    public String getName() {
-        return CLASS_KEY_PREFIX + UNDERSCORE + this.yamlUrl;
-    }
-    
-    private Map<String, String> loadYamls(String surl) {
-        Map<String,String> map = new HashMap<>();
-        String urls[] = surl.split(COMMA);
-        
-        for(String url:urls){
-            if(url!=null && !url.isEmpty()){
-                map.putAll(loadYaml(url.trim()));
-            }
-        }
-        return map;
-    }
-    
-    @SuppressWarnings("unchecked")
-    private Map<String, String> loadYaml(String url) {
+    protected Map<String, String> loadUrl(String url) {
         log.log(Level.INFO, "Using [{0}] as yaml URL", url);
         Map<String,String> map = new HashMap<>();
         
@@ -92,22 +47,4 @@ public class YamlConfigSource extends EnabledConfigSource {
         return map;
     }
     
-    private String getDefaultURL(String path){
-        try {
-            URL url = Paths.get(path).toUri().toURL();
-            return url.toString();
-        } catch (MalformedURLException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-    
-    private String loadYamlFileUrlPath(){
-        Config cfg = ConfigProvider.getConfig();
-        String url = cfg.getOptionalValue(KEY_URL, String.class).orElse(getDefaultURL(DEFAULT_URL));
-        
-        return url;
-    }
-    
-    private static final String UNDERSCORE = "_";   
-    private static final String COMMA = ",";
 }
