@@ -8,7 +8,7 @@ import org.eclipse.microprofile.config.spi.Converter;
 
 /**
  * Converts a json string to a JSonObject
- * @author Phillip Kruger (phillip.kruger@phillip-kruger.com)
+ * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
 public class JsonObjectConverter implements Converter<JsonObject> {
 

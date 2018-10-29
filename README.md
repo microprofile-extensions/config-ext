@@ -7,6 +7,7 @@ Here you will find some extra Config sources and Config converters for MicroProf
 
 ### Config Sources
 * [Memory Config source](https://github.com/microprofile-extensions/config-ext/tree/master/configsource-memory)
+* [Properties Config source](https://github.com/microprofile-extensions/config-ext/tree/master/configsource-properties)
 * [Yaml Config source](https://github.com/microprofile-extensions/config-ext/tree/master/configsource-yaml)
 * [Json Config source](https://github.com/microprofile-extensions/config-ext/tree/master/configsource-json)
 * [Xml Config source](https://github.com/microprofile-extensions/config-ext/tree/master/configsource-xml)

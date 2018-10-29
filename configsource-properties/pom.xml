@@ -8,10 +8,10 @@
     </parent>
 
     <groupId>org.microprofile-ext.config-ext</groupId>
-    <artifactId>configsource-properties-url</artifactId>
+    <artifactId>configsource-properties</artifactId>
 
-    <name>Microprofile Config Extensions :: Properties URL config source</name>
-    <description>A config that gets its values from a properties file at a URL</description>
+    <name>Microprofile Config Extensions :: Properties config source</name>
+    <description>A config that gets its values from a properties file(s) at a URL</description>
 
     <dependencies>
         <dependency>

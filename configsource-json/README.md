@@ -3,7 +3,7 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configsource-json/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configsource-json)
 [![Javadocs](https://www.javadoc.io/badge/org.microprofile-ext.config-ext/configsource-json.svg)](https://www.javadoc.io/doc/org.microprofile-ext.config-ext/configsource-json)
 
-This source gets values from some json(s) file.
+This source gets values from some json file(s).
 
 ## Usage
 

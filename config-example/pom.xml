@@ -40,10 +40,18 @@
             <scope>runtime</scope>
         </dependency>
         
-        <!-- Json file -->
+        <!-- Xml file -->
         <dependency>
             <groupId>org.microprofile-ext.config-ext</groupId>
             <artifactId>configsource-xml</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        
+        <!-- Properties file -->
+        <dependency>
+            <groupId>org.microprofile-ext.config-ext</groupId>
+            <artifactId>configsource-properties</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>
@@ -153,6 +161,7 @@
                                         <argument>-Dconfigsource.yaml.url=file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.yml,http://localhost/config.yml</argument>
                                         <argument>-Dconfigsource.json.url=file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.json,http://localhost/config.json</argument>
                                         <argument>-Dconfigsource.xml.url=file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.xml,http://localhost/config.xml</argument>
+                                        <argument>-Dconfigsource.properties.url=file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.properties,http://localhost/config.properties</argument>
                                     </arguments>
                                 </configuration>
                             </execution>

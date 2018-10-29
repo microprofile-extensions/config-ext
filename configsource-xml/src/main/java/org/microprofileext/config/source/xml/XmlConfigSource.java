@@ -15,7 +15,7 @@ import org.microprofileext.config.source.base.EnabledConfigSource;
 
 /**
  * Xml config source
- * @author Phillip Kruger (phillip.kruger@phillip-kruger.com)
+ * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
 @Log
 public class XmlConfigSource extends EnabledConfigSource {

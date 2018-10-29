@@ -11,7 +11,7 @@ import org.eclipse.microprofile.openapi.annotations.servers.Server;
  * Activate JAX-RS. 
  * All REST Endpoints available under /api
  * 
- * @author Phillip Kruger (phillip.kruger@phillip-kruger.com)
+ * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
 @ApplicationPath("/api")
 @OpenAPIDefinition(info = @Info(

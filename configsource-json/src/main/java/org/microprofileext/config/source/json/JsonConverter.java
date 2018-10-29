@@ -18,7 +18,7 @@ import lombok.extern.java.Log;
 
 /**
  * Convert json format to Map
- * @author Phillip Kruger (phillip.kruger@phillip-kruger.com)
+ * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
 @Log
 public class JsonConverter {

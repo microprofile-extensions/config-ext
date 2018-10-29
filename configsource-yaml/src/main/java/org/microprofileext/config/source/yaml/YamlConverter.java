@@ -9,7 +9,7 @@ import org.yaml.snakeyaml.Yaml;
 
 /**
  * Convert yaml format to Map
- * @author Phillip Kruger (phillip.kruger@phillip-kruger.com)
+ * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
 public class YamlConverter {
     

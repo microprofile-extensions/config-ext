@@ -15,7 +15,7 @@ import org.microprofileext.config.source.base.EnabledConfigSource;
 
 /**
  * Json config source
- * @author Phillip Kruger (phillip.kruger@phillip-kruger.com)
+ * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
 @Log
 public class JsonConfigSource extends EnabledConfigSource {
@@ -68,7 +68,7 @@ public class JsonConfigSource extends EnabledConfigSource {
     
     @SuppressWarnings("unchecked")
     private Map<String, String> loadJson(String url) {
-        log.log(Level.INFO, "Using [{0}] as yaml URL", url);
+        log.log(Level.INFO, "Using [{0}] as json URL", url);
         Map<String,String> map = new HashMap<>();
         
         URL u;

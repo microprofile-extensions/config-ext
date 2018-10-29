@@ -17,7 +17,7 @@ import org.microprofileext.config.source.base.EnabledConfigSource;
 
 /**
  * Etcd config source
- * @author Phillip Kruger (phillip.kruger@phillip-kruger.com)
+ * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
 @Log
 public class EtcdConfigSource extends EnabledConfigSource {

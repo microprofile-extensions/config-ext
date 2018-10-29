@@ -20,7 +20,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Convert xml format to Map
- * @author Phillip Kruger (phillip.kruger@phillip-kruger.com)
+ * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  * TODO: Allow configuration to use attributes vs elements
  */
 @Log

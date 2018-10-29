@@ -7,7 +7,7 @@ import org.microprofileext.config.source.properties.url.PropertyFileConfigSource
 
 /**
  * File config source
- * @author Phillip Kruger (phillip.kruger@phillip-kruger.com)
+ * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  * @author <a href="mailto:dpmoore@acm.org">Derek P. Moore</a>
  */
 public class FileConfigSource extends PropertyFileConfigSource {

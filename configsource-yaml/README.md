@@ -3,7 +3,7 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configsource-yaml/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configsource-yaml)
 [![Javadocs](https://www.javadoc.io/badge/org.microprofile-ext.config-ext/configsource-yaml.svg)](https://www.javadoc.io/doc/org.microprofile-ext.config-ext/configsource-yaml)
 
-This source gets values from some yaml(s) file.
+This source gets values from some yaml file(s).
 
 ## Usage
 

@@ -7,7 +7,7 @@ import org.microprofileext.config.source.base.EnabledConfigSource;
 
 /**
  * In memory config source. Use the REST Endpoint to populate values
- * @author Phillip Kruger (phillip.kruger@phillip-kruger.com)
+ * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
 @Log
 public class MemoryConfigSource extends EnabledConfigSource {

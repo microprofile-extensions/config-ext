@@ -6,7 +6,7 @@ import org.eclipse.microprofile.config.spi.Converter;
 
 /**
  * Converts a comma separated string to a String array
- * @author Phillip Kruger (phillip.kruger@phillip-kruger.com)
+ * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
 public class ArrayConverter implements Converter<String[]> {
 
