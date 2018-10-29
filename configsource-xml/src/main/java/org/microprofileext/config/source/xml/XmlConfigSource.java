@@ -75,7 +75,7 @@ public class XmlConfigSource extends AbstractUrlBasedSource {
         public void endElement(String uri, String localName, String qName) throws SAXException {
             final String value = valuebuffer.toString().trim();
             
-            String key = String.join(SEPARATOR, keybuffer);
+            String key = String.join(keySeparator, keybuffer);
             if (!value.isEmpty()){
                 if(result.containsKey(key)){
                     result.put(key, addToList(result.get(key),value));
@@ -102,8 +102,6 @@ public class XmlConfigSource extends AbstractUrlBasedSource {
         List<String> l = Arrays.asList(existing.split(COMMA));
         return l.toString();
     }
-    
-    private static final String SEPARATOR = "."; // TODO: Allow this to be configured ?
     
     private static final String OPEN_BRACKET = "[";
     private static final String CLOSE_BRACKET = "]";

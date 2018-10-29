@@ -56,16 +56,14 @@ public class JsonConfigSource extends AbstractUrlBasedSource {
     }
     
     private void populateEntry(Map<String,String> properties,String key, String mapKey, Map<String, Object> map){
+        String format = "%s" + keySeparator + "%s";
         if (map.get(mapKey) instanceof Map) {
-            populateMap(properties, String.format(FORMAT, key, mapKey), (Map<String, Object>) map.get(mapKey));
+            populateMap(properties, String.format(format, key, mapKey), (Map<String, Object>) map.get(mapKey));
         } else {
-            properties.put(String.format(FORMAT, key, mapKey), map.get(mapKey).toString());
+            properties.put(String.format(format, key, mapKey), map.get(mapKey).toString());
         }   
     }
     
-    private static final String FORMAT = "%s.%s"; // TODO: Allow this to be configured ?
-
-
     private Map<String, Object> jsonToMap(JsonObject json) {
         Map<String, Object> retMap = new HashMap<>();
 

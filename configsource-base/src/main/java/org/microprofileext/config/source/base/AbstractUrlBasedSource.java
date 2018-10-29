@@ -23,9 +23,11 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource {
     
     private final Map<String, String> properties;
     private final String url;
+    protected final String keySeparator;
     
     public AbstractUrlBasedSource(){
         log.log(Level.INFO, "Loading [{0}] MicroProfile ConfigSource", getFileExtension());
+        this.keySeparator = loadPropertyKeySeparator();
         this.url = loadUrlPath();
         this.properties = loadUrls(url);
         super.initOrdinal(500);
@@ -90,6 +92,11 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource {
         return getPrefix() + subKey;
     }
     
+    private String loadPropertyKeySeparator(){
+        Config cfg = ConfigProvider.getConfig();
+        return cfg.getOptionalValue(getConfigKey(KEY_SEPARATOR), String.class).orElse(DOT);
+    }
+    
     private String loadUrlPath(){
         Config cfg = ConfigProvider.getConfig();
         return cfg.getOptionalValue(getConfigKey(URL), String.class).orElse(getDefaultUrl());
@@ -113,6 +120,7 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource {
     private static final String UNDERSCORE = "_";
     private static final String DOT = ".";
     private static final String URL = "url";
+    private static final String KEY_SEPARATOR = "keyseparator";
     private static final String CONFIGSOURCE = "configsource";
     private static final String APPLICATION = "application";
     
