@@ -18,22 +18,6 @@ This source gets values from some properties file(s).
 
 ```
 
-## Configure options
-
-By default the config source will look for a file called `application.properties`. You can set the location(s) of the files:
-
-    configsource.properties.url=<here the url(s)>
-
-example:
-
-    configsource.properties.url=file:/tmp/myconfig.properties
-
-You can also add more than one location by comma-separating the location:
-
-    configsource.properties.url=file:/tmp/myconfig.json,http://localhost/mycongig.properties
-
-The latest files will override properties in previous files. As example, if using above configuration, property `foo=bar` in `file:/tmp/myconfig.properties` will be override if it's added to `http://localhost/mycongig.properties`.
-
 ## Example:
 
 ```properties
@@ -45,4 +29,42 @@ The latest files will override properties in previous files. As example, if usin
     location.path=/some/path
     location.jedis=[Yoda, Qui-Gon Jinn, Obi-Wan Kenobi, Luke Skywalker]
     
+```
+
+## Configure options
+
+### Url(s)
+
+By default the config source will look for a file called `application.properties`. You can set the location(s) of the files:
+
+    configsource.properties.url=<here the url(s)>
+
+example:
+
+    configsource.properties.url=file:/tmp/myconfig.properties
+
+You can also add more than one location by comma-separating the location:
+
+    configsource.properties.url=file:/tmp/myconfig.json,http://localhost/myconfig.properties
+
+The latest files will override properties in previous files. As example, if using above configuration, property `foo=bar` in `file:/tmp/myconfig.properties` will be override if it's added to `http://localhost/myconfig.properties`.
+
+### Key separator
+
+By default the separator used in the key is a DOT (.) example:
+
+```property
+    
+    "location.protocol": "http"
+```
+
+You can change this by setting `configsource.properties.keyseparator` to the desired separator, example:
+
+    configsource.properties.keyseparator=_
+
+will create:
+
+```property
+    
+    "location_protocol": "http"
 ```

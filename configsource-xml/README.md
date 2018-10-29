@@ -18,22 +18,6 @@ This source gets values from some xml file(s).
 
 ```
 
-## Configure options
-
-By default the config source will look for a file called `application.xml`. You can set the location(s) of the files:
-
-    configsource.xml.url=<here the url(s)>
-
-example:
-
-    configsource.xml.url=file:/tmp/myconfig.xml
-
-You can also add more than one location by comma-separating the location:
-
-    configsource.xml.url=file:/tmp/myconfig.xml,http://localhost/mycongig.xml
-
-The latest files will override properties in previous files. As example, if using above configuration, property `foo=bar` in `file:/tmp/myconfig.xml` will be override if it's added to `http://localhost/mycongig.xml`.
-
 ## Example:
 
 ```xml
@@ -65,4 +49,42 @@ will create the following properties:
     "location.path": "/some/path"
     "location.jedis": "[Yoda, Qui-Gon Jinn, Obi-Wan Kenobi, Luke Skywalker]"
 
+```
+
+## Configure options
+
+### Url(s)
+
+By default the config source will look for a file called `application.xml`. You can set the location(s) of the files:
+
+    configsource.xml.url=<here the url(s)>
+
+example:
+
+    configsource.xml.url=file:/tmp/myconfig.xml
+
+You can also add more than one location by comma-separating the location:
+
+    configsource.xml.url=file:/tmp/myconfig.xml,http://localhost/myconfig.xml
+
+The latest files will override properties in previous files. As example, if using above configuration, property `foo=bar` in `file:/tmp/myconfig.xml` will be override if it's added to `http://localhost/myconfig.xml`.
+
+### Key separator
+
+By default the separator used in the key is a DOT (.) example:
+
+```property
+    
+    "location.protocol": "http"
+```
+
+You can change this by setting `configsource.xml.keyseparator` to the desired separator, example:
+
+    configsource.xml.keyseparator=_
+
+will create:
+
+```property
+    
+    "location_protocol": "http"
 ```
