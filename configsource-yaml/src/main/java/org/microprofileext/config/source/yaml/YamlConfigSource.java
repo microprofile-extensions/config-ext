@@ -1,13 +1,11 @@
 package org.microprofileext.config.source.yaml;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
+import java.util.TreeMap;
 import lombok.extern.java.Log;
 import org.microprofileext.config.source.base.AbstractUrlBasedSource;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Yaml config source
@@ -22,29 +20,36 @@ public class YamlConfigSource extends AbstractUrlBasedSource {
     }
 
     @Override
-    protected Map<String, String> loadUrl(String url) {
-        log.log(Level.INFO, "Using [{0}] as yaml URL", url);
-        Map<String,String> map = new HashMap<>();
+    protected Map<String, String> toMap(InputStream inputStream) {
+        final Map<String,String> properties = new TreeMap<>();
+        Yaml yaml = new Yaml();
+        TreeMap<String, Object> yamlInput = yaml.loadAs(inputStream, TreeMap.class);
         
-        URL u;
-        InputStream inputStream = null;
-        
-        try {
-            u = new URL(url);
-            inputStream = u.openStream();
-            if (inputStream != null) {
-                YamlConverter yamlConverter = new YamlConverter(inputStream);
-                map = yamlConverter.getProperties();
-            }
-        } catch (IOException e) {
-            log.log(Level.WARNING, "Unable to read URL [{0}] - {1}", new Object[]{url, e.getMessage()});
-        } finally {
-            try {
-                if (inputStream != null)inputStream.close();
-            // no worries, means that the file is already closed
-            } catch (IOException e) {}
+        for (String key : yamlInput.keySet()) {
+            populateMap(properties,key, yamlInput.get(key));
         }
-        return map;
+        return properties;
     }
     
+    private void populateMap(Map<String,String> properties, String key, Object o) {
+        
+        if (o instanceof Map) {
+            Map map = (Map)o;
+            for (Object mapKey : map.keySet()) {
+                populateEntry(properties, key,mapKey.toString(),map);
+            }
+        }else{
+            if(o!=null)properties.put(key,o.toString());
+        }
+    }
+    
+    private void populateEntry(Map<String,String> properties, String key, String mapKey, Map<String, Object> map){
+        if (map.get(mapKey) instanceof Map) {
+            populateMap(properties, String.format(FORMAT, key, mapKey), (Map<String, Object>) map.get(mapKey));
+        } else {
+            properties.put(String.format(FORMAT, key, mapKey), map.get(mapKey).toString());
+        }   
+    }
+    
+    private static final String FORMAT = "%s.%s"; // TODO: Allow this to be configured ?
 }

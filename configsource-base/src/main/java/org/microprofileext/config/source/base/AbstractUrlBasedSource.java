@@ -1,5 +1,7 @@
 package org.microprofileext.config.source.base;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Paths;
@@ -48,10 +50,6 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource {
         return CLASS_KEY_PREFIX + UNDERSCORE + this.url;
     }
     
-    protected String getConfigKey(String subKey){
-        return getPrefix() + subKey;
-    }
-    
     private Map<String, String> loadUrls(String surl) {
         Map<String,String> map = new HashMap<>();
         String urls[] = surl.split(COMMA);
@@ -62,6 +60,34 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource {
             }
         }
         return map;
+    }
+    
+    private Map<String, String> loadUrl(String url) {
+        log.log(Level.INFO, "Using [{0}] as {1} URL", new Object[]{url, getFileExtension()});
+        Map<String,String> map = new HashMap<>();
+        
+        URL u;
+        InputStream inputStream = null;
+        
+        try {
+            u = new URL(url);
+            inputStream = u.openStream();
+            if (inputStream != null) {
+                map = toMap(inputStream);
+            }
+        } catch (IOException e) {
+            log.log(Level.WARNING, "Unable to read URL [{0}] - {1}", new Object[]{url, e.getMessage()});
+        } finally {
+            try {
+                if (inputStream != null)inputStream.close();
+            // no worries, means that the file is already closed
+            } catch (IOException e) {}
+        }
+        return map;
+    }
+    
+    private String getConfigKey(String subKey){
+        return getPrefix() + subKey;
     }
     
     private String loadUrlPath(){
@@ -91,6 +117,6 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource {
     private static final String APPLICATION = "application";
     
     protected abstract String getFileExtension();
-    protected abstract Map<String, String> loadUrl(String url);
+    protected abstract Map<String,String> toMap(final InputStream inputStream);
     
 }

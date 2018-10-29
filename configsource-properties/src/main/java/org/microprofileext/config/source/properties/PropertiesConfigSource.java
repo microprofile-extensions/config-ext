@@ -18,7 +18,6 @@ package org.microprofileext.config.source.properties;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -40,27 +39,12 @@ public class PropertiesConfigSource extends AbstractUrlBasedSource {
     }
 
     @Override
-    protected Map<String, String> loadUrl(String url) {
-        log.log(Level.INFO, "Using [{0}] as properties URL", url);
+    protected Map<String, String> toMap(InputStream inputStream) {
         Properties props = new Properties();
-        
-        URL u;
-        InputStream inputStream = null;
-        
-        try {
-            u = new URL(url);
-            inputStream = u.openStream();
-            if (inputStream != null) {
-                
-                props.load(inputStream);
-            }
+        try {    
+            props.load(inputStream);
         } catch (IOException e) {
-            log.log(Level.WARNING, "Unable to read URL [{0}] - {1}", new Object[]{url, e.getMessage()});
-        } finally {
-            try {
-                if (inputStream != null)inputStream.close();
-            // no worries, means that the file is already closed
-            } catch (IOException e) {}
+            log.log(Level.WARNING, "Unable to load properties [{0}]", e.getMessage());
         }
         return (Map) props;
     }

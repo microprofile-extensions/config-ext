@@ -1,11 +1,18 @@
 package org.microprofileext.config.source.json;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
+import java.util.TreeMap;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonException;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.json.JsonValue;
 import lombok.extern.java.Log;
 import org.microprofileext.config.source.base.AbstractUrlBasedSource;
 
@@ -22,28 +29,124 @@ public class JsonConfigSource extends AbstractUrlBasedSource {
     }
 
     @Override
-    protected Map<String, String> loadUrl(String url) {
-        log.log(Level.INFO, "Using [{0}] as json URL", url);
-        Map<String,String> map = new HashMap<>();
-        
-        URL u;
-        InputStream inputStream = null;
-        
-        try {
-            u = new URL(url);
-            inputStream = u.openStream();
-            if (inputStream != null) {
-                JsonConverter jsonConverter = new JsonConverter(inputStream);
-                map = jsonConverter.getProperties();
+    protected Map<String, String> toMap(final InputStream inputStream) {
+        final Map<String,String> properties = new TreeMap<>();
+                
+        try (JsonReader reader = Json.createReader(inputStream)) {
+            Map<String, Object> jsonMap = jsonToMap(reader.readObject());
+            
+            for (String key : jsonMap.keySet()) {
+                populateMap(properties,key, jsonMap.get(key));
             }
-        } catch (IOException e) {
-            log.log(Level.WARNING, "Unable to read URL [{0}] - {1}", new Object[]{url, e.getMessage()});
-        } finally {
-            try {
-                if (inputStream != null)inputStream.close();
-            // no worries, means that the file is already closed
-            } catch (IOException e) {}
+        }
+        
+        return properties;
+    }
+    
+    private void populateMap(Map<String,String> properties,String key, Object o) {
+        
+        if (o instanceof Map) {
+            Map map = (Map)o;
+            for (Object mapKey : map.keySet()) {
+                populateEntry(properties,key,mapKey.toString(),map);
+            }
+        }else{
+            if(o!=null)properties.put(key,o.toString());
+        }
+    }
+    
+    private void populateEntry(Map<String,String> properties,String key, String mapKey, Map<String, Object> map){
+        if (map.get(mapKey) instanceof Map) {
+            populateMap(properties, String.format(FORMAT, key, mapKey), (Map<String, Object>) map.get(mapKey));
+        } else {
+            properties.put(String.format(FORMAT, key, mapKey), map.get(mapKey).toString());
+        }   
+    }
+    
+    private static final String FORMAT = "%s.%s"; // TODO: Allow this to be configured ?
+
+
+    private Map<String, Object> jsonToMap(JsonObject json) {
+        Map<String, Object> retMap = new HashMap<>();
+
+        if(json != JsonObject.NULL) {
+            retMap = jsonObjectToMap(json);
+        }
+        return retMap;
+    }
+
+    private Object toObject(String key,JsonObject object){
+        JsonValue.ValueType valueType = object.getValueType();
+            
+        if(valueType.equals(JsonValue.ValueType.ARRAY)) {
+            return toList(object.getJsonArray(key));
+        }else if (valueType.equals(JsonValue.ValueType.OBJECT)) {
+            JsonValue jsonValue = object.get(key);
+            JsonValue.ValueType objectType = jsonValue.getValueType();
+
+            if(objectType.equals(JsonValue.ValueType.ARRAY)) {
+                return toList(object.getJsonArray(key));
+            }else if(objectType.equals(JsonValue.ValueType.STRING)){
+                return object.getString(key);
+            }else if(objectType.equals(JsonValue.ValueType.NUMBER)){
+                return object.getInt(key);
+            }else if(objectType.equals(JsonValue.ValueType.FALSE)){
+                return false;
+            }else if(objectType.equals(JsonValue.ValueType.TRUE)){
+                return true;
+            }else if(objectType.equals(JsonValue.ValueType.NULL)){
+                return null;
+            }else if(objectType.equals(JsonValue.ValueType.OBJECT)) {
+                return jsonObjectToMap(object.getJsonObject(key));
+            }else{
+                return object.get(key);
+            }
+        }else{
+            return object.get(key);
+        }
+    }
+    
+    private List<Object> toList(JsonArray array) {
+        List<Object> list = new ArrayList<>();
+        for(int i = 0; i < array.size(); i++) {
+            
+            
+            Object value = array.get(i);
+            if(value instanceof JsonArray) {
+                value = toList((JsonArray) value);
+            }else if(value instanceof JsonObject) {
+                value = jsonObjectToMap((JsonObject) value);
+            }else{
+                JsonValue jv = array.get(i);
+                JsonValue.ValueType objectType = jv.getValueType();
+                
+                if(objectType.equals(JsonValue.ValueType.STRING)){
+                    value = array.getString(i);
+                }else if(objectType.equals(JsonValue.ValueType.NUMBER)){
+                    value = array.getInt(i);
+                }else if(objectType.equals(JsonValue.ValueType.FALSE)){
+                    value = false;
+                }else if(objectType.equals(JsonValue.ValueType.TRUE)){
+                    value = true;
+                }else if(objectType.equals(JsonValue.ValueType.NULL)){
+                    value = null;
+                }
+            }
+            list.add(value);
+        }
+        return list;
+    }
+    
+    private Map<String, Object> jsonObjectToMap(JsonObject object) throws JsonException {
+        Map<String, Object> map = new HashMap<>();
+
+        Iterator<String> keysItr = object.keySet().iterator();
+        while(keysItr.hasNext()) {
+            String key = keysItr.next();
+            Object value = toObject(key,object);
+            map.put(key, value);
         }
         return map;
     }
+    
 }
