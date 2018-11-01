@@ -18,7 +18,6 @@ package org.microprofileext.config.source.base;
 import java.util.Collections;
 import java.util.Map;
 import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 
 /**
  * A config source that can be disabled by class or by instance (all vs each).
@@ -57,12 +56,9 @@ public abstract class EnabledConfigSource extends BaseConfigSource {
     }
 
     protected boolean isEnabled() {
-        Config cfg = ConfigProviderResolver.instance()
-                .getBuilder()
-                .addDefaultSources()
-                .build();
-        return cfg.getOptionalValue(INSTANCE_ENABLED_KEY, Boolean.class)
-                .orElse(cfg.getOptionalValue(CLASS_ENABLED_KEY, Boolean.class)
+        Config cnf = getConfig();
+        return cnf.getOptionalValue(INSTANCE_ENABLED_KEY, Boolean.class)
+                .orElse(cnf.getOptionalValue(CLASS_ENABLED_KEY, Boolean.class)
                         .orElse(DEFAULT_ENABLED));
     }
 

@@ -43,8 +43,8 @@ public class JsonConfigSource extends AbstractUrlBasedSource {
         return properties;
     }
     
-    private void populateMap(Map<String,String> properties,String key, Object o) {
-        
+    @SuppressWarnings("unchecked")
+    private void populateMap(Map<String,String> properties,String key, Object o) {    
         if (o instanceof Map) {
             Map map = (Map)o;
             for (Object mapKey : map.keySet()) {
@@ -55,6 +55,7 @@ public class JsonConfigSource extends AbstractUrlBasedSource {
         }
     }
     
+    @SuppressWarnings("unchecked")
     private void populateEntry(Map<String,String> properties,String key, String mapKey, Map<String, Object> map){
         String format = "%s" + keySeparator + "%s";
         if (map.get(mapKey) instanceof Map) {

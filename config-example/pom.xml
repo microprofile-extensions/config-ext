@@ -158,7 +158,7 @@
                                         <argument>-s</argument>
                                         <argument>${project.build.directory}${file.separator}project-defaults.yml</argument>
                                         <argument>-Sdev</argument>
-                                        <argument>-Dconfigsource.yaml.url=file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.yml,http://localhost/config.yml</argument>
+                                        <argument>-Dconfigsource.yaml.url=file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.yaml,http://localhost/config.yaml</argument>
                                         <argument>-Dconfigsource.json.url=file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.json,http://localhost/config.json</argument>
                                         <argument>-Dconfigsource.xml.url=file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.xml,http://localhost/config.xml</argument>
                                         <argument>-Dconfigsource.properties.url=file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.properties,http://localhost/config.properties</argument>

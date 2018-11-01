@@ -39,7 +39,7 @@ public class PropertiesConfigSource extends AbstractUrlBasedSource {
         return "properties";
     }
 
-    @Override
+    @Override @SuppressWarnings("unchecked")
     protected Map<String, String> toMap(InputStream inputStream) {
         Properties props = new Properties();
         try {    

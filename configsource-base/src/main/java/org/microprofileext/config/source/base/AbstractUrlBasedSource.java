@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import lombok.extern.java.Log;
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
 
 /**
  * URL Based property files
@@ -19,7 +17,7 @@ import org.eclipse.microprofile.config.ConfigProvider;
  * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
 @Log
-public abstract class AbstractUrlBasedSource extends EnabledConfigSource {
+public abstract class AbstractUrlBasedSource extends EnabledConfigSource{
     
     private final Map<String, String> properties;
     private final String url;
@@ -34,7 +32,7 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource {
     }
     
     @Override
-    public Map<String, String> getPropertiesIfEnabled() {
+    protected Map<String, String> getPropertiesIfEnabled() {
         return this.properties;
     }
 
@@ -93,13 +91,11 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource {
     }
     
     private String loadPropertyKeySeparator(){
-        Config cfg = ConfigProvider.getConfig();
-        return cfg.getOptionalValue(getConfigKey(KEY_SEPARATOR), String.class).orElse(DOT);
+        return getConfig().getOptionalValue(getConfigKey(KEY_SEPARATOR), String.class).orElse(DOT);
     }
     
     private String loadUrlPath(){
-        Config cfg = ConfigProvider.getConfig();
-        return cfg.getOptionalValue(getConfigKey(URL), String.class).orElse(getDefaultUrl());
+        return getConfig().getOptionalValue(getConfigKey(URL), String.class).orElse(getDefaultUrl());
     }
     
     private String getPrefix(){
@@ -123,6 +119,7 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource {
     private static final String KEY_SEPARATOR = "keyseparator";
     private static final String CONFIGSOURCE = "configsource";
     private static final String APPLICATION = "application";
+    
     
     protected abstract String getFileExtension();
     protected abstract Map<String,String> toMap(final InputStream inputStream);

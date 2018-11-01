@@ -108,8 +108,7 @@
         <module>configsource-properties</module>
         <module>configsource-yaml</module>
         <module>configsource-json</module>
-        <module>configsource-xml</module>
-        <module>configsource-file</module><!-- deprecated, or change to auto-detect ? -->
+        <module>configsource-xml</module><!-- deprecated, or change to auto-detect ? -->
         <module>configsource-etcd</module>
         <!-- converters -->
         <module>configconverter-list</module>

@@ -11,8 +11,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import lombok.extern.java.Log;
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
 import org.microprofileext.config.source.base.EnabledConfigSource;
 
 /**
@@ -100,10 +98,9 @@ public class EtcdConfigSource extends EnabledConfigSource {
         if(this.client == null ){
             log.info("Loading [etcd] MicroProfile ConfigSource");
 
-            Config cfg = ConfigProvider.getConfig();
-            String scheme = cfg.getOptionalValue(KEY_SCHEME, String.class).orElse(DEFAULT_SCHEME);
-            String host = cfg.getOptionalValue(KEY_HOST, String.class).orElse(DEFAULT_HOST);
-            String port = cfg.getOptionalValue(KEY_PORT, String.class).orElse(DEFAULT_PORT);
+            String scheme = getConfig().getOptionalValue(KEY_SCHEME, String.class).orElse(DEFAULT_SCHEME);
+            String host = getConfig().getOptionalValue(KEY_HOST, String.class).orElse(DEFAULT_HOST);
+            String port = getConfig().getOptionalValue(KEY_PORT, String.class).orElse(DEFAULT_PORT);
             
             String endpoint = String.format("%s://%s:%s",scheme,host,port);
             log.log(Level.INFO, "Using [{0}] as etcd server endpoint", endpoint);

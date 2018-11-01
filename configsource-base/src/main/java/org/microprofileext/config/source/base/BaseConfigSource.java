@@ -20,7 +20,10 @@
 package org.microprofileext.config.source.base;
 
 import java.util.logging.Level;
+import lombok.Getter;
 import lombok.extern.java.Log;
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
@@ -33,9 +36,16 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  */
 @Log
 public abstract class BaseConfigSource implements ConfigSource {
-
+    
+    @Getter
+    private final Config config;
     private int ordinal = 1000; // default
 
+    public BaseConfigSource(){
+        super();
+        this.config = createConfig();
+    }
+    
     @Override
     public int getOrdinal() {
         return ordinal;
@@ -63,4 +73,11 @@ public abstract class BaseConfigSource implements ConfigSource {
         }
     }
 
+    private Config createConfig(){
+        return ConfigProviderResolver.instance()
+            .getBuilder()
+            .addDefaultSources()
+            .build();
+    }
+    
 }

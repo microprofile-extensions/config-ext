@@ -12,7 +12,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 import lombok.extern.java.Log;
 import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
 import org.microprofileext.config.source.base.AbstractUrlBasedSource;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -43,7 +42,7 @@ public class XmlConfigSource extends AbstractUrlBasedSource {
     }
     
     private Map<String, String> parse(InputSource inputSource) throws SAXException, IOException, ParserConfigurationException {
-        final Handler handler = new Handler();
+        final Handler handler = new Handler(getConfig());
         SAXParserFactory.newInstance().newSAXParser().parse(inputSource, handler);
         return handler.result;
     }
@@ -56,8 +55,7 @@ public class XmlConfigSource extends AbstractUrlBasedSource {
         private boolean ignoreRoot = true;
         private int depth = -1;
         
-        public Handler(){
-            Config cfg = ConfigProvider.getConfig();
+        public Handler(Config cfg){
             this.ignoreRoot = cfg.getOptionalValue("configsource.xml.ignoreRoot", Boolean.class).orElse(true);
         }
         
