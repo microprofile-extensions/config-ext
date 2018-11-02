@@ -18,7 +18,7 @@
     <properties>
         <failOnMissingWebXml>false</failOnMissingWebXml>
         
-        <thorntail.version>2.2.0.Final</thorntail.version>
+        <thorntail.version>2.2.1.Final</thorntail.version>
         <thorntail.configDir>${basedir}${file.separator}src${file.separator}main${file.separator}resources</thorntail.configDir>
     </properties>
     
@@ -134,7 +134,7 @@
                         </executions>
                         <configuration>
                             <properties>
-                                <swarm.context.path>/${project.build.finalName}</swarm.context.path>
+                                <thorntail.context.path>/${project.build.finalName}</thorntail.context.path>
                             </properties>
                         </configuration>
                     </plugin>
