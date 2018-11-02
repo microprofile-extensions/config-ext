@@ -1,4 +1,4 @@
-swarm:
+thorntail:
     logging:
         loggers:
             org.microprofileext.config:
