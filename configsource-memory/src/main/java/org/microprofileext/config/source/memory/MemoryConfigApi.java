@@ -27,6 +27,7 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+import org.microprofileext.config.source.memory.event.EventKey;
 import org.microprofileext.config.source.memory.event.EventType;
 import org.microprofileext.config.source.memory.event.Type;
 
@@ -142,6 +143,7 @@ public class MemoryConfigApi {
         
         List<Annotation> annotationList = new ArrayList<>();
         annotationList.add(new EventType.EventTypeLiteral(type));
+        annotationList.add(new EventKey.EventKeyLiteral(key));
         
         Event<MemoryConfigEvent> selected = broadcaster.select(annotationList.toArray(new Annotation[annotationList.size()]));
         selected.fire(new MemoryConfigEvent(type, key, oldValue, newValue));

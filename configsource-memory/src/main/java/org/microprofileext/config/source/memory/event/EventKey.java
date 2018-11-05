@@ -14,15 +14,15 @@ import lombok.NoArgsConstructor;
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface EventType {
-    Type value();
+public @interface EventKey {
+    String value();
     
     @AllArgsConstructor @NoArgsConstructor
-    class EventTypeLiteral extends AnnotationLiteral<EventType> implements EventType {
-        private Type type;
+    class EventKeyLiteral extends AnnotationLiteral<EventKey> implements EventKey {
+        private String key;
         
-        public Type value(){
-            return this.type;
+        public String value(){
+            return this.key;         
         }
     }
 }
