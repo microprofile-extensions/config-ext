@@ -57,7 +57,7 @@ public class PropertiesConfigSource extends AbstractUrlBasedSource {
         for(Object k:keySet){
             String key = (String)k;
             String value = props.getProperty(key);
-            key = key.replaceAll("\\" + DOT, keySeparator);
+            key = key.replaceAll(WHACK_WHACK + DOT, keySeparator);
             nprops.put(key, value);
         }
         
@@ -65,4 +65,5 @@ public class PropertiesConfigSource extends AbstractUrlBasedSource {
     }
     
     private static final String DOT = ".";
+    private static final String WHACK_WHACK = "\\";
 }

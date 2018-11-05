@@ -15,8 +15,6 @@
     <description>A config that get the values from an xml file</description>
     
     <dependencies>
-        <!-- Add Jax-p -->
-
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>configsource-base</artifactId>

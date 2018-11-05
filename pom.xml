@@ -81,11 +81,20 @@
                 <version>${lombok.version}</version>
                 <scope>provided</scope>
             </dependency>
+            
+            <!-- For testing -->
+            <dependency>
+                <groupId>org.jboss.arquillian</groupId>
+                <artifactId>arquillian-bom</artifactId>
+                <version>1.4.0.Final</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
         </dependencies>
+        
     </dependencyManagement>
     
-    <dependencies>
-        
+    <dependencies>    
         <!-- MicroProfile -->
         <dependency>
             <groupId>org.eclipse.microprofile</groupId>
@@ -99,6 +108,49 @@
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
+        
+        <!-- Test -->
+<!--        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <version>2.0</version>
+            <scope>test</scope>
+        </dependency>-->
+        <dependency>
+            <groupId>org.jboss.weld</groupId>
+            <artifactId>weld-core-impl</artifactId>
+            <version>2.4.8.Final</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.container</groupId>
+            <artifactId>arquillian-weld-embedded</artifactId>
+            <version>2.0.0.Final</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.junit</groupId>
+            <artifactId>arquillian-junit-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.geronimo.config</groupId>
+            <artifactId>geronimo-config-impl</artifactId>
+            <version>1.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.11.1</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     
     <modules>
@@ -108,7 +160,7 @@
         <module>configsource-properties</module>
         <module>configsource-yaml</module>
         <module>configsource-json</module>
-        <module>configsource-xml</module><!-- deprecated, or change to auto-detect ? -->
+        <module>configsource-xml</module>
         <module>configsource-etcd</module>
         <!-- converters -->
         <module>configconverter-list</module>
