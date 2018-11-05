@@ -1,6 +1,11 @@
 package org.microprofileext.config.source.memory;
 
+import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.List;
+import org.microprofileext.config.source.memory.event.MemoryConfigEvent;
 import javax.annotation.PostConstruct;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -22,6 +27,8 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+import org.microprofileext.config.source.memory.event.EventType;
+import org.microprofileext.config.source.memory.event.Type;
 
 /**
  * Expose the config as a REST endpoint
@@ -39,6 +46,9 @@ public class MemoryConfigApi {
     
     @Inject @ConfigProperty(name = "microprofile-ext.config.source.memory.enabled", defaultValue = "true")
     private boolean enabled;
+    
+    @Inject
+    private Event<MemoryConfigEvent> broadcaster;
     
     @PostConstruct
     public void init(){
@@ -82,7 +92,7 @@ public class MemoryConfigApi {
     public Response getValue(@Parameter(name = "key", description = "The key for this config", required = true, allowEmptyValue = false, example = "some.key")
                              @PathParam("key") String key) {
         if(!enabled)return Response.status(Response.Status.FORBIDDEN).header(REASON, NOT_ENABLED).build();
-        return Response.ok(config.getValue(key, String.class)).build();
+        return Response.ok(config.getOptionalValue(key, String.class).orElse(null)).build();
     }
     
     @PUT
@@ -94,6 +104,9 @@ public class MemoryConfigApi {
                              @PathParam("key") String key, 
                              @RequestBody(description = "Value for this key") String value) {
         if(!enabled)return Response.status(Response.Status.FORBIDDEN).header(REASON, NOT_ENABLED).build();
+        
+        fireEvent(key,value);
+        
         memoryConfigSource.getProperties().put(key, value);
         return Response.accepted().build();
     }
@@ -105,8 +118,33 @@ public class MemoryConfigApi {
     public Response removeValue(@Parameter(name = "key", description = "The key for this config", required = true, allowEmptyValue = false, example = "some.key")
                                 @PathParam("key") String key) {
         if(!enabled)return Response.status(Response.Status.FORBIDDEN).header(REASON, NOT_ENABLED).build();
+        
+        fireEvent(Type.REVERT,key,null);
+        
         memoryConfigSource.getProperties().remove(key);
         return Response.accepted().build();
+    }
+    
+    private void fireEvent(String key,String newValue){
+        fireEvent(null,key,newValue);
+    }
+    
+    private void fireEvent(Type type,String key,String newValue){
+        String oldValue = config.getOptionalValue(key, String.class).orElse(null);
+        
+        if(type==null){
+            if(oldValue==null || oldValue.isEmpty()){
+                type = Type.NEW;
+            }else{
+                type = Type.OVERRIDE;
+            }
+        }
+        
+        List<Annotation> annotationList = new ArrayList<>();
+        annotationList.add(new EventType.EventTypeLiteral(type));
+        
+        Event<MemoryConfigEvent> selected = broadcaster.select(annotationList.toArray(new Annotation[annotationList.size()]));
+        selected.fire(new MemoryConfigEvent(type, key, oldValue, newValue));
     }
     
     private ConfigSource getMemoryConfigSource() {
@@ -117,5 +155,5 @@ public class MemoryConfigApi {
     }
     
     private static final String REASON = "reason";
-    private static final String NOT_ENABLED = "The Memory config source REST API is disabled [microprofile-ext.config.source.memory.enabled=false]"; 
+    private static final String NOT_ENABLED = "The Memory config source REST API is disabled [MemoryConfigSource.enabled=false]"; 
 }

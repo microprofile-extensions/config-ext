@@ -24,6 +24,13 @@
     
     <dependencies>
         
+        <!-- Memory -->
+        <dependency>
+            <groupId>org.microprofile-ext.config-ext</groupId>
+            <artifactId>configsource-memory</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
         <!-- Yaml file -->
         <dependency>
             <groupId>org.microprofile-ext.config-ext</groupId>
