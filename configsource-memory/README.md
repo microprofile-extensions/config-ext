@@ -13,7 +13,6 @@ This source gets and sets values in memory. Useful when you want to change confi
         <groupId>org.microprofile-ext.config-ext</groupId>
         <artifactId>configsource-memory</artifactId>
         <version>XXXX</version>
-        <scope>runtime</scope>
     </dependency>
 
 ```
