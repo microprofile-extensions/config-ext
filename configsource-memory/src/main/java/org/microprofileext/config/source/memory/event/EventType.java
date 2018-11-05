@@ -15,14 +15,14 @@ import lombok.NoArgsConstructor;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface EventType {
-    Type type();
+    Type value();
     
     @AllArgsConstructor @NoArgsConstructor
     class EventTypeLiteral extends AnnotationLiteral<EventType> implements EventType {
 
         private Type type;
     
-        public Type type(){
+        public Type value(){
             return this.type;
         }
     }

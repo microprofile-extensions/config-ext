@@ -17,17 +17,17 @@ import org.microprofileext.config.source.memory.event.Type;
 public class MemoryEventListener {
 
     // Get only new values
-    public void newValue(@Observes @EventType(type = Type.NEW) MemoryConfigEvent memoryConfigEvent){
+    public void newValue(@Observes @EventType(Type.NEW) MemoryConfigEvent memoryConfigEvent){
         log.log(Level.SEVERE, "NEW: Received a memory config event: {0}", memoryConfigEvent);
     }
     
     // Get only override values
-    public void overrideValue(@Observes @EventType(type = Type.OVERRIDE) MemoryConfigEvent memoryConfigEvent){
+    public void overrideValue(@Observes @EventType(Type.OVERRIDE) MemoryConfigEvent memoryConfigEvent){
         log.log(Level.SEVERE, "OVERRIDE: Received a memory config event: {0}", memoryConfigEvent);
     }
     
     // Get only revert values
-    public void revertValue(@Observes @EventType(type = Type.REVERT) MemoryConfigEvent memoryConfigEvent){
+    public void revertValue(@Observes @EventType(Type.REVERT) MemoryConfigEvent memoryConfigEvent){
         log.log(Level.SEVERE, "REVERT: Received a memory config event: {0}", memoryConfigEvent);
     }
     
