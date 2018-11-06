@@ -1,3 +1,5 @@
+[Back to config-ext](https://github.com/microprofile-extensions/config-ext/blob/master/README.md)
+
 # Xml Config Source
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configsource-xml/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configsource-xml)
@@ -88,3 +90,19 @@ will create:
     
     "location_protocol": "http"
 ```
+### Include root
+
+By default the root element of the XML is ignored. You can include the root by setting this property:
+
+    configsource.xml.ignoreRoot=false
+    
+Using the example above, this will create the following properties:
+
+```property
+    
+    "root.somekey": "somevalue"
+    "root.location.protocol": "http"
+    "root.location.host": "localhost"
+    "root.location.port": "8080"
+    "root.location.path": "/some/path"
+    "root.location.jedis": "[Yoda, Qui-Gon Jinn, Obi-Wan Kenobi, Luke Skywalker]"    
