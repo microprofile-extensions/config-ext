@@ -98,7 +98,7 @@ You can listen to all or some of these events, filtering by Type and/or key, exa
 
 ```
 
-Note: You can filter by including the `@EventType`.
+**Note:** You can filter by including the `@EventType` and/or the `@EventKey`.
 
 ## Configure options
 
