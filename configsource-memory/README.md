@@ -1,4 +1,4 @@
-# Config API extension | Memory config source
+# Memory config source
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configsource-memory/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configsource-memory)
 [![Javadocs](https://www.javadoc.io/badge/org.microprofile-ext.config-ext/configsource-memory.svg)](https://www.javadoc.io/doc/org.microprofile-ext.config-ext/configsource-memory)
