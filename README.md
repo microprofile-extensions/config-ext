@@ -6,13 +6,13 @@ ___________
 Here you will find some extra Config sources and Config converters for MicroProfile Config API.
 
 ### Config Sources
-* [Memory Config source](https://github.com/microprofile-extensions/config-ext/tree/master/configsource-memory)
-* [Properties Config source](https://github.com/microprofile-extensions/config-ext/tree/master/configsource-properties)
-* [Yaml Config source](https://github.com/microprofile-extensions/config-ext/tree/master/configsource-yaml)
-* [Json Config source](https://github.com/microprofile-extensions/config-ext/tree/master/configsource-json)
-* [Xml Config source](https://github.com/microprofile-extensions/config-ext/tree/master/configsource-xml)
-* [Etcd Config source](https://github.com/microprofile-extensions/config-ext/tree/master/configsource-etcd)
+* [Memory Config source](https://github.com/microprofile-extensions/config-ext/blob/master/configsource-memory/README.md)
+* [Properties Config source](https://github.com/microprofile-extensions/config-ext/blob/master/configsource-properties/README.md)
+* [Yaml Config source](https://github.com/microprofile-extensions/config-ext/blob/master/configsource-yaml/README.md)
+* [Json Config source](https://github.com/microprofile-extensions/config-ext/blob/master/configsource-json/README.md)
+* [Xml Config source](https://github.com/microprofile-extensions/config-ext/blob/master/configsource-xml/README.md)
+* [Etcd Config source](https://github.com/microprofile-extensions/config-ext/blob/master/configsource-etcd/README.md)
 
 ### Config Converters
-* [List Config converter](https://github.com/microprofile-extensions/config-ext/tree/master/configconverter-list)
-* [Json Config converter](https://github.com/microprofile-extensions/config-ext/tree/master/configconverter-json)
+* [List Config converter](https://github.com/microprofile-extensions/config-ext/blob/master/configconverter-list/README.md)
+* [Json Config converter](https://github.com/microprofile-extensions/config-ext/blob/master/configconverter-json/README.md)
