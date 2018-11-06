@@ -1,4 +1,4 @@
-Part of [Extensions for MicroProfile](https://www.microprofile-ext.org/)
+[Extensions for MicroProfile](https://www.microprofile-ext.org/)
 
 # Config Extensions
 
