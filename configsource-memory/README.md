@@ -1,6 +1,7 @@
+[Back to config-ext](https://github.com/microprofile-extensions/config-ext/blob/master/README.md)
+
 # Memory config source
 
-[Back to config-ext](https://github.com/microprofile-extensions/config-ext/blob/master/README.md)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configsource-memory/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configsource-memory)
 [![Javadocs](https://www.javadoc.io/badge/org.microprofile-ext.config-ext/configsource-memory.svg)](https://www.javadoc.io/doc/org.microprofile-ext.config-ext/configsource-memory)
 
