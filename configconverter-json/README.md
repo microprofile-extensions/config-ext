@@ -1,4 +1,4 @@
-# Config API extension | Json converter
+# Json converter
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configconverter-json/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configconverter-json)
 [![Javadocs](https://www.javadoc.io/badge/org.microprofile-ext.config-ext/configconverter-json.svg)](https://www.javadoc.io/doc/org.microprofile-ext.config-ext/configconverter-json)
