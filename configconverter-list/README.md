@@ -1,4 +1,4 @@
-# Config API extension | List Converter
+# List Converter
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configconverter-list/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configconverter-list)
 [![Javadocs](https://www.javadoc.io/badge/org.microprofile-ext.config-ext/configconverter-list.svg)](https://www.javadoc.io/doc/org.microprofile-ext.config-ext/configconverter-list)
