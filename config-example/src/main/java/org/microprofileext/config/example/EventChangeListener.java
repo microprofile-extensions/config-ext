@@ -18,7 +18,7 @@ import org.microprofileext.config.event.TypeFilter;
 @RequestScoped
 public class EventChangeListener {
 
-    // Getting all memory config event
+    // Getting all config event
     public void all(@Observes ChangeEvent changeEvent){
         log.log(Level.SEVERE, "ALL: Received a config change event: {0}", changeEvent);
     }

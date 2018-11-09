@@ -36,11 +36,11 @@ There are 3 types:
 
 ### Observing events:
 
-You can listen to all or some of these events, filtering by Type and/or key and/or Source, example:
+You can listen to all or some of these events, filtering by `type` and/or `key` and/or `source`, example:
 
 ```java
 
-    // Getting all memory config event
+    // Getting all config event
     public void all(@Observes ChangeEvent changeEvent){
         log.log(Level.SEVERE, "ALL: Received a config change event: {0}", changeEvent);
     }
@@ -133,5 +133,3 @@ When a config value change we fire an event:
     }
 
 ```
-
-
