@@ -24,7 +24,7 @@ Util library for config sources that fire events on changes
 The CDI Event is a `ChangeEvent` and contains the following fields: 
 
 * String key
-* Optional<String> oldValue
+* Optional (String) oldValue
 * String newValue 
 * Type type
 
