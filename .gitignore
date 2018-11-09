@@ -33,3 +33,5 @@ hs_err_pid*
 /configsource-json/target/
 /configsource-xml/target/
 /configsource-properties/target/
+/config-events/target/
+/configsource-providers/target/

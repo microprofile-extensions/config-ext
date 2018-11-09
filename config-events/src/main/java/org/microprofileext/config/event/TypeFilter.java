@@ -1,4 +1,4 @@
-package org.microprofileext.config.source.memory.event;
+package org.microprofileext.config.event;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Target;
@@ -14,15 +14,15 @@ import lombok.NoArgsConstructor;
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface EventKey {
-    String value();
+public @interface TypeFilter {
+    Type value();
     
     @AllArgsConstructor @NoArgsConstructor
-    class EventKeyLiteral extends AnnotationLiteral<EventKey> implements EventKey {
-        private String key;
+    class TypeFilterLiteral extends AnnotationLiteral<TypeFilter> implements TypeFilter {
+        private Type type;
         
-        public String value(){
-            return this.key;         
+        public Type value(){
+            return this.type;
         }
     }
 }

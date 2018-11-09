@@ -5,7 +5,7 @@
 [![build_status](https://travis-ci.com/microprofile-extensions/config-ext.svg?branch=master)](https://travis-ci.com/microprofile-extensions/config-ext)
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://github.com/microprofile-extensions/config-ext/blob/master/LICENSE)
 ___________
-Here you will find some extra Config sources and Config converters for MicroProfile Config API.
+Here you will find some extra Config sources, Config converters and some utils for MicroProfile Config API.
 
 ### Config Sources
 * [Memory Config source](https://github.com/microprofile-extensions/config-ext/blob/master/configsource-memory/README.md)
@@ -14,6 +14,10 @@ Here you will find some extra Config sources and Config converters for MicroProf
 * [Json Config source](https://github.com/microprofile-extensions/config-ext/blob/master/configsource-json/README.md)
 * [Xml Config source](https://github.com/microprofile-extensions/config-ext/blob/master/configsource-xml/README.md)
 * [Etcd Config source](https://github.com/microprofile-extensions/config-ext/blob/master/configsource-etcd/README.md)
+
+### Config utils
+* [Config events](https://github.com/microprofile-extensions/config-ext/blob/master/config-events/README.md)
+* [Config source CDI Providers](https://github.com/microprofile-extensions/config-ext/blob/master/configsource-providers/README.md)
 
 ### Config Converters
 * [List Config converter](https://github.com/microprofile-extensions/config-ext/blob/master/configconverter-list/README.md)

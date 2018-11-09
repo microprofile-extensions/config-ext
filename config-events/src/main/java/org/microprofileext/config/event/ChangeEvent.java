@@ -1,18 +1,19 @@
-package org.microprofileext.config.source.memory.event;
+package org.microprofileext.config.event;
 
 import java.io.Serializable;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * an event on memory config
+ * an event on config element
  * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
 @Data @AllArgsConstructor @NoArgsConstructor
-public class MemoryConfigEvent implements Serializable {
+public class ChangeEvent implements Serializable {
     private Type type;
     private String key;
-    private String oldValue;
+    private Optional<String> oldValue;
     private String newValue;   
 }

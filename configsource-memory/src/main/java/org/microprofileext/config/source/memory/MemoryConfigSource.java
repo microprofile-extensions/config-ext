@@ -20,7 +20,6 @@ public class MemoryConfigSource extends EnabledConfigSource {
         super.initOrdinal(900);
     }
     
-    
     @Override
     public Map<String, String> getPropertiesIfEnabled() {
         return PROPERTIES;

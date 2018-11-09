@@ -1,4 +1,4 @@
-package org.microprofileext.config.source.memory.event;
+package org.microprofileext.config.event;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Target;
@@ -10,19 +10,23 @@ import javax.enterprise.util.AnnotationLiteral;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+/**
+ * Filter the event on the key
+ * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
+ */
 @Qualifier
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface EventType {
-    Type value();
+public @interface KeyFilter {
+    String value();
     
     @AllArgsConstructor @NoArgsConstructor
-    class EventTypeLiteral extends AnnotationLiteral<EventType> implements EventType {
-        private Type type;
+    class KeyFilterLiteral extends AnnotationLiteral<KeyFilter> implements KeyFilter {
+        private String key;
         
-        public Type value(){
-            return this.type;
+        public String value(){
+            return this.key;         
         }
     }
 }

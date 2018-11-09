@@ -19,6 +19,16 @@
             <artifactId>configsource-base</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>config-events</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>configsource-providers</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     
 </project>

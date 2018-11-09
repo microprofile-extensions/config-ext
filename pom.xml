@@ -147,6 +147,9 @@
     </dependencies>
     
     <modules>
+        <!-- utils -->
+        <module>config-events</module>
+        <module>configsource-providers</module>
         <!-- sources -->
         <module>configsource-base</module>
         <module>configsource-memory</module>
@@ -160,6 +163,7 @@
         <module>configconverter-json</module>
         <!-- example -->
         <module>config-example</module>
+        
     </modules>
     
     <profiles>
