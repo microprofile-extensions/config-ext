@@ -19,7 +19,7 @@ Util library for config sources that fire events on changes
 
 ```
 
-## Usage
+## The event
 
 The CDI Event is a `ChangeEvent` and contains the following fields: 
 

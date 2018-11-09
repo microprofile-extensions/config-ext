@@ -19,7 +19,7 @@ Util library that makes all Configsources available via CDI
 
 ```
 
-## Injecting
+## Injecting sources
 
 You can inject a certain ConfigSource by referencing it by name:
 
