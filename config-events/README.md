@@ -28,7 +28,7 @@ The CDI Event is a `ChangeEvent` and contains the following fields:
 * String newValue 
 * Type type
 
-There are 3 type: 
+There are 3 types: 
 
 * NEW - When you create a new key and value (i.e. the key does not exist anywhere in any config source)
 * OVERRIDE - When you override a value of an existing key (i.e. the key and value exist somewhere in a config source)
