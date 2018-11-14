@@ -4,12 +4,11 @@
     <parent>
         <groupId>org.microprofile-ext</groupId>
         <artifactId>config-ext</artifactId>
-        <version>1.0.2-SNAPSHOT</version>
+        <version>1.0.2</version>
     </parent>
     
     <groupId>org.microprofile-ext.config-ext</groupId>
     <artifactId>configsource-json</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
     
     <name>Microprofile Config Extensions :: Json config source</name>
     <description>A config that get the values from a json file</description>
