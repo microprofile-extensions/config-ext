@@ -25,6 +25,7 @@ public @interface KeyFilter {
     class KeyFilterLiteral extends AnnotationLiteral<KeyFilter> implements KeyFilter {
         private String key;
         
+        @Override
         public String value(){
             return this.key;         
         }

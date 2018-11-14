@@ -4,7 +4,7 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.TreeMap;
 import lombok.extern.java.Log;
-import org.microprofileext.config.source.base.AbstractUrlBasedSource;
+import org.microprofileext.config.source.base.file.AbstractUrlBasedSource;
 import org.yaml.snakeyaml.Yaml;
 
 /**
@@ -46,7 +46,7 @@ public class YamlConfigSource extends AbstractUrlBasedSource {
     
     @SuppressWarnings("unchecked")
     private void populateEntry(Map<String,String> properties, String key, String mapKey, Map<String, Object> map){
-        String format = "%s" + keySeparator + "%s";
+        String format = "%s" + super.getKeySeparator() + "%s";
         if (map.get(mapKey) instanceof Map) {
             populateMap(properties, String.format(format, key, mapKey), (Map<String, Object>) map.get(mapKey));
         } else {

@@ -21,6 +21,7 @@ public @interface TypeFilter {
     class TypeFilterLiteral extends AnnotationLiteral<TypeFilter> implements TypeFilter {
         private Type type;
         
+        @Override
         public Type value(){
             return this.type;
         }

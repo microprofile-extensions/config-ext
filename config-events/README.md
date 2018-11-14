@@ -27,12 +27,13 @@ The CDI Event is a `ChangeEvent` and contains the following fields:
 * Optional (String) oldValue
 * String newValue 
 * Type type
+* String fromSource
 
 There are 3 types: 
 
 * NEW - When you create a new key and value (i.e. the key does not exist anywhere in any config source)
-* OVERRIDE - When you override a value of an existing key (i.e. the key and value exist somewhere in a config source)
-* REVERT - When you remove the value added to a NEW or OVERRIDE key (i.e revert to the state on startup)
+* UPDATE - When you update a value of an existing key (i.e. the key and value exist somewhere in a config source)
+* REMOVE - When you remove the value from the source (i.e revert to the state on startup)
 
 ### Observing events:
 
@@ -51,13 +52,13 @@ You can listen to all or some of these events, filtering by `type` and/or `key` 
     }
     
     // Get only override values
-    public void overrideValue(@Observes @TypeFilter(Type.OVERRIDE) ChangeEvent changeEvent){
-        log.log(Level.SEVERE, "OVERRIDE: Received a config change event: {0}", changeEvent);
+    public void overrideValue(@Observes @TypeFilter(Type.UPDATE) ChangeEvent changeEvent){
+        log.log(Level.SEVERE, "UPDATE: Received a config change event: {0}", changeEvent);
     }
     
     // Get only revert values
-    public void revertValue(@Observes @TypeFilter(Type.REVERT) ChangeEvent changeEvent){
-        log.log(Level.SEVERE, "REVERT: Received a config change event: {0}", changeEvent);
+    public void revertValue(@Observes @TypeFilter(Type.REMOVE) ChangeEvent changeEvent){
+        log.log(Level.SEVERE, "REMOVE: Received a config change event: {0}", changeEvent);
     }
     
     // Getting all config event when key is some.key
@@ -71,13 +72,13 @@ You can listen to all or some of these events, filtering by `type` and/or `key` 
     }
     
     // Getting all config event when key is some.key for override events
-    public void overrideForKey(@Observes @TypeFilter(Type.OVERRIDE) @KeyFilter("some.key") ChangeEvent changeEvent){
-        log.log(Level.SEVERE, "OVERRIDE for key [some.key]: Received a config change event: {0}", changeEvent);
+    public void overrideForKey(@Observes @TypeFilter(Type.UPDATE) @KeyFilter("some.key") ChangeEvent changeEvent){
+        log.log(Level.SEVERE, "UPDATE for key [some.key]: Received a config change event: {0}", changeEvent);
     }
     
     // Getting all config event when key is some.key for revert events
-    public void revertForKey(@Observes @TypeFilter(Type.REVERT) @KeyFilter("some.key") ChangeEvent changeEvent){
-        log.log(Level.SEVERE, "REVERT for key [some.key]: Received a config change event: {0}", changeEvent);
+    public void revertForKey(@Observes @TypeFilter(Type.REMOVE) @KeyFilter("some.key") ChangeEvent changeEvent){
+        log.log(Level.SEVERE, "REMOVE for key [some.key]: Received a config change event: {0}", changeEvent);
     }
     
     // Getting all config events for a certain source
@@ -91,8 +92,8 @@ You can listen to all or some of these events, filtering by `type` and/or `key` 
     }
     
     // Getting all config events for a certain source
-    public void overrideForSourceAndKey(@Observes @TypeFilter(Type.OVERRIDE) @SourceFilter("MemoryConfigSource") @KeyFilter("some.key")  ChangeEvent changeEvent){
-        log.log(Level.SEVERE, "OVERRIDE for source [MemoryConfigSource] and for key [some.key]: Received a config change event: {0}", changeEvent);
+    public void overrideForSourceAndKey(@Observes @TypeFilter(Type.UPDATE) @SourceFilter("MemoryConfigSource") @KeyFilter("some.key")  ChangeEvent changeEvent){
+        log.log(Level.SEVERE, "UPDATE for source [MemoryConfigSource] and for key [some.key]: Received a config change event: {0}", changeEvent);
     }
 
 ```
@@ -103,33 +104,30 @@ Note: You can filter by including the `@TypeFilter` and/or the `@KeyFilter` and/
 
 An example of a source that uses this is [Memory Config source](https://github.com/microprofile-extensions/config-ext/blob/master/configsource-memory/README.md)
 
-When a config value change we fire an event:
+`org.microprofileext.config.event.ChangeEventNotifier` is a bean that makes it easy to detect changes and fire the appropriate events. 
+
+To use it in your own source:
+
+* Get a snapshot of the properties before the change.
+* Get a snapshot of the properties after the change.
+* Call `detectChangesAndFire` method:
+
+Example: 
+
+```java
+    
+    Map<String,String> before = new HashMap<>(memoryConfigSource.getProperties());
+    memoryConfigSource.getProperties().remove(key);
+    Map<String,String> after = new HashMap<>(memoryConfigSource.getProperties());
+    ChangeEventNotifier.getInstance().detectChangesAndFire(before, after,MemoryConfigSource.NAME)
+
+```
+
+or if you know the change and do not need detection:
 
 ```java
 
-    private void fireEvent(Type type,String key,String newValue){
-        String oldValue = config.getOptionalValue(key, String.class).orElse(null);
-        
-        if(type==null){
-            if(oldValue==null || oldValue.isEmpty()){
-                type = Type.NEW;
-            }else{
-                type = Type.OVERRIDE;
-            }
-        }
-        
-        List<Annotation> annotationList = new ArrayList<>();
-        annotationList.add(new TypeFilter.TypeFilterLiteral(type));
-        annotationList.add(new KeyFilter.KeyFilterLiteral(key));
-        annotationList.add(new SourceFilter.SourceFilterLiteral(MemoryConfigSource.NAME));
-        
-        Event<ChangeEvent> selected = broadcaster.select(annotationList.toArray(new Annotation[annotationList.size()]));
-        selected.fire(new ChangeEvent(type, key, getOptionalOldValue(oldValue), newValue));
-    }
-    
-    private Optional<String> getOptionalOldValue(String oldValue){
-        if(oldValue==null || oldValue.isEmpty())return Optional.empty();
-        return Optional.of(oldValue);
-    }
+    memoryConfigSource.getProperties().remove(key);
+    ChangeEventNotifier.getInstance().fire(new ChangeEvent(Type.REMOVE,key,getOptionalOldValue(oldValue),null,MemoryConfigSource.NAME));
 
 ```

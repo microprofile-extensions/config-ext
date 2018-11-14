@@ -1,13 +1,8 @@
 package org.microprofileext.config.source.memory;
 
-import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
-import org.microprofileext.config.event.ChangeEvent;
-import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -33,10 +28,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.microprofileext.config.cdi.Name;
 import org.microprofileext.config.cdi.ConfigSourceMap;
-import org.microprofileext.config.event.Type;
-import org.microprofileext.config.event.KeyFilter;
-import org.microprofileext.config.event.SourceFilter;
-import org.microprofileext.config.event.TypeFilter;
+import org.microprofileext.config.event.ChangeEventNotifier;
 
 /**
  * Expose the config as a REST endpoint
@@ -59,8 +51,8 @@ public class MemoryConfigApi {
     @Inject @ConfigProperty(name = "MemoryConfigSource.enabled", defaultValue = "true")
     private boolean enabled;
     
-    @Inject
-    private Event<ChangeEvent> broadcaster;
+    @Inject @ConfigProperty(name = "MemoryConfigSource.notifyOnChanges", defaultValue = "true")
+    private boolean notifyOnChange;
     
     @GET
     @Path("/all")
@@ -137,9 +129,11 @@ public class MemoryConfigApi {
                              @RequestBody(description = "Value for this key") String value) {
         if(!enabled)return Response.status(Response.Status.FORBIDDEN).header(REASON, NOT_ENABLED).build();
         
-        fireEvent(key,value);
-        
+        Map<String,String> before = new HashMap<>(memoryConfigSource.getProperties());
         memoryConfigSource.getProperties().put(key, value);
+        Map<String,String> after = new HashMap<>(memoryConfigSource.getProperties());
+        if(notifyOnChange)ChangeEventNotifier.getInstance().detectChangesAndFire(before, after,MemoryConfigSource.NAME);
+        
         return Response.accepted().build();
     }
 
@@ -151,43 +145,16 @@ public class MemoryConfigApi {
                                 @PathParam("key") String key) {
         if(!enabled)return Response.status(Response.Status.FORBIDDEN).header(REASON, NOT_ENABLED).build();
         
-        fireEvent(Type.REVERT,key,null);
-        
+        Map<String,String> before = new HashMap<>(memoryConfigSource.getProperties());
         memoryConfigSource.getProperties().remove(key);
+        Map<String,String> after = new HashMap<>(memoryConfigSource.getProperties());
+        if(notifyOnChange)ChangeEventNotifier.getInstance().detectChangesAndFire(before, after,MemoryConfigSource.NAME);
+        
         return Response.accepted().build();
     }
     
     private JsonObject toJsonObject(ConfigSource source){
         return Json.createObjectBuilder().add(String.valueOf(source.getOrdinal()), source.getName()).build();
-    }
-    
-    private void fireEvent(String key,String newValue){
-        fireEvent(null,key,newValue);
-    }
-    
-    private void fireEvent(Type type,String key,String newValue){
-        String oldValue = config.getOptionalValue(key, String.class).orElse(null);
-        
-        if(type==null){
-            if(oldValue==null || oldValue.isEmpty()){
-                type = Type.NEW;
-            }else{
-                type = Type.OVERRIDE;
-            }
-        }
-        
-        List<Annotation> annotationList = new ArrayList<>();
-        annotationList.add(new TypeFilter.TypeFilterLiteral(type));
-        annotationList.add(new KeyFilter.KeyFilterLiteral(key));
-        annotationList.add(new SourceFilter.SourceFilterLiteral(MemoryConfigSource.NAME));
-        
-        Event<ChangeEvent> selected = broadcaster.select(annotationList.toArray(new Annotation[annotationList.size()]));
-        selected.fire(new ChangeEvent(type, key, getOptionalOldValue(oldValue), newValue));
-    }
-    
-    private Optional<String> getOptionalOldValue(String oldValue){
-        if(oldValue==null || oldValue.isEmpty())return Optional.empty();
-        return Optional.of(oldValue);
     }
     
     private Response allToJson() {

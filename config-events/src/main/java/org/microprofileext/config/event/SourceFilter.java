@@ -21,6 +21,7 @@ public @interface SourceFilter {
     class SourceFilterLiteral extends AnnotationLiteral<SourceFilter> implements SourceFilter {
         private String name;
         
+        @Override
         public String value(){
             return this.name;
         }

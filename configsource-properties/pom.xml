@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>configsource-base</artifactId>
+            <artifactId>configsource-filebase</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

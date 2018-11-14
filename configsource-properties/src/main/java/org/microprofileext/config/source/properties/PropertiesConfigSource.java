@@ -23,7 +23,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 import lombok.extern.java.Log;
-import org.microprofileext.config.source.base.AbstractUrlBasedSource;
+import org.microprofileext.config.source.base.file.AbstractUrlBasedSource;
 
 /**
  * Properties config source
@@ -44,7 +44,7 @@ public class PropertiesConfigSource extends AbstractUrlBasedSource {
         Properties props = new Properties();
         try {    
             props.load(inputStream);
-            if(!keySeparator.equalsIgnoreCase(DOT))props = changeKeySeparator(props);
+            if(!super.getKeySeparator().equalsIgnoreCase(DOT))props = changeKeySeparator(props);
         } catch (IOException e) {
             log.log(Level.WARNING, "Unable to load properties [{0}]", e.getMessage());
         }
@@ -57,7 +57,7 @@ public class PropertiesConfigSource extends AbstractUrlBasedSource {
         for(Object k:keySet){
             String key = (String)k;
             String value = props.getProperty(key);
-            key = key.replaceAll(WHACK_WHACK + DOT, keySeparator);
+            key = key.replaceAll(WHACK_WHACK + DOT, super.getKeySeparator());
             nprops.put(key, value);
         }
         

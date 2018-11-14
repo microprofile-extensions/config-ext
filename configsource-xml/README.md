@@ -71,6 +71,26 @@ You can also add more than one location by comma-separating the location:
 
 The latest files will override properties in previous files. As example, if using above configuration, property `foo=bar` in `file:/tmp/myconfig.xml` will be override if it's added to `http://localhost/myconfig.xml`.
 
+### Detecting changes.
+
+If the file(s) are local (so file://) you can watch for changes. This feature is disabled by default. To enable:
+
+    configsource.xml.pollForChanges=true
+
+By default it will poll every **5 seconds**. You can change that, example to poll every 5 minutes:
+
+    configsource.xml.pollInterval=300
+
+### Events
+
+This config source fires CDI Events on changes (if above detecting for changes is enabled).
+
+Read more about [Config Events](https://github.com/microprofile-extensions/config-ext/blob/master/config-events/README.md)
+
+You can disable this with the `configsource.xml.notifyOnChanges` property:
+
+    configsource.xml.notifyOnChanges=false
+
 ### Key separator
 
 By default the separator used in the key is a DOT (.) example:

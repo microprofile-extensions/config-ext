@@ -14,7 +14,7 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonValue;
 import lombok.extern.java.Log;
-import org.microprofileext.config.source.base.AbstractUrlBasedSource;
+import org.microprofileext.config.source.base.file.AbstractUrlBasedSource;
 
 /**
  * Json config source
@@ -57,7 +57,7 @@ public class JsonConfigSource extends AbstractUrlBasedSource {
     
     @SuppressWarnings("unchecked")
     private void populateEntry(Map<String,String> properties,String key, String mapKey, Map<String, Object> map){
-        String format = "%s" + keySeparator + "%s";
+        String format = "%s" + super.getKeySeparator() + "%s";
         if (map.get(mapKey) instanceof Map) {
             populateMap(properties, String.format(format, key, mapKey), (Map<String, Object>) map.get(mapKey));
         } else {
@@ -147,5 +147,4 @@ public class JsonConfigSource extends AbstractUrlBasedSource {
         }
         return map;
     }
-    
 }

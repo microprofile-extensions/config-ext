@@ -12,7 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 import lombok.extern.java.Log;
 import org.eclipse.microprofile.config.Config;
-import org.microprofileext.config.source.base.AbstractUrlBasedSource;
+import org.microprofileext.config.source.base.file.AbstractUrlBasedSource;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -42,7 +42,7 @@ public class XmlConfigSource extends AbstractUrlBasedSource {
     }
     
     private Map<String, String> parse(InputSource inputSource) throws SAXException, IOException, ParserConfigurationException {
-        final Handler handler = new Handler(getConfig());
+        final Handler handler = new Handler(getConfig(),super.getKeySeparator());
         SAXParserFactory.newInstance().newSAXParser().parse(inputSource, handler);
         return handler.result;
     }
@@ -52,11 +52,13 @@ public class XmlConfigSource extends AbstractUrlBasedSource {
         private final List<String> keybuffer = new LinkedList<>();
         private final Map<String, String> result = new HashMap<>();
         
-        private boolean ignoreRoot = true;
+        private final boolean ignoreRoot;
+        private final String keySeparator;
         private int depth = -1;
         
-        public Handler(Config cfg){
+        public Handler(Config cfg,String keySeparator){
             this.ignoreRoot = cfg.getOptionalValue("configsource.xml.ignoreRoot", Boolean.class).orElse(true);
+            this.keySeparator = keySeparator;
         }
         
         @Override

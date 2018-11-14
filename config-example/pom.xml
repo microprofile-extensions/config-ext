@@ -18,8 +18,12 @@
     <properties>
         <failOnMissingWebXml>false</failOnMissingWebXml>
         
-        <thorntail.version>2.2.1.Final</thorntail.version>
-        <thorntail.configDir>${basedir}${file.separator}src${file.separator}main${file.separator}resources</thorntail.configDir>
+        <!-- Our own config files -->
+        <config.yaml>file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.yaml,http://localhost/config.yaml</config.yaml>
+        <config.json>file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.json,http://localhost/config.json</config.json>
+        <config.xml>file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.xml,http://localhost/config.xml</config.xml>
+        <config.properties>file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.properties,http://localhost/config.properties</config.properties>
+        
     </properties>
     
     <dependencies>
@@ -75,57 +79,58 @@
     
     <build>
         <finalName>${project.artifactId}</finalName>
-        <plugins>
-
-            <!--To configure thorntail--> 
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.0.0</version>
-                <executions>
-                    <execution>
-                        <id>add-resource</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>add-resource</goal>
-                        </goals>
-                        <configuration>
-                            <resources>
-                                 <!--thorntail config--> 
-                                <resource>
-                                    <directory>${thorntail.configDir}</directory>
-                                    <targetPath>${project.build.directory}</targetPath>
-                                    <filtering>true</filtering>
-                                    <includes>
-                                        <include>project*.yml</include>
-                                        <include>*.properties</include>
-                                    </includes>
-                                </resource>
-
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-        </plugins>
-                    
     </build>
     
     <profiles>
         
         <!-- Run Thorntail -->
         <profile>
-            <id>run</id>
+            <id>thorntail</id>
             <activation>
                 <property>
-                    <name>run</name>
+                    <name>thorntail</name>
                 </property>
             </activation>
             
+            <properties>
+                <thorntail.version>2.2.1.Final</thorntail.version>
+                <thorntail.configDir>${basedir}${file.separator}src${file.separator}main${file.separator}resources</thorntail.configDir>
+            </properties>
+            
             <build>
-                
                 <plugins>
+
+                    <!--To configure thorntail--> 
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>3.0.0</version>
+                        <executions>
+                            <execution>
+                                <id>add-resource</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>add-resource</goal>
+                                </goals>
+                                <configuration>
+                                    <resources>
+                                         <!--thorntail config--> 
+                                        <resource>
+                                            <directory>${thorntail.configDir}</directory>
+                                            <targetPath>${project.build.directory}</targetPath>
+                                            <filtering>true</filtering>
+                                            <includes>
+                                                <include>project*.yml</include>
+                                                <include>*.properties</include>
+                                            </includes>
+                                        </resource>
+
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
                     <plugin>
                         <groupId>io.thorntail</groupId>
                         <artifactId>thorntail-maven-plugin</artifactId>
@@ -165,10 +170,12 @@
                                         <argument>-s</argument>
                                         <argument>${project.build.directory}${file.separator}project-defaults.yml</argument>
                                         <argument>-Sdev</argument>
-                                        <argument>-Dconfigsource.yaml.url=file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.yaml,http://localhost/config.yaml</argument>
-                                        <argument>-Dconfigsource.json.url=file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.json,http://localhost/config.json</argument>
-                                        <argument>-Dconfigsource.xml.url=file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.xml,http://localhost/config.xml</argument>
-                                        <argument>-Dconfigsource.properties.url=file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.properties,http://localhost/config.properties</argument>
+                                        <argument>-Dconfigsource.yaml.pollForChanges=true</argument>
+<!--                                        <argument>-Dconfigsource.yaml.notifyOnChanges=false</argument>-->
+                                        <argument>-Dconfigsource.yaml.url=${config.yaml}</argument>
+                                        <argument>-Dconfigsource.json.url=${config.json}</argument>
+                                        <argument>-Dconfigsource.xml.url=${config.xml}</argument>
+                                        <argument>-Dconfigsource.properties.url=${config.properties}</argument>
                                     </arguments>
                                 </configuration>
                             </execution>
@@ -180,6 +187,263 @@
             </build>
             
         </profile>
+        
+        <!-- Run Payara -->
+        <profile>
+            <id>payara</id>
+            <activation>
+                <property>
+                    <name>payara</name>
+                </property>
+            </activation>
+            
+            <properties>
+                <!-- payara-micro properties -->
+                <payara-micro.maven.version>1.0.2</payara-micro.maven.version>
+                <payara-micro.version>5.183</payara-micro.version>
+                <payara-micro.installDir>${java.io.tmpdir}${file.separator}${project.artifactId}${file.separator}payara-micro</payara-micro.installDir>
+                <payara-micro.configDir>${basedir}${file.separator}src${file.separator}main${file.separator}payara-micro${file.separator}config</payara-micro.configDir>
+                <payara-micro.logsDir>${payara-micro.installDir}${file.separator}logs</payara-micro.logsDir>
+                <payara-micro.logfile>${payara-micro.logsDir}${file.separator}server.log</payara-micro.logfile>
+            </properties>
+            
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>fish.payara.extras</groupId>
+                        <artifactId>payara-micro</artifactId>
+                        <version>${payara-micro.version}</version>
+                        <scope>provided</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+            
+            <dependencies>
+                <!-- Payara -->
+                <dependency>
+                    <groupId>fish.payara.extras</groupId>
+                    <artifactId>payara-micro</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+            
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>fish.payara.maven.plugins</groupId>
+                        <artifactId>payara-micro-maven-plugin</artifactId>
+                        <version>${payara-micro.maven.version}</version>
+                        
+                        <configuration>
+                            <artifactItem>
+                                <groupId>fish.payara.extras</groupId>
+                                <artifactId>payara-micro</artifactId>
+                                <version>${payara-micro.version}</version>
+                            </artifactItem>
+                            <payaraVersion>${payara-micro.version}</payaraVersion>
+                            <commandLineOptions>
+                                <option>
+                                    <key>--rootdir</key>
+                                    <value>${payara-micro.installDir}</value>
+                                </option>
+                            </commandLineOptions>
+                            <javaCommandLineOptions>
+                                <option>
+                                    <key>-Dconfigsource.yaml.pollForChanges</key>
+                                    <value>true</value>
+                                </option>
+<!--                                <option>
+                                    <key>-Dconfigsource.yaml.notifyOnChanges</key>
+                                    <value>false</value>
+                                </option>-->
+                                <option>
+                                    <key>-Dconfigsource.yaml.url</key>
+                                    <value>${config.yaml}</value>
+                                </option>
+                                <option>
+                                    <key>-Dconfigsource.json.url</key>
+                                    <value>${config.json}</value>
+                                </option>
+                                <option>
+                                    <key>-Dconfigsource.xml.url</key>
+                                    <value>${config.xml}</value>
+                                </option>
+                                <option>
+                                    <key>-Dconfigsource.properties.url</key>
+                                    <value>${config.properties}</value>
+                                </option>
+                            </javaCommandLineOptions>
+                            <deployArtifacts>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>${project.artifactId}</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>${project.packaging}</type>
+                                </artifactItem>                       
+                            </deployArtifacts>
+                        
+                        
+                            <useUberJar>false</useUberJar>
+                            <daemon>false</daemon>
+                            <deployWar>true</deployWar>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>1</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>start</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+            
+        </profile>
+        
+        <!-- Run OpenLiberty -->
+        <profile>
+            <id>openliberty</id>
+            <activation>
+                <property>
+                    <name>openliberty</name>
+                </property>
+            </activation>
+            
+            <properties>
+                <log.name>org.microprofileext.config</log.name>
+                <log.level>FINEST</log.level>
+                <openliberty.version>18.0.0.3</openliberty.version>
+                <openliberty.http.port>8080</openliberty.http.port>
+                <openliberty.https.port>8443</openliberty.https.port>
+                <openliberty.installDir>${java.io.tmpdir}${file.separator}${project.artifactId}${file.separator}openliberty</openliberty.installDir>
+                <openliberty.configDir>${basedir}${file.separator}src${file.separator}main${file.separator}openliberty${file.separator}config</openliberty.configDir>
+                <openliberty.logsDir>${openliberty.installDir}${file.separator}wlp${file.separator}usr${file.separator}servers${file.separator}defaultServer${file.separator}logs</openliberty.logsDir>
+                <openliberty.maven.version>2.6</openliberty.maven.version>
+            </properties>
+            
+            <build>
+                <plugins>
+                    <!-- Copy config (with resource filter) -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>3.0.0</version>
+                        <executions>
+                            <execution>
+                                <id>add-resource</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>add-resource</goal>
+                                </goals>
+                                <configuration>
+
+                                    <resources>
+                                        <!-- Open Liberty config -->
+                                        <resource>
+                                            <directory>${openliberty.configDir}</directory>
+                                            <targetPath>${project.build.directory}</targetPath>
+                                            <filtering>true</filtering>
+                                            <includes>
+                                                <include>server.xml</include>
+                                            </includes>
+                                        </resource>
+                                    </resources>
+
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- Open Liberty plugin -->
+
+                    <plugin>
+                        <groupId>net.wasdev.wlp.maven.plugins</groupId>
+                        <artifactId>liberty-maven-plugin</artifactId>
+                        <version>${openliberty.maven.version}</version>
+                        
+                        <configuration>
+                            <assemblyArtifact>
+                                <groupId>io.openliberty</groupId>
+                                <artifactId>openliberty-runtime</artifactId>
+                                <version>${openliberty.version}</version>
+                                <type>zip</type>
+                            </assemblyArtifact>
+                            <configFile>${project.build.directory}${file.separator}server.xml</configFile>
+                        </configuration>
+                        
+                        <executions>
+                            <execution>
+                                <id>1</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>install-server</goal>
+                                    <goal>create-server</goal>
+                                </goals>
+                    
+                                <configuration>
+                                    <configFile>${project.build.directory}${file.separator}server.xml</configFile>
+                                    <serverName>defaultServer</serverName>
+                                    <bootstrapProperties>
+                                        <httpPort>${openliberty.http.port}</httpPort>
+                                        <httpsPort>${openliberty.https.port}</httpsPort>
+                                    </bootstrapProperties>
+                                </configuration>
+                            </execution>
+                            
+                            <execution>
+                                <id>2</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>install-apps</goal>
+                                </goals>
+                    
+                                <configuration>
+                                    <appsDirectory>apps</appsDirectory>
+                                    <stripVersion>true</stripVersion>
+                                    <installAppPackages>project</installAppPackages>
+                                    <looseApplication>true</looseApplication>
+                                    <installDirectory>${project.build.directory}${file.separator}liberty${file.separator}wlp</installDirectory>
+                                    <serverName>defaultServer</serverName>
+                                </configuration>
+                            </execution>
+                            
+                            <execution>
+                                <id>3</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>run-server</goal>    
+                                </goals>
+                    
+                                <configuration>
+                                    <configFile>${project.build.directory}${file.separator}server.xml</configFile>
+                                    <installDirectory>${project.build.directory}${file.separator}liberty${file.separator}wlp</installDirectory>
+                                    <serverName>defaultServer</serverName>
+                                    <bootstrapProperties>
+                                        <httpPort>${openliberty.http.port}</httpPort>
+                                        <httpsPort>${openliberty.https.port}</httpsPort>
+                                    </bootstrapProperties>
+                                    <jvmOptions>
+                                        <param>-Dconfigsource.yaml.pollForChanges=true</param>
+                                        <!--<param>-Dconfigsource.yaml.notifyOnChanges=false</param>-->
+                                        <param>-Dconfigsource.yaml.url=${config.yaml}</param>
+                                        <param>-Dconfigsource.json.url=${config.json}</param>
+                                        <param>-Dconfigsource.xml.url=${config.xml}</param>
+                                        <param>-Dconfigsource.properties.url=${config.properties}</param>
+                                    </jvmOptions>
+                                </configuration>
+                            </execution>
+                        </executions>
+                        
+                    </plugin>
+
+
+                </plugins>
+            </build>
+            
+        </profile>
+        
     </profiles>
     
 </project>

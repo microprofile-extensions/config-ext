@@ -31,14 +31,6 @@ import org.eclipse.microprofile.config.Config;
  */
 public abstract class EnabledConfigSource extends BaseConfigSource {
 
-    public final String CLASS_KEY_PREFIX = getClass().getSimpleName();
-    public final String CLASS_ENABLED_KEY = CLASS_KEY_PREFIX + ".enabled";
-
-    public final String INSTANCE_KEY_PREFIX = getName();
-    public final String INSTANCE_ENABLED_KEY = INSTANCE_KEY_PREFIX + ".enabled";
-
-    private static final boolean DEFAULT_ENABLED = true;
-
     /**
      * Called to return the properties in this config source when it is enabled
      * @return the map containing the properties in this config source
@@ -57,9 +49,20 @@ public abstract class EnabledConfigSource extends BaseConfigSource {
 
     protected boolean isEnabled() {
         Config cnf = getConfig();
-        return cnf.getOptionalValue(INSTANCE_ENABLED_KEY, Boolean.class)
-                .orElse(cnf.getOptionalValue(CLASS_ENABLED_KEY, Boolean.class)
-                        .orElse(DEFAULT_ENABLED));
+        return cnf.getOptionalValue(getInstanceEnableKey(), Boolean.class)
+                .orElse(cnf.getOptionalValue(getClassEnableKey(), Boolean.class)
+                        .orElse(true));
     }
 
+    protected String getClassKeyPrefix(){
+        return getClass().getSimpleName();
+    }
+    
+    private String getClassEnableKey(){
+        return getClassKeyPrefix() + ".enabled";
+    }
+    
+    private String getInstanceEnableKey(){
+        return getName() + ".enabled";
+    }
 }

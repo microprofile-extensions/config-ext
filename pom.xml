@@ -108,7 +108,7 @@
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
-        
+        <!-- Testing -->
         <dependency>
             <groupId>org.jboss.weld</groupId>
             <artifactId>weld-core-impl</artifactId>
@@ -149,9 +149,11 @@
     <modules>
         <!-- utils -->
         <module>config-events</module>
-        <module>configsource-providers</module>
-        <!-- sources -->
+        <module>configsource-providers</module> 
+        <!-- abstract bases -->
         <module>configsource-base</module>
+        <module>configsource-filebase</module>
+        <!-- sources -->
         <module>configsource-memory</module>
         <module>configsource-properties</module>
         <module>configsource-yaml</module>
