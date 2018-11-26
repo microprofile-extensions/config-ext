@@ -1,7 +1,7 @@
 ysomekey: "somevalue"
 ylocation:
     protocol: "http"
-    host: "localhost"
+    host: "localhosts"
     port: 8080
     path: "/some/path"
     jedis:

@@ -6,7 +6,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import lombok.extern.java.Log;
 import org.microprofileext.config.event.ChangeEventNotifier;
@@ -21,14 +23,14 @@ import org.microprofileext.config.source.base.EnabledConfigSource;
  */
 @Log
 public abstract class AbstractUrlBasedSource extends EnabledConfigSource implements Reloadable {
-    
+    private final LinkedHashMap<URL,Map<String, String>> propertiesMap = new LinkedHashMap<>();
     private final Map<String, String> properties = new HashMap<>();
     private String urlInputString;
     private String keySeparator;
     private boolean pollForChanges;
     private int pollInterval;
     private boolean notifyOnChanges;
-    
+    private ChangeEventNotifier changeEventNotifier;
     private FileWatcher fileWatcher = null;
     
     public AbstractUrlBasedSource(){
@@ -50,6 +52,7 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource impleme
         
         this.urlInputString = loadUrlPath();
         this.loadUrls(urlInputString);
+        this.changeEventNotifier = ChangeEventNotifier.getInstance();
         super.initOrdinal(500); 
     }
     
@@ -76,11 +79,11 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource impleme
     @Override
     public void reload(URL url){
         Map<String, String> before = new HashMap<>(this.properties);
-        this.properties.clear();
         initialLoad(url);
+        mergeProperties();
         Map<String, String> after = new HashMap<>(this.properties);
         
-        if(notifyOnChanges)ChangeEventNotifier.getInstance().detectChangesAndFire(before, after,getName());
+        if(notifyOnChanges)changeEventNotifier.detectChangesAndFire(before, after,getName());
     }
     
     private void initialLoad(URL url){
@@ -92,7 +95,7 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource impleme
         try {
             inputStream = url.openStream();
             if (inputStream != null) {
-                this.properties.putAll(toMap(inputStream));
+                this.propertiesMap.put(url, toMap(inputStream));
             }
         } catch (IOException e) {
             log.log(Level.WARNING, "Unable to read URL [{0}] - {1}", new Object[]{url, e.getMessage()});
@@ -116,6 +119,7 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource impleme
                 loadUrl(u.trim());
             }
         }
+        mergeProperties();
     }
     
     private void loadUrl(String url) {
@@ -126,6 +130,14 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource impleme
             if(this.fileWatcher!=null && u.getProtocol().equalsIgnoreCase(FILE))this.fileWatcher.startWatching(u);
         } catch (MalformedURLException ex) {
             log.log(Level.WARNING, "Can not load URL [" + url + "]", ex);
+        }
+    }
+    
+    private void mergeProperties(){
+        this.properties.clear();
+        Set<Map.Entry<URL, Map<String, String>>> entrySet = propertiesMap.entrySet();
+        for(Map.Entry<URL, Map<String, String>> entry:entrySet){
+            this.properties.putAll(entry.getValue());
         }
     }
     

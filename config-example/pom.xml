@@ -18,7 +18,7 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
         
         <!-- Our own config files -->
-        <config.yaml>file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.yaml,http://localhost/config.yaml</config.yaml>
+        <config.yaml>file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.yaml,file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config_prod.yaml,http://localhost/config.yaml</config.yaml>
         <config.json>file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.json,http://localhost/config.json</config.json>
         <config.xml>file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.xml,http://localhost/config.xml</config.xml>
         <config.properties>file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.properties,http://localhost/config.properties</config.properties>

@@ -27,17 +27,17 @@ import org.eclipse.microprofile.faulttolerance.Asynchronous;
 @Log
 @ApplicationScoped
 public class ChangeEventNotifier {
-    
-    private static ChangeEventNotifier INSTANCE;
-    
+
     @Inject
     private Event<ChangeEvent> broadcaster;
     
+    private static ChangeEventNotifier INSTANCE;
     public void init(@Observes @Initialized(ApplicationScoped.class) Object init) {
         INSTANCE = this;
     }
  
     public static ChangeEventNotifier getInstance(){
+        //return CDI.current().select(ChangeEventNotifier.class).get();
         return INSTANCE;
     }
     
