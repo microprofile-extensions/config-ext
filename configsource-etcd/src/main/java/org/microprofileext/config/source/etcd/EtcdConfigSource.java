@@ -1,6 +1,7 @@
 package org.microprofileext.config.source.etcd;
 
 import com.coreos.jetcd.Client;
+import com.coreos.jetcd.ClientBuilder;
 import com.coreos.jetcd.data.ByteSequence;
 import com.coreos.jetcd.data.KeyValue;
 import com.coreos.jetcd.kv.GetResponse;
@@ -16,6 +17,11 @@ import org.microprofileext.config.source.base.EnabledConfigSource;
 /**
  * Etcd config source
  * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
+ * 
+ * TODO: Add watcher
+ *          ByteSequence bsKey = ByteSequence.fromString(EMPTY);
+ *          Watch.Watcher watch = this.client.getWatchClient().watch(bsKey);
+ *          watch.listen();
  */
 @Log
 public class EtcdConfigSource extends EnabledConfigSource {
@@ -33,6 +39,10 @@ public class EtcdConfigSource extends EnabledConfigSource {
     private static final String KEY_PORT = KEY_PREFIX + "port";
     private static final String DEFAULT_PORT = "2379";
 
+    private static final String KEY_USER = KEY_PREFIX + "user";
+    private static final String KEY_PASSWORD = KEY_PREFIX + "password";
+    private static final String KEY_AUTHORITY = KEY_PREFIX + "authority";
+    
     private Client client = null;
 
     public EtcdConfigSource(){
@@ -43,7 +53,7 @@ public class EtcdConfigSource extends EnabledConfigSource {
     public Map<String, String> getPropertiesIfEnabled() {
         Map<String,String> m = new HashMap<>();
         
-        ByteSequence bsKey = ByteSequence.fromString("");
+        ByteSequence bsKey = ByteSequence.fromString(EMPTY);
 
         CompletableFuture<GetResponse> getFuture = getClient().getKVClient().get(bsKey);
         try {
@@ -102,12 +112,31 @@ public class EtcdConfigSource extends EnabledConfigSource {
             String host = getConfig().getOptionalValue(KEY_HOST, String.class).orElse(DEFAULT_HOST);
             String port = getConfig().getOptionalValue(KEY_PORT, String.class).orElse(DEFAULT_PORT);
             
+            String user = getConfig().getOptionalValue(KEY_USER, String.class).orElse(null);
+            String password = getConfig().getOptionalValue(KEY_PASSWORD, String.class).orElse(null);
+            String authority = getConfig().getOptionalValue(KEY_AUTHORITY, String.class).orElse(null);
+            
             String endpoint = String.format("%s://%s:%s",scheme,host,port);
             log.log(Level.INFO, "Using [{0}] as etcd server endpoint", endpoint);
-            this.client = Client.builder().endpoints(endpoint).build();
+            
+            ClientBuilder clientBuilder = Client.builder().endpoints(endpoint);
+            if(user!=null){
+                ByteSequence bsUser = ByteSequence.fromString(user);
+                clientBuilder = clientBuilder.user(bsUser);
+            }
+            if(password!=null){
+                ByteSequence bsPassword = ByteSequence.fromString(password);
+                clientBuilder = clientBuilder.password(bsPassword);
+            }
+            if(authority!=null){
+                clientBuilder = clientBuilder.authority(authority);
+            }
+            
+            this.client = clientBuilder.build();
         }
         return this.client;
     }
     
+    private static final String EMPTY = "";
 
 }
