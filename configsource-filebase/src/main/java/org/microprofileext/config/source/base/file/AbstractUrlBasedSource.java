@@ -30,7 +30,7 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource impleme
     private boolean pollForChanges;
     private int pollInterval;
     private boolean notifyOnChanges;
-    private ChangeEventNotifier changeEventNotifier;
+    
     private FileWatcher fileWatcher = null;
     
     public AbstractUrlBasedSource(){
@@ -52,7 +52,7 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource impleme
         
         this.urlInputString = loadUrlPath();
         this.loadUrls(urlInputString);
-        this.changeEventNotifier = ChangeEventNotifier.getInstance();
+        
         super.initOrdinal(500); 
     }
     
@@ -82,8 +82,7 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource impleme
         initialLoad(url);
         mergeProperties();
         Map<String, String> after = new HashMap<>(this.properties);
-        
-        if(notifyOnChanges)changeEventNotifier.detectChangesAndFire(before, after,getName());
+        if(notifyOnChanges)ChangeEventNotifier.getInstance().detectChangesAndFire(before, after,getName());
     }
     
     private void initialLoad(URL url){

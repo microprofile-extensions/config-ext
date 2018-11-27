@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -35,7 +36,7 @@ public class FileWatcher {
     private final long pollInterval;
     private final Reloadable reloadable;
     
-    private ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(10);
+    private ScheduledExecutorService scheduledThreadPool = Executors.newSingleThreadScheduledExecutor();
     
     public FileWatcher(Reloadable reloadable, long pollInterval){
         this.reloadable = reloadable;
@@ -73,7 +74,7 @@ public class FileWatcher {
                 WatchKey key = path.register(watcher, StandardWatchEventKinds.ENTRY_MODIFY);
                 directoryWatchers.put(key, path);
                 // Here start Runable
-                scheduledThreadPool.scheduleAtFixedRate(new DirectoryPoller(),this.pollInterval,this.pollInterval,TimeUnit.SECONDS);
+                scheduledThreadPool.schedule(new DirectoryPoller(),this.pollInterval,TimeUnit.SECONDS);
             } catch (IOException ex) {
                 log.log(Level.WARNING, "Could not register directory [{0}] to watch for changes - {1}", new Object[]{path, ex.getMessage()});
             }
@@ -85,7 +86,7 @@ public class FileWatcher {
         return (WatchEvent<T>)event;
     }
     
-    class DirectoryPoller implements Runnable {
+    class DirectoryPoller implements Runnable{
     
         @Override
         public void run() {
@@ -101,12 +102,10 @@ public class FileWatcher {
 
                 for (WatchEvent<?> event: key.pollEvents()) {
                     WatchEvent.Kind kind = event.kind();
-
                     if (kind == StandardWatchEventKinds.OVERFLOW)continue;
                     
                     WatchEvent<Path> ev = cast(event);
                     Path name = ev.context();
-
                     List<String> filters = filterMap.get(d);
 
                     if(filters.contains(name.toString())){
@@ -119,9 +118,11 @@ public class FileWatcher {
                     }
                 }
             }
-
+            
             boolean valid = key.reset();
             if (!valid)directoryWatchers.remove(key);
+            
+            this.run();
         }
     }
 }
