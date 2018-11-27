@@ -31,7 +31,8 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource impleme
     private int pollInterval;
     private boolean notifyOnChanges;
     
-    private FileWatcher fileWatcher = null;
+    private FileResourceWatcher fileResourceWatcher = null;
+    private WebResourceWatcher webResourceWatcher = null;
     
     public AbstractUrlBasedSource(){
         init();
@@ -44,12 +45,6 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource impleme
         this.notifyOnChanges = loadNotifyOnChanges();
         this.pollForChanges = loadPollForChanges();
         this.pollInterval = loadPollInterval();
-        
-        if(this.pollForChanges && this.pollInterval>0){
-            log.log(Level.INFO, "  Polling for changes in {0} every {1} seconds", new Object[]{ext, pollInterval});
-            this.fileWatcher = new FileWatcher(this,pollInterval);
-        }
-        
         this.urlInputString = loadUrlPath();
         this.loadUrls(urlInputString);
         
@@ -125,11 +120,48 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource impleme
         try {
             URL u = new URL(url);
             initialLoad(u);
-            // TODO: Add support for other protocols ? 
-            if(this.fileWatcher!=null && u.getProtocol().equalsIgnoreCase(FILE))this.fileWatcher.startWatching(u);
+            
+            if(shouldPollForChanges()){
+                // Local (file://...)
+                if(isLocalResource(u)){
+                    enableLocalResourceWatching(u);
+                // Web (http://...)
+                }else if(isWebResource(u)){
+                    enableWebResourceWatching(u);
+                // TODO: Add support for other protocols ?     
+                }else{
+                    log.log(Level.WARNING, "Can not detect changes on resource {0}", u.getFile());
+                }
+            }
         } catch (MalformedURLException ex) {
             log.log(Level.WARNING, "Can not load URL [" + url + "]", ex);
         }
+    }
+    
+    private void enableLocalResourceWatching(URL u){
+        if(isLocalResource(u)){
+            if(this.fileResourceWatcher==null)this.fileResourceWatcher = new FileResourceWatcher(this,pollInterval);
+            this.fileResourceWatcher.startWatching(u);
+        }
+    }
+    
+    private void enableWebResourceWatching(URL u){
+        if(isWebResource(u)){
+            if(this.webResourceWatcher==null)this.webResourceWatcher = new WebResourceWatcher(this,pollInterval);
+            this.webResourceWatcher.startWatching(u);
+        }
+    }
+    
+    private boolean isLocalResource(URL u){
+        return u.getProtocol().equalsIgnoreCase(FILE);
+    }
+    
+    private boolean isWebResource(URL u){
+        return u.getProtocol().equalsIgnoreCase(HTTP) || u.getProtocol().equalsIgnoreCase(HTTPS);
+    }
+    
+    private boolean shouldPollForChanges(){
+        return this.pollForChanges && this.pollInterval>0;
     }
     
     private void mergeProperties(){
@@ -196,6 +228,8 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource impleme
     private static final String CONFIGSOURCE = "configsource";
     private static final String APPLICATION = "application";
     private static final String FILE = "file";
+    private static final String HTTP = "http";
+    private static final String HTTPS = "https";
     
     protected abstract String getFileExtension();
     protected abstract Map<String,String> toMap(final InputStream inputStream);

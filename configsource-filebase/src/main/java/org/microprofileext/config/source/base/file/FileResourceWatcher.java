@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -27,7 +26,7 @@ import lombok.extern.java.Log;
  * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
 @Log
-public class FileWatcher {
+public class FileResourceWatcher {
 
     private WatchService watcher;
     
@@ -36,9 +35,9 @@ public class FileWatcher {
     private final long pollInterval;
     private final Reloadable reloadable;
     
-    private ScheduledExecutorService scheduledThreadPool = Executors.newSingleThreadScheduledExecutor();
+    private final ScheduledExecutorService scheduledThreadPool = Executors.newSingleThreadScheduledExecutor();
     
-    public FileWatcher(Reloadable reloadable, long pollInterval){
+    public FileResourceWatcher(Reloadable reloadable, long pollInterval){
         this.reloadable = reloadable;
         this.pollInterval = pollInterval;
         
@@ -60,7 +59,7 @@ public class FileWatcher {
         }
     }
     
-    public void startWatching(Path path,String filter){
+    private void startWatching(Path path,String filter){
         if(filterMap.containsKey(path)){
             // Already watching this directory
             if(!filterMap.get(path).contains(filter))filterMap.get(path).add(filter);
@@ -74,7 +73,7 @@ public class FileWatcher {
                 WatchKey key = path.register(watcher, StandardWatchEventKinds.ENTRY_MODIFY);
                 directoryWatchers.put(key, path);
                 // Here start Runable
-                scheduledThreadPool.schedule(new DirectoryPoller(),this.pollInterval,TimeUnit.SECONDS);
+                scheduledThreadPool.schedule(new Poller(),this.pollInterval,TimeUnit.SECONDS);
             } catch (IOException ex) {
                 log.log(Level.WARNING, "Could not register directory [{0}] to watch for changes - {1}", new Object[]{path, ex.getMessage()});
             }
@@ -86,7 +85,7 @@ public class FileWatcher {
         return (WatchEvent<T>)event;
     }
     
-    class DirectoryPoller implements Runnable{
+    class Poller implements Runnable{
     
         @Override
         public void run() {
