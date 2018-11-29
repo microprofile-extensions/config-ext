@@ -22,3 +22,7 @@ Here you will find some extra Config sources, Config converters and some utils f
 ### Config Converters
 * [List Config converter](https://github.com/microprofile-extensions/config-ext/blob/master/configconverter-list/README.md)
 * [Json Config converter](https://github.com/microprofile-extensions/config-ext/blob/master/configconverter-json/README.md)
+
+## Example
+
+Also look at the [example application](https://github.com/microprofile-extensions/config-ext/blob/master/config-example/README.md) to see how this is used

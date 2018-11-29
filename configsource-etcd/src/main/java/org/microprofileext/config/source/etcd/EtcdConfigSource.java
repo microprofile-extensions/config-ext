@@ -37,7 +37,7 @@ public class EtcdConfigSource extends EnabledConfigSource {
     private static final String DEFAULT_HOST = "localhost";
 
     private static final String KEY_PORT = KEY_PREFIX + "port";
-    private static final String DEFAULT_PORT = "2379";
+    private static final Integer DEFAULT_PORT = 2379;
 
     private static final String KEY_USER = KEY_PREFIX + "user";
     private static final String KEY_PASSWORD = KEY_PREFIX + "password";
@@ -110,13 +110,13 @@ public class EtcdConfigSource extends EnabledConfigSource {
 
             String scheme = getConfig().getOptionalValue(KEY_SCHEME, String.class).orElse(DEFAULT_SCHEME);
             String host = getConfig().getOptionalValue(KEY_HOST, String.class).orElse(DEFAULT_HOST);
-            String port = getConfig().getOptionalValue(KEY_PORT, String.class).orElse(DEFAULT_PORT);
+            Integer port = getConfig().getOptionalValue(KEY_PORT, Integer.class).orElse(DEFAULT_PORT);
             
             String user = getConfig().getOptionalValue(KEY_USER, String.class).orElse(null);
             String password = getConfig().getOptionalValue(KEY_PASSWORD, String.class).orElse(null);
             String authority = getConfig().getOptionalValue(KEY_AUTHORITY, String.class).orElse(null);
             
-            String endpoint = String.format("%s://%s:%s",scheme,host,port);
+            String endpoint = String.format("%s://%s:%d",scheme,host,port);
             log.log(Level.INFO, "Using [{0}] as etcd server endpoint", endpoint);
             
             ClientBuilder clientBuilder = Client.builder().endpoints(endpoint);

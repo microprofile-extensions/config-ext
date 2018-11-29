@@ -36,3 +36,4 @@ hs_err_pid*
 /config-events/target/
 /configsource-providers/target/
 /configsource-filebase/target/
+/configsource-elasticsearch/target/
