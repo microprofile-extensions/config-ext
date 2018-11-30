@@ -53,7 +53,7 @@ The latest files will override properties in previous files. As example, if usin
 
 ### Detecting changes.
 
-If the file(s) are local (so file://) you can watch for changes. This feature is disabled by default. To enable:
+You can watch the resource for changes. This feature is disabled by default. To enable:
 
     configsource.properties.pollForChanges=true
 
@@ -70,6 +70,8 @@ Read more about [Config Events](https://github.com/microprofile-extensions/confi
 You can disable this with the `configsource.properties.notifyOnChanges` property:
 
     configsource.properties.notifyOnChanges=false
+
+If you added more than one resource as source, the event will only fire if the resulting file change also changed the global source change, as one file takes priority over the other.
 
 ### Key separator
 
