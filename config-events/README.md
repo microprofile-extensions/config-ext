@@ -33,7 +33,7 @@ There are 3 types:
 
 * NEW - When you create a new key and value (i.e. the key does not exist anywhere in any config source)
 * UPDATE - When you update a value of an existing key (i.e. the key and value exist somewhere in a config source)
-* REMOVE - When you remove the value from the source (i.e revert to the state on startup)
+* REMOVE - When you remove the value from the source (and that changed the overall config)
 
 ### Observing events:
 
@@ -105,7 +105,7 @@ Note: You can filter by including the `@TypeFilter` and/or the `@KeyFilter` and/
 
 You might want to listen for fields that match a certain regex.
 
-Example, listen to all keys that starts with ```some.```:
+Example, listen to all keys that starts with `some.`:
 
 ```java
 
@@ -116,7 +116,8 @@ Example, listen to all keys that starts with ```some.```:
 
 ```
 
-or listen to all oldValues that starts with ```some.```:
+By default, it will match on `key`, however you also listen on another field, 
+for example, listen to all `oldValue` that starts with `some.`:
 
 ```java
 
@@ -127,7 +128,7 @@ or listen to all oldValues that starts with ```some.```:
 
 ```
 
-You can Match on the following fields of the ```ChangeEvent``` object:
+You can Match on the following fields of the `ChangeEvent` object:
 
 * key
 * oldValue
