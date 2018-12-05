@@ -121,7 +121,7 @@ for example, listen to all `oldValue` that starts with `some.`:
 
 ```java
 
-    @Match(onField = Field.oldValue, regex = "^some\\..+") // Staring with some.
+    @Match(onField = Field.oldValue, regex = "^some\\..+")
     public void allForPatternMatchOnOldValue(@Observes ChangeEvent changeEvent, EventMetadata meta){
         log.log(Level.SEVERE, "Pattern match on old value: Received a config change event: {0}", changeEvent);
     }

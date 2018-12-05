@@ -46,12 +46,12 @@ public class EventChangeListener {
         log.log(Level.SEVERE, "ALL for key [some.key]: Received a config change event: {0}", changeEvent);
     }
     
-    @Match(regex = "^some\\..+") // Staring with some.
+    @Match(regex = "^some\\..+") // Starting with some.
     public void allForPatternMatchOnKey(@Observes ChangeEvent changeEvent, EventMetadata meta){
         log.log(Level.SEVERE, "Pattern match on key: Received a config change event: {0}", changeEvent);
     }
     
-    @Match(onField = Field.oldValue, regex = "^some\\..+") // Staring with some.
+    @Match(onField = Field.oldValue, regex = "^some\\..+") // Starting with some.
     public void allForPatternMatchOnOldValue(@Observes ChangeEvent changeEvent, EventMetadata meta){
         log.log(Level.SEVERE, "Pattern match on old value: Received a config change event: {0}", changeEvent);
     }
