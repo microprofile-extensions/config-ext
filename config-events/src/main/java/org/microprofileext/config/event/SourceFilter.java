@@ -10,6 +10,10 @@ import javax.enterprise.util.AnnotationLiteral;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+/**
+ * Filter by config source
+ * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
+ */
 @Qualifier
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)

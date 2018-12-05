@@ -100,6 +100,40 @@ You can listen to all or some of these events, filtering by `type` and/or `key` 
 
 Note: You can filter by including the `@TypeFilter` and/or the `@KeyFilter` and/or the `@SourceFilter`.
 
+
+### Pattern matching on field.
+
+You might want to listen for fields that match a certain regex.
+
+Example, listen to all keys that starts with ```some.```:
+
+```java
+
+    @Match(regex = "^some\\..+") 
+    public void allForPatternMatchOnKey(@Observes ChangeEvent changeEvent, EventMetadata meta){
+        log.log(Level.SEVERE, "Pattern match on key: Received a config change event: {0}", changeEvent);
+    }
+
+```
+
+or listen to all oldValues that starts with ```some.```:
+
+```java
+
+    @Match(onField = Field.oldValue, regex = "^some\\..+") // Staring with some.
+    public void allForPatternMatchOnOldValue(@Observes ChangeEvent changeEvent, EventMetadata meta){
+        log.log(Level.SEVERE, "Pattern match on old value: Received a config change event: {0}", changeEvent);
+    }
+
+```
+
+You can Match on the following fields of the ```ChangeEvent``` object:
+
+* key
+* oldValue
+* newValue
+* fromSource
+
 ## Implementing this for your own Config source
 
 An example of a source that uses this is [Memory Config source](https://github.com/microprofile-extensions/config-ext/blob/master/configsource-memory/README.md)
