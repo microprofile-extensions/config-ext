@@ -16,7 +16,7 @@ import javax.interceptor.InterceptorBinding;
 @InterceptorBinding
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.TYPE})
-public @interface Match {
-    @Nonbinding String regex();
+public @interface RegexFilter {
+    @Nonbinding String value();
     @Nonbinding Field onField() default Field.key;
 }

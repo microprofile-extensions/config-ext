@@ -1,6 +1,7 @@
 package org.microprofileext.config.event.regex;
 
 import java.util.Optional;
+import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.Priority;
@@ -11,17 +12,17 @@ import lombok.extern.java.Log;
 import org.microprofileext.config.event.ChangeEvent;
 
 @Log    
-@Match(regex = "")
+@RegexFilter(value = "")
 @Interceptor
 @Priority(100)
-public class MatchInterceptor {
+public class RegexFilterInterceptor {
 
     @AroundInvoke
     public Object observer(InvocationContext ctx) throws Exception {
         
-        Match matchAnnotation = ctx.getMethod().getAnnotation(Match.class);
-        Field onField = matchAnnotation.onField();
-        String regex = matchAnnotation.regex();
+        RegexFilter regexFilterAnnotation = ctx.getMethod().getAnnotation(RegexFilter.class);
+        Field onField = regexFilterAnnotation.onField();
+        String regex = regexFilterAnnotation.value();
         
         Optional<ChangeEvent> posibleChangeEvent = getChangeEvent(ctx);
         
@@ -32,6 +33,8 @@ public class MatchInterceptor {
             Matcher matcher = pattern.matcher(value);
             boolean b = matcher.matches();  
             if(!b)return null;
+        }else{
+            log.log(Level.WARNING, "Can not find ChangeEvent parameter for method {0}. @RegexFilter is being ignored", ctx.getMethod().getName());
         }
         return ctx.proceed();
     }

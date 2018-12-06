@@ -109,7 +109,7 @@ Example, listen to all keys that starts with `some.`:
 
 ```java
 
-    @Match(regex = "^some\\..+") 
+    @RegexFilter("^some\\..+") 
     public void allForPatternMatchOnKey(@Observes ChangeEvent changeEvent, EventMetadata meta){
         log.log(Level.SEVERE, "Pattern match on key: Received a config change event: {0}", changeEvent);
     }
@@ -121,7 +121,7 @@ for example, listen to all `oldValue` that starts with `some.`:
 
 ```java
 
-    @Match(onField = Field.oldValue, regex = "^some\\..+")
+    @RegexFilter(onField = Field.oldValue, value = "^some\\..+")
     public void allForPatternMatchOnOldValue(@Observes ChangeEvent changeEvent, EventMetadata meta){
         log.log(Level.SEVERE, "Pattern match on old value: Received a config change event: {0}", changeEvent);
     }

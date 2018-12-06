@@ -8,7 +8,7 @@ import lombok.extern.java.Log;
 import org.microprofileext.config.event.ChangeEvent;
 import org.microprofileext.config.event.Type;
 import org.microprofileext.config.event.KeyFilter;
-import org.microprofileext.config.event.regex.Match;
+import org.microprofileext.config.event.regex.RegexFilter;
 import org.microprofileext.config.event.SourceFilter;
 import org.microprofileext.config.event.TypeFilter;
 import org.microprofileext.config.event.regex.Field;
@@ -46,12 +46,12 @@ public class EventChangeListener {
         log.log(Level.SEVERE, "ALL for key [some.key]: Received a config change event: {0}", changeEvent);
     }
     
-    @Match(regex = "^some\\..+") // Starting with some.
+    @RegexFilter("^some\\..+") // Starting with some.
     public void allForPatternMatchOnKey(@Observes ChangeEvent changeEvent, EventMetadata meta){
         log.log(Level.SEVERE, "Pattern match on key: Received a config change event: {0}", changeEvent);
     }
     
-    @Match(onField = Field.oldValue, regex = "^some\\..+") // Starting with some.
+    @RegexFilter(onField = Field.oldValue, value = "^some\\..+") // Starting with some.
     public void allForPatternMatchOnOldValue(@Observes ChangeEvent changeEvent, EventMetadata meta){
         log.log(Level.SEVERE, "Pattern match on old value: Received a config change event: {0}", changeEvent);
     }
