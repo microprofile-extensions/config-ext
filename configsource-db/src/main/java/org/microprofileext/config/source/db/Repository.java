@@ -11,18 +11,30 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import org.eclipse.microprofile.config.Config;
+
 import lombok.extern.java.Log;
 
 @Log
 public class Repository {
+    
+    private static final String KEY_PREFIX = "configsource.db.";
+    private static final String KEY_DATASOURCE = KEY_PREFIX + "datasource";
+    private static final String KEY_TABLE = KEY_PREFIX + "table";
+    private static final String KEY_KEY_COLUMN = KEY_PREFIX + "key-column";
+    private static final String KEY_VALUE_COLUMN = KEY_PREFIX + "value-column";
+    
     PreparedStatement selectOne = null;
     PreparedStatement selectAll = null;
     
-    public Repository(Configuration config) {
-        DataSource datasource = getDatasource(config.getDatasourceJndi());
+    public Repository(Config config) {
+        DataSource datasource = getDatasource(config.getOptionalValue(KEY_DATASOURCE, String.class).orElse("java:comp/DefaultDataSource"));
+        String table = config.getOptionalValue(KEY_TABLE, String.class).orElse("configuration");
+        String keyColumn = config.getOptionalValue(KEY_KEY_COLUMN, String.class).orElse("key");
+        String valueColumn = config.getOptionalValue(KEY_VALUE_COLUMN, String.class).orElse("value");
         if (datasource != null) {
-            String queryOne = "select " + config.getValueColumn() + " from " + config.getTable() + " where " + config.getKeyColumn() + " = ?";
-            String queryAll = "select " + config.getKeyColumn() + ", " + config.getValueColumn() + " from " + config.getTable();
+            String queryOne = "select " + valueColumn + " from " +table + " where " + keyColumn + " = ?";
+            String queryAll = "select " + keyColumn + ", " + valueColumn + " from " + table;
             try {
                 selectOne = datasource.getConnection().prepareStatement(queryOne);
                 selectAll = datasource.getConnection().prepareStatement(queryAll);
