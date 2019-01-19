@@ -56,11 +56,6 @@ public class DatasourceConfigSource extends EnabledConfigSource {
         return "DatasourceConfigSource";
     }
 
-//    @Override
-//    public int getOrdinal() {
-//        return 120;
-//    }
-    
     class TimedEntry {
         private final String value;
         private final long timestamp;

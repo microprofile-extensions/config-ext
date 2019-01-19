@@ -1,32 +1,27 @@
-[![Build Status](https://travis-ci.org/rikcarve/mp-config-db.svg?branch=master)](https://travis-ci.org/rikcarve/mp-config-db)
-[![codecov](https://codecov.io/gh/rikcarve/mp-config-db/branch/master/graph/badge.svg)](https://codecov.io/gh/rikcarve/mp-config-db)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/ch.carve/mp-config-db/badge.svg?style=flat-square)](https://maven-badges.herokuapp.com/maven-central/ch.carve/mp-config-db/)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configsource-db/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configsource-db)
 
-# mp-config-db
-A eclipse microprofile config (1.2) extension which uses a database as source.
+# Database config source
+A eclipse microprofile config extension which uses a database as source.
 
 ## Overview
 The eclipse microprofile config framework is a simple yet powerful configuration framework for Java EE. But most implementations only provide the system/env properties or property files as configuration source. This small library provides an ConfigSource implementation which reads the values from the default datasource. For performance reasons, the config values are cached.
 
-## Add dependency
+## Usage
 ```xml
         <dependency>
-            <groupId>ch.carve</groupId>
-            <artifactId>mp-config-db</artifactId>
-            <version>0.2</version>
+            <groupId>org.microprofile-ext.config-ext</groupId>
+            <artifactId>configsource-db</artifactId>
+            <version>1.x</version>
         </dependency>
 ```
 
 ## Configuration
 Currently there are 5 values you can configure, either through Java system properties or environment variables:
-* **mp-config-db.datasource** override default datasource by setting JNDI name of the datasource
-* **mp-config-db.table** table name for configuration records, default value is "configuration"
-* **mp-config-db.keyColumn** name of the column containing the key, default value is "key"
-* **mp-config-db.valueColumn** name of the column containing the value, default value is "value"
-* **mp-config-db.validity** how long to cache values (in seconds), default is 30s
-
-## Hint
-Use memory config source from [microprofile-extensions](https://github.com/microprofile-extensions/config-ext/tree/master/configsource-memory) to get a REST interface and the possibility to change values on the fly (in-memory)
+* **configsource.db.datasource** override ee default datasource by setting JNDI name of the datasource
+* **configsource.db.table** table name for configuration records, default value is "configuration"
+* **configsource.db.key-column** name of the column containing the key, default value is "key"
+* **configsource.db.value-column** name of the column containing the value, default value is "value"
+* **configsource.db.validity** how long to cache values (in seconds), default is 30s
 
 ## Links
 * https://microprofile.io/project/eclipse/microprofile-config
