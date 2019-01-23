@@ -83,7 +83,7 @@ public class ChangeEventNotifier {
         }
     }
     
-    private Optional<String> getOptionalOldValue(String oldValue){
+    public Optional<String> getOptionalOldValue(String oldValue){
         if(oldValue==null || oldValue.isEmpty())return Optional.empty();
         return Optional.of(oldValue);
     }
