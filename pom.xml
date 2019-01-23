@@ -158,6 +158,7 @@
         <module>configsource-json</module>
         <module>configsource-xml</module>
         <module>configsource-etcd</module>
+        <module>configsource-db</module>
         <!-- converters -->
         <module>configconverter-list</module>
         <module>configconverter-json</module>
