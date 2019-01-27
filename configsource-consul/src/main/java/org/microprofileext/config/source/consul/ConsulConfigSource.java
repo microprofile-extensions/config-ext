@@ -23,28 +23,35 @@ public class ConsulConfigSource extends EnabledConfigSource {
     
     private static final String NAME = "ConsulConfigSource";
 
-    private static final String KEY_PREFIX = "configsource.consul.";    
+    private static final String KEY_PREFIX = "configsource.consul.";
     private static final String KEY_HOST = KEY_PREFIX + "host";
     private static final String DEFAULT_HOST = "localhost";
     private static final String KEY_VALIDITY = KEY_PREFIX + "validity";
     private static final Long DEFAULT_VALIDITY = 30L;
     private static final String KEY_CONSUL_PREFIX = KEY_PREFIX + "prefix";
 
-    // enable variable substitution for configsource config
+    // enable variable substitution for configsource config (e.g. consul host might be injected by the environment, but with a different key)
+    // TODO verify if still needed
     private StringSubstitutor substitutor = new StringSubstitutor(s -> getConfig().getOptionalValue(s, String.class).orElse(""));
 
-    private ConsulClient client = null;
+    ConsulClient client = null;
     private Long validity = null;
     private String prefix = null;
     
     private Map<String, TimedEntry> cache = new ConcurrentHashMap<>();
     
-    public ConsulConfigSource(){
+    public ConsulConfigSource() {
         super.initOrdinal(320);
     }
     
+    // used for tests
+    public ConsulConfigSource(ConsulClient client) {
+        this.client = client;
+    }
+
     @Override
     public Map<String, String> getPropertiesIfEnabled() {
+        log.info("getProperties");
         return cache.entrySet()
                 .stream()
                 .filter(e -> e.getValue().getValue() != null)
@@ -67,11 +74,7 @@ public class ConsulConfigSource extends EnabledConfigSource {
             try {
                 value = getClient().getKVValue(getPrefix() + key).getValue();
             } catch (Exception e) {
-                log.log(Level.FINE, "consul getKVValue failed: {0}", e.getMessage());
-//                if (consulError == null || consulError.isExpired()) {
-//                    log.warn("consul getKVValue failed, {}" , e.getMessage());
-//                    consulError = new TimedEntry("");
-//                }
+                log.log(Level.WARNING, "consul getKVValue failed: {0}", e.getMessage());
                 if (entry != null) {
                     return entry.getValue();
                 }
@@ -102,17 +105,17 @@ public class ConsulConfigSource extends EnabledConfigSource {
 
     private String getPrefix() {
         if (prefix == null) {
-            prefix = getConfig().getOptionalValue(KEY_CONSUL_PREFIX, String.class).orElse("");
+            prefix = getConfig().getOptionalValue(KEY_CONSUL_PREFIX, String.class).map(s -> s + "/").orElse("");
         }
         return prefix;
     }
 
-    private ConsulClient getClient(){
-        if(this.client == null ){
+    private ConsulClient getClient() {
+        if (client == null ) {
             log.info("Loading [consul] MicroProfile ConfigSource");
             client = new ConsulClient(substitutor.replace(getConfig().getOptionalValue(KEY_HOST, String.class).orElse(DEFAULT_HOST)));
         }
-        return this.client;
+        return client;
     }
 
     class TimedEntry {
