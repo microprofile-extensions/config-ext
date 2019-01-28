@@ -5,7 +5,8 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configsource-consul/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configsource-consul)
 [![Javadocs](https://www.javadoc.io/badge/org.microprofile-ext.config-ext/configsource-consul.svg)](https://www.javadoc.io/doc/org.microprofile-ext.config-ext/configsource-consul)
 
-Use [consul](https://consul.io/) to get config values. You can define the server details of the consul server using MicroProfile Config:
+Use [consul](https://consul.io/) to get config values. You can define the server details of the consul server using MicroProfile Config.
+Values are cached to reduce calls to consul. This config source does not support config events (yet).
 
 ## Usage
 
@@ -22,7 +23,7 @@ Use [consul](https://consul.io/) to get config values. You can define the server
 
 ## Configure options
 
-    configsource.consul.host=localhost (default)
+    configsource.consul.host (defaults to localhost)
     configsource.consul.prefix (default no prefix)
     configsource.consul.validity (default 30s)
   
@@ -30,3 +31,7 @@ Use [consul](https://consul.io/) to get config values. You can define the server
 You can disable the config source by setting this config:
     
     ConsulConfigSource.enabled=false  
+
+## Links
+* https://github.com/rikcarve/consulkv-maven-plugin
+* https://microprofile.io/project/eclipse/microprofile-config
