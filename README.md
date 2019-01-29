@@ -15,6 +15,7 @@ Here you will find some extra Config sources, Config converters and some utils f
 * [Xml Config source](https://github.com/microprofile-extensions/config-ext/blob/master/configsource-xml/README.md)
 * [Etcd Config source](https://github.com/microprofile-extensions/config-ext/blob/master/configsource-etcd/README.md)
 * [DB Config source](https://github.com/microprofile-extensions/config-ext/blob/master/configsource-db/README.md)
+* [Consul Config source](https://github.com/microprofile-extensions/config-ext/blob/master/configsource-consul/README.md)
 
 ### Config utils
 * [Config events](https://github.com/microprofile-extensions/config-ext/blob/master/config-events/README.md)
