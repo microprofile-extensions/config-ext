@@ -32,13 +32,13 @@ public class ConsulConfigSource extends EnabledConfigSource {
 
     // enable variable substitution for configsource config (e.g. consul host might be injected by the environment, but with a different key)
     // TODO verify if still needed
-    private StringSubstitutor substitutor = new StringSubstitutor(s -> getConfig().getOptionalValue(s, String.class).orElse(""));
+    private final StringSubstitutor substitutor = new StringSubstitutor(s -> getConfig().getOptionalValue(s, String.class).orElse(""));
 
     ConsulClient client = null;
     private Long validity = null;
     private String prefix = null;
     
-    private Map<String, TimedEntry> cache = new ConcurrentHashMap<>();
+    private final Map<String, TimedEntry> cache = new ConcurrentHashMap<>();
     
     public ConsulConfigSource() {
         super.initOrdinal(320);

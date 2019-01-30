@@ -51,6 +51,9 @@
             <name>Derek P. Moore</name>
             <email>dpmoore@acm.org</email>
         </developer>
+        <developer>
+            <name>Arik Dasen</name>
+        </developer>
     </developers>
     
     <properties>

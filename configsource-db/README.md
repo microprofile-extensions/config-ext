@@ -1,7 +1,11 @@
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configsource-db/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configsource-db)
+[Back to config-ext](https://github.com/microprofile-extensions/config-ext/blob/master/README.md)
 
 # Database config source
-A eclipse microprofile config extension which uses a database as source.
+
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configsource-db/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.microprofile-ext.config-ext/configsource-db)
+[![Javadocs](https://www.javadoc.io/badge/org.microprofile-ext.config-ext/configsource-db.svg)](https://www.javadoc.io/doc/org.microprofile-ext.config-ext/configsource-db)
+
+An Eclipse MicroProfile config extension which uses a database as source.
 
 ## Overview
 The eclipse microprofile config framework is a simple yet powerful configuration framework for Java EE. But most implementations only provide the system/env properties or property files as configuration source. This small library provides an ConfigSource implementation which reads the values from the default datasource. For performance reasons, the config values are cached.
