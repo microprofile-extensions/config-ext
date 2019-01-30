@@ -4,7 +4,7 @@
     
     <groupId>org.microprofile-ext</groupId>
     <artifactId>config-ext</artifactId>
-    <version>1.0.6</version>
+    <version>1.0.7-SNAPSHOT</version>
     <packaging>pom</packaging>
     
     <name>Microprofile Config Extensions</name>
@@ -62,7 +62,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         
         <lombok.version>1.18.4</lombok.version>
-        <microProfile.version>1.4</microProfile.version>
+        <microProfile.version>2.1</microProfile.version>
     </properties>
     
     <dependencyManagement>

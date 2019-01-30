@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.microprofile-ext</groupId>
         <artifactId>config-ext</artifactId>
-        <version>1.0.6</version>
+        <version>1.0.7-SNAPSHOT</version>
     </parent>
     
     <groupId>org.microprofile-ext.config-ext</groupId>
@@ -92,7 +92,7 @@
             </activation>
             
             <properties>
-                <thorntail.version>2.2.1.Final</thorntail.version>
+                <thorntail.version>2.3.0.Final</thorntail.version>
                 <thorntail.configDir>${basedir}${file.separator}src${file.separator}main${file.separator}resources</thorntail.configDir>
             </properties>
             
@@ -199,7 +199,7 @@
             <properties>
                 <!-- payara-micro properties -->
                 <payara-micro.maven.version>1.0.2</payara-micro.maven.version>
-                <payara-micro.version>5.183</payara-micro.version>
+                <payara-micro.version>5.184</payara-micro.version>
                 <payara-micro.installDir>${java.io.tmpdir}${file.separator}${project.artifactId}${file.separator}payara-micro</payara-micro.installDir>
                 <payara-micro.configDir>${basedir}${file.separator}src${file.separator}main${file.separator}payara-micro${file.separator}config</payara-micro.configDir>
                 <payara-micro.logsDir>${payara-micro.installDir}${file.separator}logs</payara-micro.logsDir>
@@ -313,7 +313,7 @@
             <properties>
                 <log.name>org.microprofileext.config</log.name>
                 <log.level>FINEST</log.level>
-                <openliberty.version>18.0.0.3</openliberty.version>
+                <openliberty.version>18.0.0.4</openliberty.version>
                 <openliberty.http.port>8080</openliberty.http.port>
                 <openliberty.https.port>8443</openliberty.https.port>
                 <openliberty.installDir>${java.io.tmpdir}${file.separator}${project.artifactId}${file.separator}openliberty</openliberty.installDir>
