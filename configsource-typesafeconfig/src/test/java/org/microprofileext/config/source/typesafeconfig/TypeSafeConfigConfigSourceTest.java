@@ -6,8 +6,6 @@ import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.InputStream;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
@@ -18,8 +16,6 @@ class TypeSafeConfigConfigSourceTest {
 
     @BeforeEach
     public void init() {
-        InputStream asStream = TypeSafeConfigConfigSourceTest.class.getClassLoader().getResourceAsStream("TestConfig.conf");
-//        testConfig = ConfigFactory.parseResources(TypeSafeConfigConfigSourceTest.class, "TestConfig.conf");
         testConfig = ConfigFactory.parseResources(
                 TypeSafeConfigConfigSourceTest.class.getClassLoader(),
                 "TestConfig.conf");
