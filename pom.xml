@@ -4,7 +4,7 @@
     
     <groupId>org.microprofile-ext</groupId>
     <artifactId>config-ext</artifactId>
-    <version>1.0.7</version>
+    <version>1.0.8-SNAPSHOT</version>
     <packaging>pom</packaging>
     
     <name>Microprofile Config Extensions</name>
@@ -53,6 +53,10 @@
         </developer>
         <developer>
             <name>Arik Dasen</name>
+        </developer>
+        <developer>
+            <name>Erik Noren</name>
+            <email>enoren@gmail.com</email>
         </developer>
     </developers>
     
