@@ -1,4 +1,4 @@
-package org.microprofileext.config.source.yaml;
+package org.microprofileext.config.source.xml;
 
 import java.util.List;
 import java.util.Set;
@@ -51,7 +51,7 @@ public class ListTest {
                 .addPackages(true, ConfigImpl.class.getPackage())
                 .addPackages(true, Config.class.getPackage())
                 .addAsServiceProviderAndClasses(Extension.class, ConfigExtension.class)
-                .addAsServiceProviderAndClasses(ConfigSource.class, YamlConfigSource.class)
+                .addAsServiceProviderAndClasses(ConfigSource.class, XmlConfigSource.class)
                 .addAsManifestResource("META-INF/beans.xml");
     }
 

@@ -2,6 +2,7 @@ package org.microprofileext.config.source.xml;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -95,17 +96,15 @@ public class XmlConfigSource extends AbstractUrlBasedSource {
     }
 
     private String addToList(String existing,String newElement){
-        if(existing.startsWith(OPEN_BRACKET))existing = existing.replace(OPEN_BRACKET, EMPTY);
-        if(existing.endsWith(CLOSE_BRACKET))existing = existing.replace(CLOSE_BRACKET, EMPTY);
-        if(existing.contains(COMMA))existing = existing.replace(COMMA + SPACE, COMMA);
-        existing = existing.trim() + COMMA + newElement.trim();
-        List<String> l = Arrays.asList(existing.split(COMMA));
-        return l.toString();
+        if(newElement.contains(COMMA))newElement = newElement.replaceAll(COMMA, "\\\\,"); // Escape comma
+        
+        String[] split = existing.split(COMMA);
+        List<String> l = new ArrayList<>(Arrays.asList(split));
+        l.add(newElement);
+        
+        String join = String.join(COMMA, l);
+        return join;
     }
     
-    private static final String OPEN_BRACKET = "[";
-    private static final String CLOSE_BRACKET = "]";
     private static final String COMMA = ",";
-    private static final String EMPTY = "";
-    private static final String SPACE = " ";
 }
