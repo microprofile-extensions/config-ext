@@ -7,4 +7,12 @@
                 <goal>release:update-versions</goal>
             </goals>
         </action>
+        <action>
+            <actionName>CUSTOM-release</actionName>
+            <displayName>release</displayName>
+            <goals>
+                <goal>versions:set</goal>
+                <goal>-DremoveSnapshot</goal>
+            </goals>
+        </action>
     </actions>

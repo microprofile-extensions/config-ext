@@ -1,6 +1,7 @@
 package org.microprofileext.config.source.yaml;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import lombok.extern.java.Log;
@@ -24,7 +25,7 @@ public class YamlConfigSource extends AbstractUrlBasedSource {
     protected Map<String, String> toMap(InputStream inputStream) {
         final Map<String,String> properties = new TreeMap<>();
         Yaml yaml = new Yaml();
-        TreeMap<String, Object> yamlInput = yaml.loadAs(inputStream, TreeMap.class);
+        Map<String, Object> yamlInput = yaml.loadAs(inputStream, TreeMap.class);
         
         for (String key : yamlInput.keySet()) {
             populateMap(properties,key, yamlInput.get(key));
@@ -39,7 +40,10 @@ public class YamlConfigSource extends AbstractUrlBasedSource {
             for (Object mapKey : map.keySet()) {
                 populateEntry(properties, key,mapKey.toString(),map);
             }
-        }else{
+        } else if (o instanceof List) {
+            List l = (List)o;
+            properties.put(key,String.join(COMMA, l));
+        } else{
             if(o!=null)properties.put(key,o.toString());
         }
     }
@@ -49,8 +53,13 @@ public class YamlConfigSource extends AbstractUrlBasedSource {
         String format = "%s" + super.getKeySeparator() + "%s";
         if (map.get(mapKey) instanceof Map) {
             populateMap(properties, String.format(format, key, mapKey), (Map<String, Object>) map.get(mapKey));
+        } else if (map.get(mapKey) instanceof List) {
+            List l = (List)map.get(mapKey);
+            properties.put(String.format(format, key, mapKey),String.join(COMMA, l));
         } else {
             properties.put(String.format(format, key, mapKey), map.get(mapKey).toString());
         }   
     }
+    
+    private static final String COMMA = ",";
 }
