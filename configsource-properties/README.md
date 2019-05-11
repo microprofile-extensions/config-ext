@@ -29,7 +29,7 @@ This source gets values from some properties file(s).
     location.host=localhost
     location.port=8080
     location.path=/some/path
-    location.jedis=[Yoda, Qui-Gon Jinn, Obi-Wan Kenobi, Luke Skywalker]
+    location.jedis=Yoda, Qui-Gon Jinn, Obi-Wan Kenobi, Luke Skywalker
     
 ```
 
