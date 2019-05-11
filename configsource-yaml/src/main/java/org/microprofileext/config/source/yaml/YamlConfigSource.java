@@ -1,6 +1,7 @@
 package org.microprofileext.config.source.yaml;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -41,7 +42,7 @@ public class YamlConfigSource extends AbstractUrlBasedSource {
                 populateEntry(properties, key,mapKey.toString(),map);
             }
         } else if (o instanceof List) {
-            List l = (List)o;
+            List<String> l = toStringList((List)o);
             properties.put(key,String.join(COMMA, l));
         } else{
             if(o!=null)properties.put(key,o.toString());
@@ -54,11 +55,21 @@ public class YamlConfigSource extends AbstractUrlBasedSource {
         if (map.get(mapKey) instanceof Map) {
             populateMap(properties, String.format(format, key, mapKey), (Map<String, Object>) map.get(mapKey));
         } else if (map.get(mapKey) instanceof List) {
-            List l = (List)map.get(mapKey);
+            List<String> l = toStringList((List)map.get(mapKey));
             properties.put(String.format(format, key, mapKey),String.join(COMMA, l));
         } else {
             properties.put(String.format(format, key, mapKey), map.get(mapKey).toString());
         }   
+    }
+    
+    private List<String> toStringList(List l){
+        List<String> nl = new ArrayList<>();
+        for(Object o:l){
+            String s = String.valueOf(o);
+            if(s.contains(COMMA))s = s.replaceAll(COMMA, "\\\\,"); // Escape comma
+            nl.add(s);
+        }
+        return nl;
     }
     
     private static final String COMMA = ",";

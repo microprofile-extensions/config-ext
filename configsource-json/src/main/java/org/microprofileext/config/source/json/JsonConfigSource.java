@@ -50,7 +50,10 @@ public class JsonConfigSource extends AbstractUrlBasedSource {
             for (Object mapKey : map.keySet()) {
                 populateEntry(properties,key,mapKey.toString(),map);
             }
-        }else{
+        } else if (o instanceof List) {    
+            List<String> l = toStringList((List)o);
+            properties.put(key,String.join(COMMA, l));
+        } else{
             if(o!=null)properties.put(key,o.toString());
         }
     }
@@ -60,9 +63,22 @@ public class JsonConfigSource extends AbstractUrlBasedSource {
         String format = "%s" + super.getKeySeparator() + "%s";
         if (map.get(mapKey) instanceof Map) {
             populateMap(properties, String.format(format, key, mapKey), (Map<String, Object>) map.get(mapKey));
+        } else if (map.get(mapKey) instanceof List) {
+            List<String> l = toStringList((List)map.get(mapKey));
+            properties.put(String.format(format, key, mapKey),String.join(COMMA, l));
         } else {
             properties.put(String.format(format, key, mapKey), map.get(mapKey).toString());
         }   
+    }
+    
+    private List<String> toStringList(List l){
+        List<String> nl = new ArrayList<>();
+        for(Object o:l){
+            String s = String.valueOf(o);
+            if(s.contains(COMMA))s = s.replaceAll(COMMA, "\\\\,"); // Escape comma
+            nl.add(s);
+        }
+        return nl;
     }
     
     private Map<String, Object> jsonToMap(JsonObject json) {
@@ -147,4 +163,6 @@ public class JsonConfigSource extends AbstractUrlBasedSource {
         }
         return map;
     }
+    
+    private static final String COMMA = ",";
 }
