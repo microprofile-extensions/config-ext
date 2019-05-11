@@ -65,8 +65,8 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         
-        <lombok.version>1.18.4</lombok.version>
-        <microProfile.version>2.1</microProfile.version>
+        <lombok.version>1.18.6</lombok.version>
+        <microProfile.version>2.2</microProfile.version>
     </properties>
     
     <dependencyManagement>
@@ -91,7 +91,7 @@
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
-                <version>1.4.0.Final</version>
+                <version>1.4.1.Final</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -123,7 +123,7 @@
         <dependency>
             <groupId>org.jboss.arquillian.container</groupId>
             <artifactId>arquillian-weld-embedded</artifactId>
-            <version>2.0.0.Final</version>
+            <version>2.0.1.Final</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -140,13 +140,13 @@
         <dependency>
             <groupId>org.apache.geronimo.config</groupId>
             <artifactId>geronimo-config-impl</artifactId>
-            <version>1.2</version>
+            <version>1.2.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.11.1</version>
+            <version>3.12.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
