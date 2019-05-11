@@ -33,6 +33,29 @@ This source gets values from some properties file(s).
     
 ```
 
+
+You can `inject` the jedis using any of the following:
+
+```java
+
+    @Inject
+    @ConfigProperty(name = "location.jedis")
+    String jedisAsString; 
+    
+    @Inject
+    @ConfigProperty(name = "location.jedis")
+    List<String> jedisAsList;
+    
+    @Inject
+    @ConfigProperty(name = "location.jedis")
+    Set<String> jedisAsSet;
+    
+    @Inject
+    @ConfigProperty(name = "location.jedis")
+    String[] jedisAsArray;
+
+```
+
 ## Configure options
 
 ### Url(s)
