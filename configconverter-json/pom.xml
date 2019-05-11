@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.microprofile-ext</groupId>
         <artifactId>config-ext</artifactId>
-        <version>1.0.8</version>
+        <version>1.0.9-SNAPSHOT</version>
     </parent>
     
     <groupId>org.microprofile-ext.config-ext</groupId>
