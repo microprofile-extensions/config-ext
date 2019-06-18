@@ -1,6 +1,14 @@
+
+# Notice:
+**All config extensions has moved to [Smallrye](https://smallrye.io/)**
+**The code is available in [GitHub](https://github.com/smallrye/smallrye-config)**
+
+Below is just for historical reference.
+
+*********************
 [Extensions for MicroProfile](https://www.microprofile-ext.org/)
 
-# Config Extensions
+## Config Extensions
 
 [![build_status](https://travis-ci.com/microprofile-extensions/config-ext.svg?branch=master)](https://travis-ci.com/microprofile-extensions/config-ext)
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://github.com/microprofile-extensions/config-ext/blob/master/LICENSE)
@@ -26,6 +34,6 @@ Here you will find some extra Config sources, Config converters and some utils f
 * [List Config converter](https://github.com/microprofile-extensions/config-ext/blob/master/configconverter-list/README.md)
 * [Json Config converter](https://github.com/microprofile-extensions/config-ext/blob/master/configconverter-json/README.md)
 
-## Example
+### Example
 
 Also look at the [example application](https://github.com/microprofile-extensions/config-ext/blob/master/config-example/README.md) to see how this is used
