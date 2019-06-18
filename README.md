@@ -6,11 +6,15 @@
 Below is just for historical reference.
 
 *********************
+*********************
+*********************
+*********************
+*********************
+*********************
 [Extensions for MicroProfile](https://www.microprofile-ext.org/)
 
 ## Config Extensions
 
-[![build_status](https://travis-ci.com/microprofile-extensions/config-ext.svg?branch=master)](https://travis-ci.com/microprofile-extensions/config-ext)
 [![License](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://github.com/microprofile-extensions/config-ext/blob/master/LICENSE)
 ___________
 Here you will find some extra Config sources, Config converters and some utils for MicroProfile Config API.
