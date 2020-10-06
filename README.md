@@ -1,16 +1,4 @@
 
-# Notice:
-**All config extensions has moved to [Smallrye](https://smallrye.io/)**
-**The code is available in [GitHub](https://github.com/smallrye/smallrye-config)**
-
-Below is just for historical reference.
-
-*********************
-*********************
-*********************
-*********************
-*********************
-*********************
 [Extensions for MicroProfile](https://www.microprofile-ext.org/)
 
 ## Config Extensions
