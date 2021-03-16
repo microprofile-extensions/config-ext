@@ -29,8 +29,31 @@ This source gets values from some properties file(s).
     location.host=localhost
     location.port=8080
     location.path=/some/path
-    location.jedis=[Yoda, Qui-Gon Jinn, Obi-Wan Kenobi, Luke Skywalker]
+    location.jedis=Yoda, Qui-Gon Jinn, Obi-Wan Kenobi, Luke Skywalker
     
+```
+
+
+You can `inject` the jedis using any of the following:
+
+```java
+
+    @Inject
+    @ConfigProperty(name = "location.jedis")
+    String jedisAsString; 
+    
+    @Inject
+    @ConfigProperty(name = "location.jedis")
+    List<String> jedisAsList;
+    
+    @Inject
+    @ConfigProperty(name = "location.jedis")
+    Set<String> jedisAsSet;
+    
+    @Inject
+    @ConfigProperty(name = "location.jedis")
+    String[] jedisAsArray;
+
 ```
 
 ## Configure options
@@ -47,7 +70,7 @@ example:
 
 You can also add more than one location by comma-separating the location:
 
-    configsource.properties.url=file:/tmp/myconfig.json,http://localhost/myconfig.properties
+    configsource.properties.url=file:/tmp/myconfig.properties,http://localhost/myconfig.properties
 
 The latest files will override properties in previous files. As example, if using above configuration, property `foo=bar` in `file:/tmp/myconfig.properties` will be override if it's added to `http://localhost/myconfig.properties`.
 

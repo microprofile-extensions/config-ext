@@ -4,7 +4,7 @@
     
     <groupId>org.microprofile-ext</groupId>
     <artifactId>config-ext</artifactId>
-    <version>1.0.6-SNAPSHOT</version>
+    <version>1.0.12-SNAPSHOT</version>
     <packaging>pom</packaging>
     
     <name>Microprofile Config Extensions</name>
@@ -51,6 +51,13 @@
             <name>Derek P. Moore</name>
             <email>dpmoore@acm.org</email>
         </developer>
+        <developer>
+            <name>Arik Dasen</name>
+        </developer>
+        <developer>
+            <name>Erik Noren</name>
+            <email>enoren@gmail.com</email>
+        </developer>
     </developers>
     
     <properties>
@@ -58,8 +65,8 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         
-        <lombok.version>1.18.4</lombok.version>
-        <microProfile.version>1.4</microProfile.version>
+        <lombok.version>1.18.6</lombok.version>
+        <microProfile.version>2.2</microProfile.version>
     </properties>
     
     <dependencyManagement>
@@ -84,7 +91,7 @@
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
-                <version>1.4.0.Final</version>
+                <version>1.4.1.Final</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -116,7 +123,7 @@
         <dependency>
             <groupId>org.jboss.arquillian.container</groupId>
             <artifactId>arquillian-weld-embedded</artifactId>
-            <version>2.0.0.Final</version>
+            <version>2.0.1.Final</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -127,19 +134,19 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.geronimo.config</groupId>
             <artifactId>geronimo-config-impl</artifactId>
-            <version>1.2</version>
+            <version>1.2.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.11.1</version>
+            <version>3.12.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -159,6 +166,8 @@
         <module>configsource-xml</module>
         <module>configsource-etcd</module>
         <module>configsource-db</module>
+        <module>configsource-consul</module>
+        <module>configsource-typesafeconfig</module>
         <!-- converters -->
         <module>configconverter-list</module>
         <module>configconverter-json</module>
@@ -209,6 +218,9 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
                         <version>2.10.4</version>
+                        <configuration>
+                            <source>8</source>
+                        </configuration>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
@@ -218,12 +230,10 @@
                             </execution>
                         </executions>
                     </plugin>
-
                     <!-- To sign the artifacts -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
@@ -237,6 +247,16 @@
                 </plugins>        
 
             </build>
+        </profile>
+        <profile>
+            <id>jdk11plus</id>
+            <activation>
+                <jdk>[11,)</jdk>
+            </activation>
+            <properties>
+                <jboss.extra.opts>--add-modules java.se</jboss.extra.opts>
+                <maven.compiler.release>8</maven.compiler.release>
+            </properties>
         </profile>
     </profiles>
     

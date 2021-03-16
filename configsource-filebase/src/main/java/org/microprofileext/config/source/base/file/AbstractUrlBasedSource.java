@@ -26,6 +26,7 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource impleme
     private final LinkedHashMap<URL,Map<String, String>> propertiesMap = new LinkedHashMap<>();
     private final Map<String, String> properties = new HashMap<>();
     private String urlInputString;
+    private String escapedUrlInputString;
     private String keySeparator;
     private boolean pollForChanges;
     private int pollInterval;
@@ -46,6 +47,7 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource impleme
         this.pollForChanges = loadPollForChanges();
         this.pollInterval = loadPollInterval();
         this.urlInputString = loadUrlPath();
+        this.escapedUrlInputString = escapeUrlInputString(this.urlInputString);
         this.loadUrls(urlInputString);
         
         super.initOrdinal(500); 
@@ -68,7 +70,7 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource impleme
 
     @Override
     public String getName() {
-        return getClassKeyPrefix() + UNDERSCORE + this.urlInputString;
+        return getClassKeyPrefix() + UNDERSCORE + this.escapedUrlInputString;
     }
     
     @Override
@@ -78,6 +80,10 @@ public abstract class AbstractUrlBasedSource extends EnabledConfigSource impleme
         mergeProperties();
         Map<String, String> after = new HashMap<>(this.properties);
         if(notifyOnChanges)ChangeEventNotifier.getInstance().detectChangesAndFire(before, after,getName());
+    }
+    
+    private String escapeUrlInputString(String urlInputString) {
+        return urlInputString != null ? urlInputString.replaceAll("[:=]", "_") : "";
     }
     
     private void initialLoad(URL url){
