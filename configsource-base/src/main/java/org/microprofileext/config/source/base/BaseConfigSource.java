@@ -47,6 +47,11 @@ public abstract class BaseConfigSource implements ConfigSource {
     }
     
     @Override
+    Set<String> getPropertyNames() {
+        return getProperties().keySet();
+    }
+    
+    @Override
     public int getOrdinal() {
         return ordinal;
     }
