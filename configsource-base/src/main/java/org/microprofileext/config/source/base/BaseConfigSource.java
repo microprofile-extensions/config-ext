@@ -19,6 +19,7 @@
  */
 package org.microprofileext.config.source.base;
 
+import java.util.Set;
 import java.util.logging.Level;
 import lombok.Getter;
 import lombok.extern.java.Log;
@@ -47,7 +48,7 @@ public abstract class BaseConfigSource implements ConfigSource {
     }
     
     @Override
-    Set<String> getPropertyNames() {
+    public Set<String> getPropertyNames() {
         return getProperties().keySet();
     }
     
