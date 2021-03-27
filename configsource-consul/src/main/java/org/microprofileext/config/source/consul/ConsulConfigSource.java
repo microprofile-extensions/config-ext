@@ -1,139 +1,65 @@
 package org.microprofileext.config.source.consul;
 
+import lombok.extern.java.Log;
+import org.eclipse.microprofile.config.spi.ConfigSource;
+import org.microprofileext.config.source.base.ExpiringMap;
+
+import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
-import org.apache.commons.text.StringSubstitutor;
-import org.microprofileext.config.source.base.EnabledConfigSource;
-
-import com.ecwid.consul.v1.ConsulClient;
-import com.ecwid.consul.v1.kv.model.GetValue;
-
-import lombok.extern.java.Log;
-
-/**
- * Consul config source
- * @author Arik Dasen
- * 
- */
 @Log
-public class ConsulConfigSource extends EnabledConfigSource {
-    
-    private static final String NAME = "ConsulConfigSource";
+public class ConsulConfigSource implements ConfigSource {
 
-    private static final String KEY_PREFIX = "configsource.consul.";
-    private static final String KEY_HOST = KEY_PREFIX + "host";
-    private static final String DEFAULT_HOST = "localhost";
-    private static final String KEY_VALIDITY = KEY_PREFIX + "validity";
-    private static final Long DEFAULT_VALIDITY = 30L;
-    private static final String KEY_CONSUL_PREFIX = KEY_PREFIX + "prefix";
+    private static final String DEFAULT_CONSUL_CONFIGSOURCE_ORDINAL = "550";
 
-    // enable variable substitution for configsource config (e.g. consul host might be injected by the environment, but with a different key)
-    // TODO verify if still needed
-    private final StringSubstitutor substitutor = new StringSubstitutor(s -> getConfig().getOptionalValue(s, String.class).orElse(""));
-
-    ConsulClient client = null;
-    private Long validity = null;
-    private String prefix = null;
-    
-    private final Map<String, TimedEntry> cache = new ConcurrentHashMap<>();
-    
-    public ConsulConfigSource() {
-        super.initOrdinal(320);
-    }
-    
-    // used for tests
-    public ConsulConfigSource(ConsulClient client) {
-        this.client = client;
-    }
+    Configuration config = new Configuration();
+    ExpiringMap<String, String> cache = new ExpiringMap<>(config.getValidity());
+    boolean isDisabled = config.getConsulHost().isEmpty() && config.getConsulHostList().isEmpty();
+    ConsulClientWrapper client = new ConsulClientWrapper(config.getConsulHost(), config.getConsulHostList(), config.getConsulPort(), config.getToken());
 
     @Override
-    public Map<String, String> getPropertiesIfEnabled() {
-        log.info("getProperties");
-        return cache.entrySet()
+    public Map<String, String> getProperties() {
+        // only query for values if explicitly enabled
+        if (!isDisabled && config.listAll()) {
+            List<Entry<String, String>> values = client.getKeyValuePairs(config.getPrefix());
+            values.forEach(v -> cache.put(v.getKey(), v.getValue()));
+        }
+        return cache.getMap().entrySet()
                 .stream()
-                .filter(e -> e.getValue().getValue() != null)
+                .filter(e -> e.getValue().get() != null)
                 .collect(Collectors.toMap(
                         e -> e.getKey(),
-                        e -> e.getValue().getValue()));
+                        e -> e.getValue().get()));
     }
 
     @Override
-    public String getValue(String key) {
-        if (key.startsWith(KEY_PREFIX)) {
-            // in case we are about to configure ourselves we simply ignore that key
+    public Set<String> getPropertyNames() {
+        return getProperties().keySet();
+    }
+
+    @Override
+    public String getValue(String propertyName) {
+        if (isDisabled) {
             return null;
         }
-        
-        TimedEntry entry = cache.get(key);
-        if (entry == null || entry.isExpired()) {
-            log.log(Level.FINE, "load {0} from consul", key);
-            GetValue value = null;
-            try {
-                value = getClient().getKVValue(getPrefix() + key).getValue();
-            } catch (Exception e) {
-                log.log(Level.WARNING, "consul getKVValue failed: {0}", e.getMessage());
-                if (entry != null) {
-                    return entry.getValue();
-                }
-            }
-            if (value == null) {
-                cache.put(key, new TimedEntry(null));
-                return null;
-            }
-            String decodedValue = value.getDecodedValue();
-            cache.put(key, new TimedEntry(decodedValue));
-            return decodedValue;
+        String value = cache.getOrCompute(propertyName,
+                p -> client.getValue(config.getPrefix() + propertyName),
+                p -> log.log(Level.FINE, () -> "consul getKV failed for key " + p));
+        // use default if config_ordinal not found
+        if (CONFIG_ORDINAL.equals(propertyName)) {
+            return Optional.ofNullable(value).orElse(DEFAULT_CONSUL_CONFIGSOURCE_ORDINAL);
         }
-        return entry.getValue();
-        
+        return value;
     }
 
     @Override
     public String getName() {
-        return NAME;
-    }
-
-    private Long getValidity() {
-        if (validity == null) {
-            validity = getConfig().getOptionalValue(KEY_VALIDITY, Long.class).orElse(DEFAULT_VALIDITY) * 1000L;
-        }
-        return validity;
-    }
-
-    private String getPrefix() {
-        if (prefix == null) {
-            prefix = getConfig().getOptionalValue(KEY_CONSUL_PREFIX, String.class).map(s -> s + "/").orElse("");
-        }
-        return prefix;
-    }
-
-    private ConsulClient getClient() {
-        if (client == null ) {
-            log.info("Loading [consul] MicroProfile ConfigSource");
-            client = new ConsulClient(substitutor.replace(getConfig().getOptionalValue(KEY_HOST, String.class).orElse(DEFAULT_HOST)));
-        }
-        return client;
-    }
-
-    class TimedEntry {
-        private final String value;
-        private final long timestamp;
-
-        public TimedEntry(String value) {
-            this.value = value;
-            this.timestamp = System.currentTimeMillis();
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-        public boolean isExpired() {
-            return (timestamp + getValidity()) < System.currentTimeMillis();
-        }
+        return "ConsulConfigSource";
     }
 
 }
