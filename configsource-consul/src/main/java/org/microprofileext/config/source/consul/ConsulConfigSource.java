@@ -1,19 +1,18 @@
 package org.microprofileext.config.source.consul;
 
 import lombok.extern.java.Log;
-import org.eclipse.microprofile.config.spi.ConfigSource;
+import org.microprofileext.config.source.base.EnabledConfigSource;
 import org.microprofileext.config.source.base.ExpiringMap;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 @Log
-public class ConsulConfigSource implements ConfigSource {
+public class ConsulConfigSource extends EnabledConfigSource {
 
     private static final String DEFAULT_CONSUL_CONFIGSOURCE_ORDINAL = "550";
 
@@ -22,8 +21,13 @@ public class ConsulConfigSource implements ConfigSource {
     boolean isDisabled = config.getConsulHost().isEmpty() && config.getConsulHostList().isEmpty();
     ConsulClientWrapper client = new ConsulClientWrapper(config.getConsulHost(), config.getConsulHostList(), config.getConsulPort(), config.getToken());
 
+    public ConsulConfigSource() {
+        log.info("Loading [consul] MicroProfile ConfigSource");
+        super.initOrdinal(550);
+    }
+
     @Override
-    public Map<String, String> getProperties() {
+    public Map<String, String> getPropertiesIfEnabled() {
         // only query for values if explicitly enabled
         if (!isDisabled && config.listAll()) {
             List<Entry<String, String>> values = client.getKeyValuePairs(config.getPrefix());
@@ -35,11 +39,6 @@ public class ConsulConfigSource implements ConfigSource {
                 .collect(Collectors.toMap(
                         e -> e.getKey(),
                         e -> e.getValue().get()));
-    }
-
-    @Override
-    public Set<String> getPropertyNames() {
-        return getProperties().keySet();
     }
 
     @Override
@@ -62,4 +61,8 @@ public class ConsulConfigSource implements ConfigSource {
         return "ConsulConfigSource";
     }
 
+    @Override
+    public int getOrdinal() {
+        return getConfig().getOptionalValue(CONFIG_ORDINAL, Integer.class).orElse(550);
+    }
 }

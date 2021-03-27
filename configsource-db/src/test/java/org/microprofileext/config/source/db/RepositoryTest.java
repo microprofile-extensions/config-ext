@@ -1,25 +1,23 @@
 package org.microprofileext.config.source.db;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import org.eclipse.microprofile.config.Config;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-import org.eclipse.microprofile.config.Config;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class RepositoryTest {
 
-
     Repository repository;
-    
+
     @BeforeEach
     public void init() {
         Config config = mock(Config.class);
@@ -31,7 +29,7 @@ class RepositoryTest {
     void testGetConfigValue_exception() throws SQLException {
         repository.selectOne = mock(PreparedStatement.class);
         when(repository.selectOne.executeQuery()).thenThrow(SQLException.class);
-        assertNull(repository.getConfigValue("test"));
+        assertThrows(SQLException.class, () -> repository.getConfigValue("test"));
     }
 
     @Test
@@ -45,7 +43,7 @@ class RepositoryTest {
 
     @Test
     void testGetConfigValue_no_stmt() throws SQLException {
-        assertNull(repository.getConfigValue("test"));
+        assertThrows(SQLException.class, () -> repository.getConfigValue("test"));
     }
 
     @Test
@@ -67,7 +65,7 @@ class RepositoryTest {
     void testGetAllConfigValues_exception() throws SQLException {
         repository.selectAll = mock(PreparedStatement.class);
         when(repository.selectAll.executeQuery()).thenThrow(SQLException.class);
-        assertEquals(0, repository.getAllConfigValues().size());
+        assertThrows(SQLException.class, () -> repository.getAllConfigValues().size());
     }
 
     @Test
