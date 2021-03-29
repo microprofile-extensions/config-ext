@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.microprofile-ext</groupId>
         <artifactId>config-ext</artifactId>
-        <version>1.0.12-SNAPSHOT</version>
+        <version>2.0.0</version>
     </parent>
     
     <groupId>org.microprofile-ext.config-ext</groupId>
@@ -70,7 +70,7 @@
         <dependency>
             <groupId>org.microprofile-ext.openapi-ext</groupId>
             <artifactId>swagger-ui</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.3</version>
             <scope>runtime</scope>
         </dependency>
         
