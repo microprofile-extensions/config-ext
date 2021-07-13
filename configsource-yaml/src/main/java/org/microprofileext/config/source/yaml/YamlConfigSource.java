@@ -1,10 +1,8 @@
 package org.microprofileext.config.source.yaml;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
+
 import lombok.extern.java.Log;
 import org.microprofileext.config.source.base.file.AbstractUrlBasedSource;
 import org.yaml.snakeyaml.Yaml;
@@ -27,9 +25,11 @@ public class YamlConfigSource extends AbstractUrlBasedSource {
         final Map<String,String> properties = new TreeMap<>();
         Yaml yaml = new Yaml();
         Map<String, Object> yamlInput = yaml.loadAs(inputStream, TreeMap.class);
-        
-        for (String key : yamlInput.keySet()) {
-            populateMap(properties,key, yamlInput.get(key));
+
+        if(Objects.nonNull(yamlInput)) {
+            for (String key : yamlInput.keySet()) {
+                populateMap(properties,key, yamlInput.get(key));
+            }
         }
         return properties;
     }
