@@ -1,5 +1,6 @@
 package org.microprofileext.config.example;
 
+import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -12,7 +13,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import lombok.extern.java.Log;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.config.spi.ConfigSource;
@@ -25,12 +25,14 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
  * Example Service. JAX-RS
  * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
-@Log
 @RequestScoped
 @Path("/")
 @Consumes(MediaType.APPLICATION_JSON) @Produces(MediaType.APPLICATION_JSON)
 @Tag(name = "Example service",description = "Just some example")
 public class ExampleService {
+    
+    private static final Logger log = Logger.getLogger(ExampleService.class.getName());
+            
     @Inject
     private Config config;
     

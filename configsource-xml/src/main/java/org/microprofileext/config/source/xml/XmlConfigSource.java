@@ -9,9 +9,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
-import lombok.extern.java.Log;
 import org.eclipse.microprofile.config.Config;
 import org.microprofileext.config.source.base.file.AbstractUrlBasedSource;
 import org.xml.sax.Attributes;
@@ -23,8 +23,9 @@ import org.xml.sax.helpers.DefaultHandler;
  * Xml config source
  * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
-@Log
 public class XmlConfigSource extends AbstractUrlBasedSource {
+    
+    private static final Logger log = Logger.getLogger(XmlConfigSource.class.getName());
     
     @Override
     protected String getFileExtension() {

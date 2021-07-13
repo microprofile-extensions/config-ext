@@ -21,8 +21,7 @@ package org.microprofileext.config.source.base;
 
 import java.util.Set;
 import java.util.logging.Level;
-import lombok.Getter;
-import lombok.extern.java.Log;
+import java.util.logging.Logger;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
 
@@ -35,16 +34,19 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  * @author <a href="mailto:gpetracek@apache.org">Gerhard Petracek</a>
  * @author <a href="mailto:dpmoore@acm.org">Derek P. Moore</a>
  */
-@Log
 public abstract class BaseConfigSource implements ConfigSource {
+    private static final Logger log = Logger.getLogger(BaseConfigSource.class.getName());
     
-    @Getter
     private final Config config;
     private int ordinal = 1000; // default
 
     public BaseConfigSource(){
         super();
         this.config = createConfig();
+    }
+    
+    public Config getConfig(){
+        return this.config;
     }
     
     @Override

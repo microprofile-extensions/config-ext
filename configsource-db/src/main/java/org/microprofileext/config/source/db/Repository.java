@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -13,10 +14,8 @@ import javax.sql.DataSource;
 
 import org.eclipse.microprofile.config.Config;
 
-import lombok.extern.java.Log;
-
-@Log
 public class Repository {
+    private static final Logger log = Logger.getLogger(Repository.class.getName());
     
     private static final String KEY_PREFIX = "configsource.db.";
     private static final String KEY_DATASOURCE = KEY_PREFIX + "datasource";

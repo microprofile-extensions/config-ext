@@ -19,15 +19,16 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
-import lombok.extern.java.Log;
+import java.util.logging.Logger;
 
 /**
  * Watching files for changes
  * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
-@Log
 public class FileResourceWatcher {
 
+    private static final Logger log = Logger.getLogger(FileResourceWatcher.class.getName());
+    
     private WatchService watcher;
     
     private final Map<WatchKey,Path> directoryWatchers = new HashMap<>();

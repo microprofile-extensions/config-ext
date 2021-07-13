@@ -10,7 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
-import lombok.extern.java.Log;
+import java.util.logging.Logger;
 import org.microprofileext.config.event.ChangeEventNotifier;
 import org.microprofileext.config.source.base.EnabledConfigSource;
 
@@ -21,8 +21,10 @@ import org.microprofileext.config.source.base.EnabledConfigSource;
  * Load some file from a file and convert to properties.
  * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
-@Log
 public abstract class AbstractUrlBasedSource extends EnabledConfigSource implements Reloadable {
+    
+    private static final Logger log = Logger.getLogger(AbstractUrlBasedSource.class.getName());
+    
     private final LinkedHashMap<URL,Map<String, String>> propertiesMap = new LinkedHashMap<>();
     private final Map<String, String> properties = new HashMap<>();
     private String urlInputString;

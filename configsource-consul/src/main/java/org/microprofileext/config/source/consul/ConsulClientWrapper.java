@@ -3,7 +3,6 @@ package org.microprofileext.config.source.consul;
 import com.ecwid.consul.v1.ConsulClient;
 import com.ecwid.consul.v1.Response;
 import com.ecwid.consul.v1.kv.model.GetValue;
-import lombok.extern.java.Log;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -14,10 +13,11 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.function.Supplier;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-@Log
 public class ConsulClientWrapper {
+    private static final Logger log = Logger.getLogger(ConsulClientWrapper.class.getName());
 
     private String host;
     private List<String> peers = null;

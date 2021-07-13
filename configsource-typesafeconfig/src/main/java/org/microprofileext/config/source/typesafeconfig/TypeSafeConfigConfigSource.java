@@ -3,7 +3,6 @@ package org.microprofileext.config.source.typesafeconfig;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigException;
 import com.typesafe.config.ConfigFactory;
-import lombok.extern.java.Log;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.microprofileext.config.source.base.EnabledConfigSource;
 
@@ -11,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -18,9 +18,10 @@ import java.util.stream.Collectors;
  * capabilities. By default, unless a explicit config is provided this will leverage the default
  * TypeSafe config instance.
  */
-@Log
 public class TypeSafeConfigConfigSource extends EnabledConfigSource {
 
+    private static final Logger log = Logger.getLogger(TypeSafeConfigConfigSource.class.getName());
+    
     private static final String NAME = "TypeSafeConfigConfigSource";
     private Config config;
 
@@ -53,7 +54,6 @@ public class TypeSafeConfigConfigSource extends EnabledConfigSource {
 
     @Override
     public Map<String, String> getPropertiesIfEnabled() {
-        log.info("getProperties");
         HashMap<String, String> props = new HashMap<>();
         config.entrySet()
                 .forEach(entry ->

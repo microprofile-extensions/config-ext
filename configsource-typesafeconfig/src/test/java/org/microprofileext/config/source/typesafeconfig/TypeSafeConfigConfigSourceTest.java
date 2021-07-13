@@ -2,7 +2,6 @@ package org.microprofileext.config.source.typesafeconfig;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +30,7 @@ class TypeSafeConfigConfigSourceTest {
     @Test
     void testGetProperties_one() {
         // As properties are added to TestConfig.conf this will need to be incremented to match
-        val NUM_EXPECTED_PROPERTIES = 2;
+        int NUM_EXPECTED_PROPERTIES = 2;
         assertEquals(NUM_EXPECTED_PROPERTIES, configSource.getProperties().size());
     }
 

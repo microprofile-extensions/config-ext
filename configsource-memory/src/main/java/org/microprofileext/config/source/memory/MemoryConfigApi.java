@@ -17,7 +17,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
-import lombok.extern.java.Log;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.config.spi.ConfigSource;
@@ -34,7 +33,6 @@ import org.microprofileext.config.event.ChangeEventNotifier;
  * Expose the config as a REST endpoint
  * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
-@Log
 @Path("/microprofile-ext/memoryconfigsource")
 @Tag(name = "MicroProfile Memory Config", description = "In-memory config source for MicroProfile")
 public class MemoryConfigApi {

@@ -2,21 +2,22 @@ package org.microprofileext.config.event.regex;
 
 import java.util.Optional;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.Priority;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
-import lombok.extern.java.Log;
 import org.microprofileext.config.event.ChangeEvent;
 
-@Log    
 @RegexFilter(value = "")
 @Interceptor
 @Priority(100)
 public class RegexFilterInterceptor {
 
+    private static final Logger log = Logger.getLogger(RegexFilterInterceptor.class.getName());
+    
     @AroundInvoke
     public Object observer(InvocationContext ctx) throws Exception {
         

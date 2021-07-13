@@ -64,8 +64,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        
-        <lombok.version>1.18.18</lombok.version>
         <microProfile.version>4.0.1</microProfile.version>
     </properties>
     
@@ -77,13 +75,6 @@
                 <artifactId>microprofile</artifactId>
                 <version>${microProfile.version}</version>
                 <type>pom</type>
-                <scope>provided</scope>
-            </dependency>
-            <!-- Lombok -->
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
                 <scope>provided</scope>
             </dependency>
             
@@ -105,12 +96,6 @@
             <groupId>org.eclipse.microprofile</groupId>
             <artifactId>microprofile</artifactId>
             <type>pom</type>
-            <scope>provided</scope>
-        </dependency>
-        <!-- Lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
         <!-- Testing -->
@@ -171,8 +156,6 @@
         <!-- converters -->
         <module>configconverter-list</module>
         <module>configconverter-json</module>
-        <!-- example -->
-        <module>config-example</module>
         
     </modules>
     
@@ -185,28 +168,6 @@
                     <name>release</name>
                 </property>
             </activation>
-            
-            <modules>
-                <!-- utils -->
-                <module>config-events</module>
-                <module>configsource-providers</module> 
-                <!-- abstract bases -->
-                <module>configsource-base</module>
-                <module>configsource-filebase</module>
-                <!-- sources -->
-                <module>configsource-memory</module>
-                <module>configsource-properties</module>
-                <module>configsource-yaml</module>
-                <module>configsource-json</module>
-                <module>configsource-xml</module>
-                <module>configsource-etcd</module>
-                <module>configsource-db</module>
-                <module>configsource-consul</module>
-                <module>configsource-typesafeconfig</module>
-                <!-- converters -->
-                <module>configconverter-list</module>
-                <module>configconverter-json</module>
-            </modules>
             
             <build>
                 <plugins>

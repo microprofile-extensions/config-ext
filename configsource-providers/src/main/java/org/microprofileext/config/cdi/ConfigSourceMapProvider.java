@@ -2,11 +2,11 @@ package org.microprofileext.config.cdi;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Provider;
-import lombok.extern.java.Log;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
@@ -14,9 +14,11 @@ import org.eclipse.microprofile.config.spi.ConfigSource;
  * Making the Config sources available via CDI
  * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
-@Log
 @ApplicationScoped
 public class ConfigSourceMapProvider {
+    
+    private static final Logger log = Logger.getLogger(ConfigSourceMapProvider.class.getName());
+    
     @Inject
     private Provider<Config> configProvider;
     
