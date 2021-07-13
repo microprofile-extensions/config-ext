@@ -4,7 +4,7 @@
     
     <groupId>org.microprofile-ext</groupId>
     <artifactId>config-ext</artifactId>
-    <version>2.0.1</version>
+    <version>2.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     
     <name>Microprofile Config Extensions</name>

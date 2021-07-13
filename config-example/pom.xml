@@ -5,7 +5,7 @@
     <groupId>org.microprofile-ext.config-ext</groupId>
     <artifactId>config-example</artifactId>
     <packaging>war</packaging>
-    <version>2.0.1</version>
+    <version>2.0.2-SNAPSHOT</version>
     
     <name>Microprofile Config Extensions :: Example</name>
     <description>A basic Example of these extensions</description>
