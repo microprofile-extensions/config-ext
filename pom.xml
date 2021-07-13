@@ -186,6 +186,28 @@
                 </property>
             </activation>
             
+            <modules>
+                <!-- utils -->
+                <module>config-events</module>
+                <module>configsource-providers</module> 
+                <!-- abstract bases -->
+                <module>configsource-base</module>
+                <module>configsource-filebase</module>
+                <!-- sources -->
+                <module>configsource-memory</module>
+                <module>configsource-properties</module>
+                <module>configsource-yaml</module>
+                <module>configsource-json</module>
+                <module>configsource-xml</module>
+                <module>configsource-etcd</module>
+                <module>configsource-db</module>
+                <module>configsource-consul</module>
+                <module>configsource-typesafeconfig</module>
+                <!-- converters -->
+                <module>configconverter-list</module>
+                <module>configconverter-json</module>
+            </modules>
+            
             <build>
                 <plugins>
                     <!-- To release to Maven central -->
