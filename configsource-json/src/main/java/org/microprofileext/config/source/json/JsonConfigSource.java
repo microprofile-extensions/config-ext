@@ -7,22 +7,23 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.logging.Logger;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonException;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonValue;
-import lombok.extern.java.Log;
 import org.microprofileext.config.source.base.file.AbstractUrlBasedSource;
 
 /**
  * Json config source
  * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
-@Log
 public class JsonConfigSource extends AbstractUrlBasedSource {
 
+    private static final Logger log = Logger.getLogger(JsonConfigSource.class.getName());
+    
     @Override
     protected String getFileExtension() {
         return "json";

@@ -7,8 +7,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import javax.enterprise.util.AnnotationLiteral;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 /**
  * filter by change type
@@ -21,9 +19,15 @@ import lombok.NoArgsConstructor;
 public @interface TypeFilter {
     Type value();
     
-    @AllArgsConstructor @NoArgsConstructor
     class TypeFilterLiteral extends AnnotationLiteral<TypeFilter> implements TypeFilter {
         private Type type;
+
+        public TypeFilterLiteral() {
+        }
+
+        public TypeFilterLiteral(Type type) {
+            this.type = type;
+        }
         
         @Override
         public Type value(){

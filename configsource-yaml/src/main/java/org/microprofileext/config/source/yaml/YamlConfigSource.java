@@ -3,7 +3,6 @@ package org.microprofileext.config.source.yaml;
 import java.io.InputStream;
 import java.util.*;
 
-import lombok.extern.java.Log;
 import org.microprofileext.config.source.base.file.AbstractUrlBasedSource;
 import org.yaml.snakeyaml.Yaml;
 
@@ -11,7 +10,6 @@ import org.yaml.snakeyaml.Yaml;
  * Yaml config source
  * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
-@Log
 public class YamlConfigSource extends AbstractUrlBasedSource {
 
     @Override

@@ -7,8 +7,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import javax.enterprise.util.AnnotationLiteral;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 /**
  * Filter by config source
@@ -21,9 +19,15 @@ import lombok.NoArgsConstructor;
 public @interface SourceFilter {
     String value();
     
-    @AllArgsConstructor @NoArgsConstructor
     class SourceFilterLiteral extends AnnotationLiteral<SourceFilter> implements SourceFilter {
         private String name;
+
+        public SourceFilterLiteral() {
+        }
+
+        public SourceFilterLiteral(String name) {
+            this.name = name;
+        }
         
         @Override
         public String value(){

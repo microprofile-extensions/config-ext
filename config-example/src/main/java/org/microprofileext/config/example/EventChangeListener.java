@@ -1,10 +1,10 @@
 package org.microprofileext.config.example;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.EventMetadata;
-import lombok.extern.java.Log;
 import org.microprofileext.config.event.ChangeEvent;
 import org.microprofileext.config.event.Type;
 import org.microprofileext.config.event.KeyFilter;
@@ -17,10 +17,11 @@ import org.microprofileext.config.event.regex.Field;
  * Example Listener for changes in the events
  * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
-@Log
 @ApplicationScoped
 public class EventChangeListener {
 
+    private static final Logger log = Logger.getLogger(EventChangeListener.class.getName());
+    
     // Getting all config event
     public void all(@Observes ChangeEvent changeEvent){
         log.log(Level.SEVERE, "ALL: Received a config change event: {0}", changeEvent);

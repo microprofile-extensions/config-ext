@@ -1,6 +1,5 @@
 package org.microprofileext.config.source.consul;
 
-import lombok.extern.java.Log;
 import org.microprofileext.config.source.base.EnabledConfigSource;
 import org.microprofileext.config.source.base.ExpiringMap;
 
@@ -9,11 +8,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-@Log
 public class ConsulConfigSource extends EnabledConfigSource {
 
+    private static final Logger log = Logger.getLogger(ConsulConfigSource.class.getName());
+    
     private static final String DEFAULT_CONSUL_CONFIGSOURCE_ORDINAL = "550";
 
     Configuration config = new Configuration();

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.microprofile-ext</groupId>
-        <artifactId>config-ext</artifactId>
-        <version>2.0.1</version>
-    </parent>
     
     <groupId>org.microprofile-ext.config-ext</groupId>
     <artifactId>config-example</artifactId>
     <packaging>war</packaging>
+    <version>2.0.1</version>
     
     <name>Microprofile Config Extensions :: Example</name>
     <description>A basic Example of these extensions</description>
     
     <properties>
         <failOnMissingWebXml>false</failOnMissingWebXml>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <microProfile.version>4.0.1</microProfile.version>
         
         <!-- Our own config files -->
         <config.yaml>file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.yaml,file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config_prod.yaml,http://localhost/config.yaml</config.yaml>
@@ -25,7 +25,26 @@
         
     </properties>
     
+    <dependencyManagement>
+        <dependencies>
+            <!-- MicroProfile -->
+            <dependency>
+                <groupId>org.eclipse.microprofile</groupId>
+                <artifactId>microprofile</artifactId>
+                <version>${microProfile.version}</version>
+                <type>pom</type>
+                <scope>provided</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    
     <dependencies>
+        <dependency>
+            <groupId>org.eclipse.microprofile</groupId>
+            <artifactId>microprofile</artifactId>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
         
         <!-- Memory -->
         <dependency>

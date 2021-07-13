@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
-import lombok.extern.java.Log;
+import java.util.logging.Logger;
 import org.microprofileext.config.source.base.EnabledConfigSource;
 
 /**
@@ -23,8 +23,9 @@ import org.microprofileext.config.source.base.EnabledConfigSource;
  *          Watch.Watcher watch = this.client.getWatchClient().watch(bsKey);
  *          watch.listen();
  */
-@Log
 public class EtcdConfigSource extends EnabledConfigSource {
+    
+    private static final Logger log = Logger.getLogger(EtcdConfigSource.class.getName());
     
     private static final String NAME = "EtcdConfigSource";
 

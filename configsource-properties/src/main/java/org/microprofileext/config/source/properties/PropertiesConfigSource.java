@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
-import lombok.extern.java.Log;
+import java.util.logging.Logger;
 import org.microprofileext.config.source.base.file.AbstractUrlBasedSource;
 
 /**
@@ -31,9 +31,10 @@ import org.microprofileext.config.source.base.file.AbstractUrlBasedSource;
  * @author <a href="mailto:dpmoore@acm.org">Derek P. Moore</a>
  * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
-@Log
 public class PropertiesConfigSource extends AbstractUrlBasedSource {
 
+    private static final Logger log = Logger.getLogger(PropertiesConfigSource.class.getName());
+    
     @Override
     protected String getFileExtension() {
         return "properties";

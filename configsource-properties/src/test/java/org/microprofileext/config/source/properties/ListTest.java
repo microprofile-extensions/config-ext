@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 import javax.enterprise.inject.spi.Extension;
 import javax.inject.Inject;
-import lombok.extern.java.Log;
 import org.apache.geronimo.config.ConfigImpl;
 import org.apache.geronimo.config.cdi.ConfigExtension;
 import org.eclipse.microprofile.config.Config;
@@ -21,7 +20,6 @@ import org.junit.runner.RunWith;
 /**
  * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
-@Log
 @RunWith(Arquillian.class)
 public class ListTest {
 

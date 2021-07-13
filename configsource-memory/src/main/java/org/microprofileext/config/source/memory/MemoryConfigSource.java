@@ -2,15 +2,16 @@ package org.microprofileext.config.source.memory;
 
 import java.util.HashMap;
 import java.util.Map;
-import lombok.extern.java.Log;
+import java.util.logging.Logger;
 import org.microprofileext.config.source.base.EnabledConfigSource;
 
 /**
  * In memory config source. Use the REST Endpoint to populate values
  * @author <a href="mailto:phillip.kruger@phillip-kruger.com">Phillip Kruger</a>
  */
-@Log
 public class MemoryConfigSource extends EnabledConfigSource {
+    
+    private static final Logger log = Logger.getLogger(MemoryConfigSource.class.getName());
     
     public static final String NAME = "MemoryConfigSource";
     private static final Map<String,String> PROPERTIES = new HashMap<>();

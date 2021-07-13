@@ -1,21 +1,18 @@
 package org.microprofileext.config.source.db;
 
-import lombok.extern.java.Log;
-import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
-import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.microprofileext.config.source.base.EnabledConfigSource;
 import org.microprofileext.config.source.base.ExpiringMap;
 
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
+import java.util.logging.Logger;
 
-@Log
 public class DatasourceConfigSource extends EnabledConfigSource {
 
+    private static final Logger log = Logger.getLogger(DatasourceConfigSource.class.getName());
+    
     private static final String VALIDITY_KEY = "configsource.db.validity";
     private static final String CONFIGSOURCE_ORDINAL_KEY = "configsource.db.ordinal";
 
