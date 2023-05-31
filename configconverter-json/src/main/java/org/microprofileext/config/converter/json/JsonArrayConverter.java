@@ -1,9 +1,9 @@
 package org.microprofileext.config.converter.json;
 
 import java.io.StringReader;
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonReader;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonReader;
 import org.eclipse.microprofile.config.spi.Converter;
 
 /**
@@ -22,7 +22,7 @@ public class JsonArrayConverter implements Converter<JsonArray> {
     }
     
     /**
-      * Not to sure about this, got an javax.json.stream.JsonParsingException in Wildfly with a value of org.eclipse.microprofile.config.configproperty.unconfigureddvalue
+      * Not to sure about this, got an jakarta.json.stream.JsonParsingException in Wildfly with a value of org.eclipse.microprofile.config.configproperty.unconfigureddvalue
     **/
     private boolean isNullOrEmpty(String input){
         return input==null || input.isEmpty() || input.equals(UNCONFIGURED_VALUE);

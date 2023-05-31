@@ -2,9 +2,9 @@ package org.microprofileext.config.example;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
-import javax.enterprise.inject.spi.EventMetadata;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.inject.spi.EventMetadata;
 import org.microprofileext.config.event.ChangeEvent;
 import org.microprofileext.config.event.Type;
 import org.microprofileext.config.event.KeyFilter;

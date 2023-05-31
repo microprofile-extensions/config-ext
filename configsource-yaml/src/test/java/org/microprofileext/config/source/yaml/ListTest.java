@@ -2,10 +2,8 @@ package org.microprofileext.config.source.yaml;
 
 import java.util.List;
 import java.util.Set;
-import javax.enterprise.inject.spi.Extension;
-import javax.inject.Inject;
-import org.apache.geronimo.config.ConfigImpl;
-import org.apache.geronimo.config.cdi.ConfigExtension;
+import jakarta.enterprise.inject.spi.Extension;
+import jakarta.inject.Inject;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.eclipse.microprofile.config.spi.ConfigSource;
@@ -46,9 +44,7 @@ public class ListTest {
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
-                .addPackages(true, ConfigImpl.class.getPackage())
                 .addPackages(true, Config.class.getPackage())
-                .addAsServiceProviderAndClasses(Extension.class, ConfigExtension.class)
                 .addAsServiceProviderAndClasses(ConfigSource.class, YamlConfigSource.class)
                 .addAsManifestResource("META-INF/beans.xml");
     }

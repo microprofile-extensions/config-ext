@@ -15,10 +15,8 @@
  */
 package org.microprofileext.config.source.json;
 
-import javax.enterprise.inject.spi.Extension;
-import javax.inject.Inject;
-import org.apache.geronimo.config.ConfigImpl;
-import org.apache.geronimo.config.cdi.ConfigExtension;
+import jakarta.enterprise.inject.spi.Extension;
+import jakarta.inject.Inject;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.spi.ConfigSource;
@@ -41,9 +39,7 @@ public class EnabledWhenEnabledKeyIsMissingTest {
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
-                .addPackages(true, ConfigImpl.class.getPackage())
                 .addPackages(true, Config.class.getPackage())
-                .addAsServiceProviderAndClasses(Extension.class, ConfigExtension.class)
                 .addAsServiceProviderAndClasses(ConfigSource.class, JsonConfigSource.class)
                 .addAsResource(EnabledWhenEnabledKeyIsMissingTest.class.getClassLoader().getResource("config-empty.properties"), "META-INF/microprofile-config.properties")
                 .addAsManifestResource("META-INF/beans.xml");
