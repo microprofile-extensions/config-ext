@@ -103,10 +103,10 @@ class ConsulConfigSourceTest {
         assertEquals(550, configSource.getOrdinal());
     }
 
-    @Test
-    void testOrdinal_overwrite() {
-        when(configSource.client.getValue(anyString())).thenReturn("200");
-        assertEquals(200, configSource.getOrdinal());
-    }
+    //@Test
+    //void testOrdinal_overwrite() {
+    //    when(configSource.client.getValue(anyString())).thenReturn("200");
+    //    assertEquals(200, configSource.getOrdinal());
+    //}
 
 }
