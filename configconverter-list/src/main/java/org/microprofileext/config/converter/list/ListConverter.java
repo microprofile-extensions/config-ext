@@ -21,7 +21,7 @@ public class ListConverter implements Converter<List> {
     }
     
     /**
-      * Not to sure about this, got an javax.json.stream.JsonParsingException in Wildfly with a value of org.eclipse.microprofile.config.configproperty.unconfigureddvalue
+      * Not to sure about this, got an jakarta.json.stream.JsonParsingException in Wildfly with a value of org.eclipse.microprofile.config.configproperty.unconfigureddvalue
     **/
     private boolean isNullOrEmpty(String input){
         return input==null || input.isEmpty() || input.equals(UNCONFIGURED_VALUE);

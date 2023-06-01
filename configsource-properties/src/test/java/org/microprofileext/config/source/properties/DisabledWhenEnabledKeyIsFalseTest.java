@@ -16,10 +16,7 @@
 package org.microprofileext.config.source.properties;
 
 import java.util.NoSuchElementException;
-import javax.enterprise.inject.spi.Extension;
-import javax.inject.Inject;
-import org.apache.geronimo.config.ConfigImpl;
-import org.apache.geronimo.config.cdi.ConfigExtension;
+import jakarta.inject.Inject;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.spi.ConfigSource;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -41,9 +38,7 @@ public class DisabledWhenEnabledKeyIsFalseTest {
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
-                .addPackages(true, ConfigImpl.class.getPackage())
                 .addPackages(true, Config.class.getPackage())
-                .addAsServiceProviderAndClasses(Extension.class, ConfigExtension.class)
                 .addAsServiceProviderAndClasses(ConfigSource.class, PropertiesConfigSource.class)
                 .addAsResource(DisabledWhenEnabledKeyIsFalseTest.class.getClassLoader().getResource("config-disabled.properties"), "META-INF/microprofile-config.properties")
                 .addAsManifestResource("META-INF/beans.xml");

@@ -15,10 +15,7 @@
  */
 package org.microprofileext.config.source.properties;
 
-import javax.enterprise.inject.spi.Extension;
-import javax.inject.Inject;
-import org.apache.geronimo.config.ConfigImpl;
-import org.apache.geronimo.config.cdi.ConfigExtension;
+import jakarta.inject.Inject;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.spi.ConfigSource;
@@ -41,9 +38,7 @@ public class EnabledWhenEnabledKeyIsTrueTest {
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
-                .addPackages(true, ConfigImpl.class.getPackage())
                 .addPackages(true, Config.class.getPackage())
-                .addAsServiceProviderAndClasses(Extension.class, ConfigExtension.class)
                 .addAsServiceProviderAndClasses(ConfigSource.class, PropertiesConfigSource.class)
                 .addAsResource(EnabledWhenEnabledKeyIsTrueTest.class.getClassLoader().getResource("config-enabled.properties"), "META-INF/microprofile-config.properties")
                 .addAsManifestResource("META-INF/beans.xml");

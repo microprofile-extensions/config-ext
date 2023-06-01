@@ -5,7 +5,7 @@
     <groupId>org.microprofile-ext.config-ext</groupId>
     <artifactId>config-example</artifactId>
     <packaging>war</packaging>
-    <version>2.0.2-SNAPSHOT</version>
+    <version>3.0.0-SNAPSHOT</version>
     
     <name>Microprofile Config Extensions :: Example</name>
     <description>A basic Example of these extensions</description>
@@ -13,9 +13,9 @@
     <properties>
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <microProfile.version>4.0.1</microProfile.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <microProfile.version>5.0</microProfile.version>
         
         <!-- Our own config files -->
         <config.yaml>file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config.yaml,file:${basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}examples${file.separator}config_prod.yaml,http://localhost/config.yaml</config.yaml>
@@ -89,7 +89,7 @@
         <dependency>
             <groupId>org.microprofile-ext.openapi-ext</groupId>
             <artifactId>openapi-ui</artifactId>
-            <version>1.1.4</version>
+            <version>2.0.0</version>
             <scope>runtime</scope>
         </dependency>
         
@@ -100,112 +100,7 @@
     </build>
     
     <profiles>
-        
-        <!-- Run Thorntail -->
-        <profile>
-            <id>thorntail</id>
-            <activation>
-                <property>
-                    <name>thorntail</name>
-                </property>
-            </activation>
-            
-            <properties>
-                <thorntail.version>2.3.0.Final</thorntail.version>
-                <thorntail.configDir>${basedir}${file.separator}src${file.separator}main${file.separator}resources</thorntail.configDir>
-            </properties>
-            
-            <build>
-                <plugins>
 
-                    <!--To configure thorntail--> 
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>build-helper-maven-plugin</artifactId>
-                        <version>3.0.0</version>
-                        <executions>
-                            <execution>
-                                <id>add-resource</id>
-                                <phase>generate-resources</phase>
-                                <goals>
-                                    <goal>add-resource</goal>
-                                </goals>
-                                <configuration>
-                                    <resources>
-                                         <!--thorntail config--> 
-                                        <resource>
-                                            <directory>${thorntail.configDir}</directory>
-                                            <targetPath>${project.build.directory}</targetPath>
-                                            <filtering>true</filtering>
-                                            <includes>
-                                                <include>project*.yml</include>
-                                                <include>*.properties</include>
-                                            </includes>
-                                        </resource>
-
-                                    </resources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>io.thorntail</groupId>
-                        <artifactId>thorntail-maven-plugin</artifactId>
-                        <version>${thorntail.version}</version>
-                        <executions>
-                            <execution>
-                                <id>2</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>package</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <properties>
-                                <thorntail.context.path>/${project.build.finalName}</thorntail.context.path>
-                            </properties>
-                        </configuration>
-                    </plugin>
-                    
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>1.6.0</version>
-                        <executions>
-                            <execution>
-                                <id>1</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <executable>java</executable>
-                                    <arguments>
-                                        <argument>-jar</argument>
-                                        <argument>${project.build.directory}${file.separator}${project.build.finalName}-thorntail.jar</argument>
-                                        <argument>-s</argument>
-                                        <argument>${project.build.directory}${file.separator}project-defaults.yml</argument>
-                                        <argument>-Sdev</argument>
-                                        <argument>-Dconfigsource.yaml.pollForChanges=true</argument>
-<!--                                        <argument>-Dconfigsource.yaml.notifyOnChanges=false</argument>-->
-                                        <argument>-Dconfigsource.yaml.url=${config.yaml}</argument>
-                                        <argument>-Dconfigsource.json.url=${config.json}</argument>
-                                        <argument>-Dconfigsource.xml.url=${config.xml}</argument>
-                                        <argument>-Dconfigsource.properties.url=${config.properties}</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                        
-                    </plugin>
-
-                </plugins>
-            </build>
-            
-        </profile>
-        
         <!-- Run Payara -->
         <profile>
             <id>payara</id>
@@ -217,8 +112,8 @@
             
             <properties>
                 <!-- payara-micro properties -->
-                <payara-micro.maven.version>1.0.2</payara-micro.maven.version>
-                <payara-micro.version>5.184</payara-micro.version>
+                <payara-micro.maven.version>1.4.0</payara-micro.maven.version>
+                <payara-micro.version>6.2023.2</payara-micro.version>
                 <payara-micro.installDir>${java.io.tmpdir}${file.separator}${project.artifactId}${file.separator}payara-micro</payara-micro.installDir>
                 <payara-micro.configDir>${basedir}${file.separator}src${file.separator}main${file.separator}payara-micro${file.separator}config</payara-micro.configDir>
                 <payara-micro.logsDir>${payara-micro.installDir}${file.separator}logs</payara-micro.logsDir>
@@ -332,13 +227,13 @@
             <properties>
                 <log.name>org.microprofileext.config</log.name>
                 <log.level>FINEST</log.level>
-                <openliberty.version>18.0.0.4</openliberty.version>
+                <openliberty.version>22.0.0.13</openliberty.version>
                 <openliberty.http.port>8080</openliberty.http.port>
                 <openliberty.https.port>8443</openliberty.https.port>
                 <openliberty.installDir>${java.io.tmpdir}${file.separator}${project.artifactId}${file.separator}openliberty</openliberty.installDir>
                 <openliberty.configDir>${basedir}${file.separator}src${file.separator}main${file.separator}openliberty${file.separator}config</openliberty.configDir>
                 <openliberty.logsDir>${openliberty.installDir}${file.separator}wlp${file.separator}usr${file.separator}servers${file.separator}defaultServer${file.separator}logs</openliberty.logsDir>
-                <openliberty.maven.version>2.6</openliberty.maven.version>
+                <openliberty.maven.version>2.7</openliberty.maven.version>
             </properties>
             
             <build>
@@ -347,7 +242,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>build-helper-maven-plugin</artifactId>
-                        <version>3.0.0</version>
+                        <version>3.4.0</version>
                         <executions>
                             <execution>
                                 <id>add-resource</id>

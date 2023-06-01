@@ -4,7 +4,7 @@
     
     <groupId>org.microprofile-ext</groupId>
     <artifactId>config-ext</artifactId>
-    <version>2.0.2-SNAPSHOT</version>
+    <version>3.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     
     <name>Microprofile Config Extensions</name>
@@ -62,9 +62,9 @@
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <microProfile.version>4.0.1</microProfile.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <microProfile.version>5.0</microProfile.version>
     </properties>
     
     <dependencyManagement>
@@ -82,7 +82,7 @@
             <dependency>
                 <groupId>org.jboss.arquillian</groupId>
                 <artifactId>arquillian-bom</artifactId>
-                <version>1.6.0.Final</version>
+                <version>1.7.0.Final</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -102,13 +102,13 @@
         <dependency>
             <groupId>org.jboss.weld</groupId>
             <artifactId>weld-core-impl</artifactId>
-            <version>2.4.8.Final</version>
+            <version>4.0.3.Final</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.arquillian.container</groupId>
             <artifactId>arquillian-weld-embedded</artifactId>
-            <version>2.0.1.Final</version>
+            <version>3.0.1.Final</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -123,15 +123,15 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.geronimo.config</groupId>
-            <artifactId>geronimo-config-impl</artifactId>
-            <version>1.2.2</version>
+            <groupId>io.smallrye.config</groupId>
+            <artifactId>smallrye-config</artifactId>
+            <version>3.2.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.19.0</version>
+            <version>3.24.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -175,7 +175,7 @@
                     <plugin>
                         <groupId>org.sonatype.plugins</groupId>
                         <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.8</version>
+                        <version>1.6.13</version>
                         <extensions>true</extensions>
                         <configuration>
                             <serverId>ossrh</serverId>
@@ -187,7 +187,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>3.2.1</version>
+                        <version>3.3.0</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
@@ -200,9 +200,9 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.2.0</version>
+                        <version>3.5.0</version>
                         <configuration>
-                            <source>8</source>
+                            <source>11</source>
                         </configuration>
                         <executions>
                             <execution>
@@ -230,16 +230,6 @@
                 </plugins>        
 
             </build>
-        </profile>
-        <profile>
-            <id>jdk11plus</id>
-            <activation>
-                <jdk>[11,)</jdk>
-            </activation>
-            <properties>
-                <jboss.extra.opts>--add-modules java.se</jboss.extra.opts>
-                <maven.compiler.release>8</maven.compiler.release>
-            </properties>
         </profile>
     </profiles>
     

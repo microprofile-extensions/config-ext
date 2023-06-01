@@ -2,11 +2,11 @@ package org.microprofileext.config.event;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Target;
-import javax.inject.Qualifier;
+import jakarta.inject.Qualifier;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import javax.enterprise.util.AnnotationLiteral;
+import jakarta.enterprise.util.AnnotationLiteral;
 
 /**
  * filter by change type
