@@ -4,7 +4,7 @@
     
     <groupId>org.microprofile-ext</groupId>
     <artifactId>config-ext</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.0</version>
     <packaging>pom</packaging>
     
     <name>Microprofile Config Extensions</name>
@@ -22,7 +22,8 @@
     <scm>
         <connection>scm:git:https://github.com/microprofile-extensions/config-ext.git</connection>
         <url>https://github.com/microprofile-extensions/config-ext</url>        
-    </scm>
+      <tag>config-ext-3.0.0</tag>
+  </scm>
 
     <distributionManagement>
         <site>
