@@ -4,7 +4,7 @@
     
     <groupId>org.microprofile-ext</groupId>
     <artifactId>config-ext</artifactId>
-    <version>3.0.1-SNAPSHOT</version>
+    <version>3.0.1</version>
     <packaging>pom</packaging>
     
     <name>Microprofile Config Extensions</name>
@@ -22,7 +22,7 @@
     <scm>
         <connection>scm:git:https://github.com/microprofile-extensions/config-ext.git</connection>
         <url>https://github.com/microprofile-extensions/config-ext</url>        
-      <tag>config-ext-3.0.0</tag>
+        <tag>config-ext-3.0.0</tag>
   </scm>
 
     <distributionManagement>
@@ -161,7 +161,7 @@
     </modules>
     
     <profiles>
-        <!-- Activate using the release property: mvn clean install -Prelease -->
+        <!-- Activate using the release property: mvn clean deploy -Prelease -->
         <profile>
             <id>release</id>
             <activation>
